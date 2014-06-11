@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{25444722-C295-4831-8509-500A0F238151}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>0.9</TypeScriptToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Code\Guid.ts" />
+    <TypeScriptCompile Include="System.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IDisposable.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\ICloneable.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IComparable.ts" />
+    <TypeScriptCompile Include="Code\IObject.ts" />
+    <TypeScriptCompile Include="Code\Type.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\Exception.ts" />
+    <TypeScriptCompile Include="Code\LinqStuff.ts" />
+    <TypeScriptCompile Include="Code\Action.ts" />
+    <TypeScriptCompile Include="Code\Func.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IEnumerator.ts" />
+    <TypeScriptCompile Include="Code\Statements.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IEnumerable.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\ICollection.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\IList.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\List.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\ArgumentException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\ArgumentOutOfRangeException.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\KeyNotFoundException.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\KeyValuePair.ts" />
+    <TypeScriptCompile Include="Code\String.ts" />
+    <TypeScriptCompile Include="Code\Attribute.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\NotImplementedException.ts" />
+    <TypeScriptCompile Include="Code\AttributeTargets.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\InvalidOperationException.ts" />
+    <TypeScriptCompile Include="Code\AttributeUsageAttribute.ts" />
+    <TypeScriptCompile Include="Code\BitConverter.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\ArgumentNullException.ts" />
+    <TypeScriptCompile Include="Code\Text\StringBuilder2.ts" />
+    <TypeScriptCompile Include="Code\Int32.ts" />
+    <TypeScriptCompile Include="Code\Runtime\Serialization\ISerializable.ts" />
+    <TypeScriptCompile Include="Code\Runtime\Serialization\SerializationInfo.ts" />
+    <TypeScriptCompile Include="Code\Runtime\Serialization\IFormatConverter.ts" />
+    <TypeScriptCompile Include="Code\Char.ts" />
+    <TypeScriptCompile Include="Code\Environment.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IFormattable.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IFormatProvider.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IEquatable.ts" />
+    <TypeScriptCompile Include="Code\OutArgument.ts" />
+    <TypeScriptCompile Include="Code\Byte.ts" />
+    <TypeScriptCompile Include="Code\Globalization\NumberStyles.ts" />
+    <TypeScriptCompile Include="Code\Runtime\Serialization\SerializationEntry.ts" />
+    <TypeScriptCompile Include="Code\Text\StringBuilder.ts" />
+    <TypeScriptCompile Include="Code\Runtime\Serialization\StreamingContext.ts" />
+    <TypeScriptCompile Include="Code\Runtime\Serialization\StreamingContextStates.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\FormatException.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IConvertible.ts" />
+    <TypeScriptCompile Include="Code\TypeCode.ts" />
+    <TypeScriptCompile Include="Code\DateTime.ts" />
+    <TypeScriptCompile Include="Code\Globalization\UnicodeCategory.ts" />
+    <TypeScriptCompile Include="Code\Globalization\CultureInfo.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\InvalidCastException.ts" />
+    <TypeScriptCompile Include="Code\IntBase.ts" />
+    <TypeScriptCompile Include="Code\Int16.ts" />
+    <TypeScriptCompile Include="Tests\CharSpec.ts" />
+    <TypeScriptCompile Include="Code\AsyncCallback.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IAsyncResult.ts" />
+    <TypeScriptCompile Include="Code\Random.ts" />
+    <TypeScriptCompile Include="Code\EventArgs.ts" />
+    <TypeScriptCompile Include="Code\EventHandler.ts" />
+    <TypeScriptCompile Include="Code\TimeSpan.ts" />
+    <TypeScriptCompile Include="Code\Int64.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\OverflowException.ts" />
+    <TypeScriptCompile Include="Code\Globalization\TimeSpanStyles.ts" />
+    <Content Include="Compiled\System.Debug.js" />
+    <Content Include="SpecRunner.html" />
+    <TypeScriptCompile Include="Tests\StringBuilderSpec.ts" />
+    <TypeScriptCompile Include="Tests\GuidSpec.ts" />
+    <Content Include="Todo.txt" />
+    <Content Include="TryOuts.html" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Docs\" />
+    <Folder Include="Lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="buildmanual.bat" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>SystemNone</AssemblyName>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57990</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptGeneratesDeclarations>false</TypeScriptGeneratesDeclarations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptGeneratesDeclarations>false</TypeScriptGeneratesDeclarations>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>
