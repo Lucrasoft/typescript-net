@@ -1,13 +1,16 @@
-/// <reference path="IntBase.ts" />  
 /// <reference path="Interfaces/IFormattable.ts" />  
+/// <reference path="Interfaces/IComparable.ts"/>
+/// <reference path="Interfaces/IEquatable.ts"/>
 /// <reference path="Globalization/NumberStyles.ts" />  
+/// <reference path="IObject.ts"/>
+/// <reference path="Type.ts"/>
 
 module System {
 
 
     //TODO : IConvertible
     export class Int64 extends IntBase implements IFormattable, IComparable<Int64>, IEquatable<Int64>, IObject {
-        private static _type: Type = System.Type.RegisterClass(Int64, "System.Int64", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
+        private static _type: Type = System.Type.registerClass(Int64, "System.Int64", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
 
         public static MaxValue: number = 0x7fffffffffffffff;
         public static MinValue: number = -9223372036854775808;
@@ -19,7 +22,7 @@ module System {
 
 
         //IObject
-        public GetType(): Type { return Int64._type; }
+        getType(): Type { return Int64._type; }
     }
 
 

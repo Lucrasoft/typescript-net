@@ -6,7 +6,7 @@
 module System {
 
     export class AttributeUsageAttribute extends Attribute implements IObject {
-        private static _type: Type = System.Type.RegisterClass(Attribute, "System.Attribute", []);
+        private static _type: Type = System.Type.registerClass(Attribute, "System.Attribute", []);
 
 
         private valid_on: AttributeTargets;
@@ -18,12 +18,12 @@ module System {
             this.valid_on = validOn;
         }
 
-        public get ValidOn(): AttributeTargets {
+        get validOn(): AttributeTargets {
             return this.valid_on;
         }
 
 
         //IObject
-        public GetType(): Type { return AttributeUsageAttribute._type; }
+        getType(): Type { return AttributeUsageAttribute._type; }
     }
 }

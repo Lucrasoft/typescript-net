@@ -36,16 +36,16 @@ export class EnumeratorImpl<T>
     private initializefunc: Function;
 
 
-    constructor(private initialize: Function, private tryGetNext : Function, private dispose : Function) {
+    constructor(private initialize: Function, private tryGetNext : Function, private Dispose : Function) {
 
     }
 
 
-    public get Current() :T {
+    public get current() :T {
         return this.yielder.current();
     }
 
-    public MoveNext(): boolean {
+    moveNext(): boolean {
         try {
             switch (this.state) {
                 case State.Before:
@@ -70,11 +70,11 @@ export class EnumeratorImpl<T>
         }
     }
 
-    public Reset() {
+    reset() {
 
     }
 
-    public Dispose() {
+    dispose() {
         if (this.state != State.Running) return;
 
         try {

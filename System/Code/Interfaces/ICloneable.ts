@@ -1,9 +1,10 @@
+/// <reference path="../Type.ts"/> 
 
 module System {
 
     export interface ICloneable {
-        Clone(): any;
+        clone(): any;
     }
 
-    System.Type.RegisterInterface("ICloneable");
+    System.Type.registerInterface("ICloneable");
 }

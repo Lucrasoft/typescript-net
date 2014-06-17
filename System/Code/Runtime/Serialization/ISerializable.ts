@@ -1,3 +1,5 @@
+/// <reference path="StreamingContext.ts" />
+/// <reference path="SerializationInfo.ts"/>
 
 
 module System.Runtime.Serialization {
@@ -5,7 +7,7 @@ module System.Runtime.Serialization {
 
     export interface ISerializable {
 
-        GetObjectData(info: SerializationInfo, context: StreamingContext ) : void
+        getObjectData(info: SerializationInfo, context: StreamingContext ) : void
     }
 
 

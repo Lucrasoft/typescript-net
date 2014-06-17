@@ -1,18 +1,19 @@
-
+/// <reference path="IObject.ts"/>
+/// <reference path="Type.ts"/>
 
 module System {
 
 
 
     export class String implements IObject {
-        private static _type: Type = System.Type.RegisterClass(String, "System.String", []);
+        private static _type: Type = System.Type.registerClass(String, "System.String", []);
 
 
-        static get Empty() : string {
+        static get empty() : string {
              return "";
         }
 
-        static Format(value: string, ...replacements: any[]): string {
+        static format(value: string, ...replacements: any[]): string {
 
             var formatted = value;
             for (var i = 0; i < replacements.length; i++) {
@@ -25,14 +26,14 @@ module System {
 
 
 
-        public static IsNullOrEmpty(value: string) : boolean
+        static isNullOrEmpty(value: string) : boolean
  		{
                 return (value == null) || (value.length == 0);
 		}
 
 
         //IObject
-        public GetType(): Type { return String._type; }
+        getType(): Type { return String._type; }
 
     }
 

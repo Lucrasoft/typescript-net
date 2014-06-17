@@ -28,7 +28,7 @@ module System {
 
         
      
-        public static RegisterClass(_class: any, name: string, interfaces: string[]): Type {
+       static registerClass(_class: any, name: string, interfaces: string[]): Type {
             var res = new Type();
             res.IsClass = true;
             res.name = name;
@@ -39,7 +39,7 @@ module System {
         }
 
 
-        public static RegisterInterface(name: string) {
+        static registerInterface(name: string) {
             var res = new Type();
             res.IsInterface = true;
             res.name = name;
@@ -57,7 +57,7 @@ module System {
         }
 
 
-        public static GetTypeName(obj: any): string {
+        static getTypeName(obj: any): string {
             if (!obj) return "undefined";
             var str = typeof obj;
             if (str === "object") {

@@ -1,5 +1,9 @@
 /// <reference path="Environment.ts" />
-/// <reference path="Environment.ts" />
+/// <reference path="IObject.ts" />
+/// <reference path="Exceptions/ArgumentOutOfRangeException.ts"/>
+/// <reference path="Exceptions/ArgumentNullException.ts"/>
+/// <reference path="Byte.ts"/>
+/// <reference path="Type.ts"/>
 
 
 module System {
@@ -7,7 +11,7 @@ module System {
     //Wrapper around the built-in javascript randaom 
 
     export class Random implements IObject {
-        private static _type: Type = System.Type.RegisterClass(Random, "System.Random", []);
+        private static _type: Type = System.Type.registerClass(Random, "System.Random", []);
 
         constructor(Seed: number = Environment.TickCount) {
 
@@ -18,12 +22,12 @@ module System {
         }
 
         //returns an int
-        public Next(): number;
-        public Next(maxValue: number): number;
-        public Next(minValue: number, maxValue: number): number;
+        next(): number;
+        next(maxValue: number): number;
+        next(minValue: number, maxValue: number): number;
 
 
-        public Next(minOrMaxValue: number = 0, maxValue?: number): number {
+        next(minOrMaxValue: number = 0, maxValue?: number): number {
             var min : number, max : number;
             if (maxValue) {
                 //then we are in min-max range
@@ -48,7 +52,7 @@ module System {
         }
 
 
-        public NextBytes(buffer: Uint8Array): void {
+        nextBytes(buffer: Uint8Array): void {
             if (buffer == null) throw new ArgumentNullException("buffer");
 
             for (var i: number = 0; i < buffer.length; i++) {
@@ -56,12 +60,12 @@ module System {
             }
         }
 
-        public NextDouble(): number {
+        nextDouble(): number {
             return this.Sample();
         }
 
         //IObject
-        public GetType(): Type { return Random._type; } 
+        getType(): Type { return Random._type; } 
 
     }
 

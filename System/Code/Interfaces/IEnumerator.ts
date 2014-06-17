@@ -5,9 +5,9 @@ module System {
 
     export interface IEnumerator<T> extends IDisposable {
 
-        Current: T;
-        MoveNext(): boolean;
-        Reset(): void;
+        current: T;
+        moveNext(): boolean;
+        reset(): void;
 
     }
 

@@ -19,7 +19,7 @@ module System.Collections.Generic {
             this.value = value;
         }
 
-		public toString() : string {
+		toString() : string {
             return "[" + (this.key != null ? this.key.toString() : "") + ", " + (this.value != null ? this.value.toString() : "") + "]";
         }
     }

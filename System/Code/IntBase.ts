@@ -17,7 +17,7 @@ module System {
     //TODO : IConvertible
     export class IntBase implements IFormattable, IComparable<IntBase>, IEquatable<IntBase>, IObject {
 
-        private static _type: Type = System.Type.RegisterClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
+        private static type: Type = System.Type.registerClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
 
    
         private value: number;
@@ -31,11 +31,11 @@ module System {
         }
 
 
-        public CompareTo(value: any): number {
+        compareTo(value: any): number {
             if (value == null)
                 return 1;
 
-            if (!(Statements.Is(value,System.IntBase._type)))
+            if (!(Statements.is(value,System.IntBase._type)))
             	throw new ArgumentException("Value is not a System.IntXX");
 
             var xv = (<IntBase>value).value;
@@ -46,18 +46,18 @@ module System {
                 return -1;
         }
 
-        public Equals(obj: any): boolean {
-            if (!Statements.Is(obj, System.IntBase._type)) return false;
+        equals(obj: any): boolean {
+            if (!Statements.is(obj, System.IntBase._type)) return false;
 
             return (<IntBase>obj).value == this.value;
         }
 
-        public GetHashCode(): number {
+        getHashCode(): number {
             return this.value;
         }
 
 
-        public static Parse(s: string, style: System.Globalization.NumberStyles = null, provider: IFormatProvider = null): number {
+        static parse(s: string, style: System.Globalization.NumberStyles = null, provider: IFormatProvider = null): number {
             if (style != null) throw new NotImplementedException();
             if (provider != null) throw new NotImplementedException();
             //without the styles and provider, simply use the built in JS parser.
@@ -65,9 +65,9 @@ module System {
 
         }
 
-        public static TryParse(s: string, result: System.OutArgument<number>, style: System.Globalization.NumberStyles = null, provider: IFormatProvider = null): boolean {
+        static tryParse(s: string, result: System.OutArgument<number>, style: System.Globalization.NumberStyles = null, provider: IFormatProvider = null): boolean {
             try {
-                result.value = IntBase.Parse(s, style, provider);
+                result.value = IntBase.parse(s, style, provider);
                 return true;
             }
             catch (e) { }
@@ -76,13 +76,13 @@ module System {
 
 
 
-        public ToString(format: string = "", provider: IFormatProvider = null): string {
+        ToString(format: string = "", provider: IFormatProvider = null): string {
             throw new NotImplementedException();
             //return NumberFormatter.NumberToString(format, m_value, provider);
         }
 
 
-        public ToType(targetType: Type, provider: IFormatProvider) {
+        toType(targetType: Type, provider: IFormatProvider) {
             if (targetType == null)
                 throw new ArgumentNullException("targetType");
 
@@ -90,7 +90,7 @@ module System {
 
 
         //IObject
-        public GetType(): Type { return IntBase._type; }
+        getType(): Type { return IntBase.type; }
     }
 
 

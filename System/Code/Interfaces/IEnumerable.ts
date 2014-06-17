@@ -4,7 +4,7 @@
 module System {
 
     export interface IEnumberable<T> {
-        GetEnumerator(): IEnumerator<T>;
+        getEnumerator(): IEnumerator<T>;
     }
 
 

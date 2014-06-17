@@ -3,8 +3,8 @@ module System {
 
     export class Byte {
 
-        public static MinValue : number=  0;
-		public static MaxValue : number =  255;
+        static MinValue : number =  0;
+		static MaxValue : number =  255;
 
     }
 

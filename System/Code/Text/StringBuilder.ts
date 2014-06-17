@@ -1,6 +1,5 @@
 /// <reference path="../Type.ts" />  
 /// <reference path="../Int32.ts" />  
-
 /// <reference path="../Runtime/Serialization/ISerializable.ts" />  
 /// <reference path="../Runtime/Serialization/SerializationInfo.ts" />  
 /// <reference path="../Runtime/Serialization/StreamingContext.ts" />  
@@ -12,8 +11,7 @@ module System.Text {
     //Basic implementation
 
     export class StringBuilder implements Runtime.Serialization.ISerializable, IObject {
-        private static _type: Type = System.Type.RegisterClass(StringBuilder, "System.Text.StringBuilder", ["System.Runtime.Serialization.ISerializable"]);
-
+        private static _type: Type = System.Type.registerClass(StringBuilder, "System.Text.StringBuilder", ["System.Runtime.Serialization.ISerializable"]);
 
         private _str: string;
 
@@ -46,18 +44,17 @@ module System.Text {
             if (startIndex == 0 && length == this._str.length)
                 return this.toString();
             else
-                return this._str.substr(startIndex, length)
+                return this._str.substr(startIndex, length);
         }
 
 
-
-        public Equals(sb: StringBuilder): boolean {
+        equals(sb: StringBuilder): boolean {
             if (sb == null) return false;
             if (this.toString() == sb.toString()) return true;
             return false;
         }
 
-        public Remove(startIndex: number, length: number): StringBuilder {
+        remove(startIndex: number, length: number): StringBuilder {
 
             if (startIndex < 0 || length < 0 || startIndex > this._str.length - length)
                 throw new ArgumentOutOfRangeException();
@@ -68,7 +65,7 @@ module System.Text {
         }
 
 
-        public Replace(oldValue: string, newValue: string): StringBuilder {
+        replace(oldValue: string, newValue: string): StringBuilder {
             if (oldValue == null)
                 throw new ArgumentNullException("The old value cannot be null.");
 
@@ -82,7 +79,7 @@ module System.Text {
 
         /* The Append Methods */
 
-        public Append(value: any): StringBuilder {
+        append(value: any): StringBuilder {
             if (value == null)
                 return this;
 
@@ -93,18 +90,18 @@ module System.Text {
         }
 
 
-        public Clear(): StringBuilder {
-            this._str = String.Empty;
+        clear(): StringBuilder {
+            this._str = String.empty;
             return this;
         }
 
 
-        public AppendLine(value: string = ""): StringBuilder {
-            return this.Append(value).Append(System.Environment.NewLine);
+        appendLine(value: string = ""): StringBuilder {
+            return this.append(value).append(System.Environment.NewLine);
         }
 
-        public AppendFormat(format: string, ...args: any[]): StringBuilder {
-            return this.Append(String.Format(format, args));
+        appendFormat(format: string, ...args: any[]): StringBuilder {
+            return this.append(String.format(format, args));
         }
 
 
@@ -124,7 +121,7 @@ module System.Text {
             return this;
         }
 
-        public Insert(index: number, value: string, count: number= 1): StringBuilder {
+        insert(index: number, value: string, count: number= 1): StringBuilder {
             if (count < 0) throw new ArgumentOutOfRangeException();
 
             for (var insertCount: number = 0; insertCount < count; insertCount++) {
@@ -139,16 +136,16 @@ module System.Text {
 
 
         //ISerializable
-        GetObjectData(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext): void {
+        getObjectData(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext): void {
             //info.AddValue("m_MaxCapacity", _maxCapacity);
             //info.AddValue("Capacity", Capacity);
-            info.AddValue("m_StringValue", this.toString());
-            info.AddValue("m_currentThread", 0);
+            info.addValue("m_StringValue", this.toString());
+            info.addValue("m_currentThread", 0);
         }
 
         //Serializable constructor
         static ctor_Serializable(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext): StringBuilder {
-            var s : string = info.GetString("m_StringValue");
+            var s : string = info.getString("m_StringValue");
             var result = new StringBuilder(s);
 
             return result;

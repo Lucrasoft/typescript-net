@@ -1,10 +1,19 @@
 /// <reference path="BitConverter.ts" />  
-
+/// <reference path="Interfaces/ICloneable.ts"/>
+/// <reference path="IObject.ts"/>
+/// <reference path="Type.ts"/>
+/// <reference path="String.ts"/>
+/// <reference path="Exceptions/FormatException.ts"/>
+/// <reference path="Statements.ts"/>
+/// <reference path="Text/StringBuilder.ts"/>
+/// <reference path="Exceptions/NotImplementedException.ts"/>
+/// <reference path="Exceptions/ArgumentNullException.ts"/>
+/// <reference path="OutArgument.ts"/>
 
 module System {
 
     export class Guid implements ICloneable, IObject {
-        public static _type: Type = Type.RegisterClass(Guid, "System.Guid", ["System.ICloneable"]);
+        public static _type: Type = Type.registerClass(Guid, "System.Guid", ["System.ICloneable"]);
 
 
         private _a: number; //_timeLow;                 int
@@ -24,7 +33,7 @@ module System {
         constructor();
         constructor(byteArray: Uint8Array);
         constructor(guidString: string);
-        constructor(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number); 
+        constructor(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number);
 
         constructor(...args) {
             //dispatch to correct 'constructor' overload
@@ -32,12 +41,12 @@ module System {
 
                 //constructor(g: string);
                 if (typeof args[0] == "string") {
-                    var g : string = <string>args[0];
+                    var g: string = <string>args[0];
                     Guid.CheckNull(g);
                     g = g.trim();
                     var parser = new GuidParser(g);
                     var outguid = new System.OutArgument<Guid>();
-                    if (!parser.Parse(outguid)) throw Guid.CreateFormatException(g);
+                    if (!parser.parse(outguid)) throw Guid.CreateFormatException(g);
                     this._a = outguid.value._a;
                     this._b = outguid.value._b;
                     this._c = outguid.value._c;
@@ -70,9 +79,9 @@ module System {
                 if (typeof args[0] == "Array") {
                     var b = <Uint8Array><any>args;
                     Guid.CheckArray(b, 16);
-                    this._a = System.BitConverter.ToInt32(b, 0).Value;
-                    this._b = System.BitConverter.ToInt16(b, 4).Value;
-                    this._c = System.BitConverter.ToInt16(b, 6).Value;
+                    this._a = System.BitConverter.toInt32(b, 0).Value;
+                    this._b = System.BitConverter.toInt16(b, 4).Value;
+                    this._c = System.BitConverter.toInt16(b, 6).Value;
                     this._d = b[8];
                     this._e = b[9];
                     this._f = b[10];
@@ -86,9 +95,9 @@ module System {
 
         }
 
-     
 
-        public static NewGuid(): Guid {
+
+        static newGuid(): Guid {
             var b = new Uint8Array(16);
 
             for (var i: number = 0; i < 16; i++) {
@@ -103,15 +112,15 @@ module System {
             return res;
         }
 
-   
-       
+
+
 
         private static CreateFormatException(s: string): FormatException {
-            return new FormatException(System.String.Format("Invalid Guid format: {0}", s));
+            return new FormatException(System.String.format("Invalid Guid format: {0}", s));
         }
 
 
-        public static Construct_numbers(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number): Guid {
+        static construct_numbers(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number): Guid {
             var result = new Guid();
             result._a = a;
             result._b = b;
@@ -127,12 +136,12 @@ module System {
             return result;
         }
 
-        public static Empty: Guid = Guid.Construct_numbers(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        static empty: Guid = Guid.construct_numbers(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-      
-        public Equals(o: any): boolean {
-            if (Statements.Is(o, Guid._type))
-                return this.CompareTo(<Guid>o) == 0;
+
+        equals(o: any): boolean {
+            if (Statements.is(o, Guid._type))
+                return this.compareTo(<Guid>o) == 0;
 
             return false;
         }
@@ -145,7 +154,7 @@ module System {
             return (x < y) ? -1 : 1;
         }
 
-        public CompareTo(value: Guid): number {
+        compareTo(value: Guid): number {
             if (this._a != value._a) {
                 return Guid.__internalCompare(this._a, value._a);
             }
@@ -183,7 +192,7 @@ module System {
         }
 
 
-        public GetHashCode(): number {
+       getHashCode(): number {
             var res: number;
             res = this._a;
             res = res ^ (this._b << 16 | this._c);
@@ -205,25 +214,25 @@ module System {
 
 
 
-        public ToByteArray(): Uint8Array {
+        toByteArray(): Uint8Array {
             var res = new Uint8Array(16);
 
             var tmp: Uint8Array;
             var d: number = 0;
             var s: number;
 
-            tmp = System.BitConverter.GetBytes_Int32(this._a);
+            tmp = System.BitConverter.getBytes_Int32(this._a);
 
             for (s = 0; s < 4; ++s) {
                 res[d++] = tmp[s];
             }
 
-            tmp = System.BitConverter.GetBytes_Int16(this._b);
+            tmp = System.BitConverter.getBytes_Int16(this._b);
             for (s = 0; s < 2; ++s) {
                 res[d++] = tmp[s];
             }
 
-            tmp = System.BitConverter.GetBytes_Int16(this._c);
+            tmp = System.BitConverter.getBytes_Int16(this._c);
             for (s = 0; s < 2; ++s) {
                 res[d++] = tmp[s];
             }
@@ -240,46 +249,46 @@ module System {
             return res;
         }
 
-        private static AppendInt(builder: System.Text.StringBuilder, value: number): void {
-            builder.Append(Guid.ToHex((value >> 28) & 0xf));
-            builder.Append(Guid.ToHex((value >> 24) & 0xf));
-            builder.Append(Guid.ToHex((value >> 20) & 0xf));
-            builder.Append(Guid.ToHex((value >> 16) & 0xf));
-            builder.Append(Guid.ToHex((value >> 12) & 0xf));
-            builder.Append(Guid.ToHex((value >> 8) & 0xf));
-            builder.Append(Guid.ToHex((value >> 4) & 0xf));
-            builder.Append(Guid.ToHex(value & 0xf));
+        private static appendInt(builder: System.Text.StringBuilder, value: number): void {
+            builder.append(Guid.ToHex((value >> 28) & 0xf));
+            builder.append(Guid.ToHex((value >> 24) & 0xf));
+            builder.append(Guid.ToHex((value >> 20) & 0xf));
+            builder.append(Guid.ToHex((value >> 16) & 0xf));
+            builder.append(Guid.ToHex((value >> 12) & 0xf));
+            builder.append(Guid.ToHex((value >> 8) & 0xf));
+            builder.append(Guid.ToHex((value >> 4) & 0xf));
+            builder.append(Guid.ToHex(value & 0xf));
         }
 
-        private static AppendShort(builder: System.Text.StringBuilder, value: number): void {
-            builder.Append(Guid.ToHex((value >> 12) & 0xf));
-            builder.Append(Guid.ToHex((value >> 8) & 0xf));
-            builder.Append(Guid.ToHex((value >> 4) & 0xf));
-            builder.Append(Guid.ToHex(value & 0xf));
+        private static appendShort(builder: System.Text.StringBuilder, value: number): void {
+            builder.append(Guid.ToHex((value >> 12) & 0xf));
+            builder.append(Guid.ToHex((value >> 8) & 0xf));
+            builder.append(Guid.ToHex((value >> 4) & 0xf));
+            builder.append(Guid.ToHex(value & 0xf));
         }
 
-        private static AppendByte(builder: System.Text.StringBuilder, value: number): void {
-            builder.Append(Guid.ToHex((value >> 4) & 0xf));
-            builder.Append(Guid.ToHex(value & 0xf));
+        private static appendByte(builder: System.Text.StringBuilder, value: number): void {
+            builder.append(Guid.ToHex((value >> 4) & 0xf));
+            builder.append(Guid.ToHex(value & 0xf));
         }
 
-        public ToString2(): string {
-            return this.ToString(GuidFormat.D);
+        toString2(): string {
+            return this.toString(GuidFormat.D);
         }
 
-        public ToString3(format: string= "D"): string {
-            return this.ToString(Guid.ParseFormat(format));
+        toString3(format: string= "D"): string {
+            return this.toString(Guid.parseFormat(format));
         }
 
-        public ToString(): string;
-        public ToString(format: GuidFormat): string;
-        public ToString(format: string): string;
+        toString(): string;
+        toString(format: GuidFormat): string;
+        toString(format: string): string;
 
-        public ToString(format?: any): string {
+        toString(format?: any): string {
 
             if (format) {
                 if (typeof format === "string") {
-                    format = Guid.ParseFormat(format);
+                    format = Guid.parseFormat(format);
                 }
             } else {
                 format = GuidFormat.D;
@@ -305,72 +314,72 @@ module System {
             }
 
             var res = new System.Text.StringBuilder();
-            var has_hyphen: boolean = GuidParser.HasHyphen(format);
+            var has_hyphen: boolean = GuidParser.hasHyphen(format);
 
             if (format == GuidFormat.P) {
-                res.Append('(');
+                res.append('(');
             } else if (format == GuidFormat.B) {
-                res.Append('{');
+                res.append('{');
             } else if (format == GuidFormat.X) {
-                res.Append('{').Append('0').Append('x');
+                res.append('{').append('0').append('x');
             }
 
-            Guid.AppendInt(res, this._a);
+            Guid.appendInt(res, this._a);
             if (has_hyphen) {
-                res.Append('-');
+                res.append('-');
             } else if (format == GuidFormat.X) {
-                res.Append(',').Append('0').Append('x');
+                res.append(',').append('0').append('x');
             }
 
-            Guid.AppendShort(res, this._b);
+            Guid.appendShort(res, this._b);
             if (has_hyphen) {
-                res.Append('-');
+                res.append('-');
             } else if (format == GuidFormat.X) {
-                res.Append(',').Append('0').Append('x');
+                res.append(',').append('0').append('x');
             }
 
-            Guid.AppendShort(res, this._c);
+            Guid.appendShort(res, this._c);
             if (has_hyphen) {
-                res.Append('-');
+                res.append('-');
             }
 
             if (format == GuidFormat.X) {
-                res.Append(',').Append('{').Append('0').Append('x');
-                Guid.AppendByte(res, this._d);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._e);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._f);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._g);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._h);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._i);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._j);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._k);
-                res.Append('}').Append('}');;
+                res.append(',').append('{').append('0').append('x');
+                Guid.appendByte(res, this._d);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._e);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._f);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._g);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._h);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._i);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._j);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._k);
+                res.append('}').append('}');;
             } else {
-                Guid.AppendByte(res, this._d);
-                Guid.AppendByte(res, this._e);
+                Guid.appendByte(res, this._d);
+                Guid.appendByte(res, this._e);
 
                 if (has_hyphen) {
-                    res.Append('-');
+                    res.append('-');
                 }
 
-                Guid.AppendByte(res, this._f);
-                Guid.AppendByte(res, this._g);
-                Guid.AppendByte(res, this._h);
-                Guid.AppendByte(res, this._i);
-                Guid.AppendByte(res, this._j);
-                Guid.AppendByte(res, this._k);
+                Guid.appendByte(res, this._f);
+                Guid.appendByte(res, this._g);
+                Guid.appendByte(res, this._h);
+                Guid.appendByte(res, this._i);
+                Guid.appendByte(res, this._j);
+                Guid.appendByte(res, this._k);
 
                 if (format == GuidFormat.P) {
-                    res.Append(')');
+                    res.append(')');
                 } else if (format == GuidFormat.B) {
-                    res.Append('}');
+                    res.append('}');
                 }
             }
 
@@ -378,64 +387,64 @@ module System {
         }
 
 
-        public static op_Equality(a: Guid, b: Guid): boolean {
-            return a.Equals(b);
+        static op_Equality(a: Guid, b: Guid): boolean {
+            return a.equals(b);
         }
 
-        public static op_Inequality(a: Guid, b: Guid): boolean {
-            return !(a.Equals(b));
+        static op_Inequality(a: Guid, b: Guid): boolean {
+            return !(a.equals(b));
         }
 
 
-        public static Parse(input: string): Guid {
+        static parse(input: string): Guid {
             if (input == null)
                 throw new ArgumentNullException("input");
 
             var outguid = new System.OutArgument<Guid>(null);
 
 
-            if (!Guid.TryParse(input, outguid))
+            if (!Guid.tryParse(input, outguid))
                 throw Guid.CreateFormatException(input);
 
             return outguid.value;
         }
 
-        public static ParseExact(input: string, format: string): Guid {
+        static parseExact(input: string, format: string): Guid {
             if (input == null)
                 throw new ArgumentNullException("input");
             if (format == null)
                 throw new ArgumentNullException("format");
 
             var outguid = new System.OutArgument<Guid>(null);
-            if (!Guid.TryParseExact(input, format, outguid))
+            if (!Guid.tryParseExact(input, format, outguid))
                 throw Guid.CreateFormatException(input);
 
             return outguid.value;
         }
 
-        public static TryParse(input: string, result: OutArgument<Guid>): boolean {
+        static tryParse(input: string, result: OutArgument<Guid>): boolean {
             if (input == null) {
-                result.value = Guid.Empty;
+                result.value = Guid.empty;
                 return false;
-            } 
+            }
             var parser = new GuidParser(input);
-            return parser.Parse( result);
+            return parser.parse(result);
         }
 
-        public static TryParseExact(input: string, format: string, result: OutArgument<Guid>): boolean {
+        static tryParseExact(input: string, format: string, result: OutArgument<Guid>): boolean {
             if (input == null || format == null) {
-                result.value = Guid.Empty;
+                result.value = Guid.empty;
                 return false;
             }
 
             var parser = new GuidParser(input);
-            
-            return parser.Parse(result, Guid.ParseFormat(format));
-            
+
+            return parser.parse(result, Guid.parseFormat(format));
+
         }
 
 
-        public static ParseFormat(format: string): GuidFormat {
+        static parseFormat(format: string): GuidFormat {
             if (String.IsNullOrEmpty(format))
                 return GuidFormat.D;
 
@@ -471,7 +480,7 @@ module System {
 
         private static CheckLength(o: Uint8Array, l: number): void {
             if (o.length != l) {
-                throw new ArgumentException(String.Format("Array should be exactly {0} bytes long.", l));
+                throw new ArgumentException(String.format("Array should be exactly {0} bytes long.", l));
             }
         }
 
@@ -482,13 +491,13 @@ module System {
 
 
         //ICloneable
-        public Clone(): Guid {
+        clone(): Guid {
             return new Guid(this._a, this._b, this._c, this._d, this._e, this._f, this._g, this._h, this._i, this._j, this._k);
         }
 
 
         //IObject
-        public GetType(): Type { return Guid._type; }
+        getType(): Type { return Guid._type; }
 
 
 
@@ -513,10 +522,10 @@ module System {
 
         constructor(src: string) {
             this._src = src;
-            this.Reset();
+            this.reset();
         }
 
-        Reset(): void {
+        reset(): void {
             this._cur = 0;
             this._length = this._src.length;
         }
@@ -526,7 +535,7 @@ module System {
         }
 
 
-        public static HasHyphen(format: GuidFormat): boolean {
+        static hasHyphen(format: GuidFormat): boolean {
             switch (format) {
                 case GuidFormat.D:
                 case GuidFormat.B:
@@ -538,8 +547,8 @@ module System {
         }
 
 
-     
-        public Parse(outguid: OutArgument<Guid>, format?: GuidFormat): boolean {
+
+        parse(outguid: OutArgument<Guid>, format?: GuidFormat): boolean {
 
             if (format) {
                 if (format == GuidFormat.X) return this.TryParseX(outguid);
@@ -548,16 +557,16 @@ module System {
             //
             if (this.TryParseNDBP(GuidFormat.N, outguid)) return true;
 
-            this.Reset();
+            this.reset();
             if (this.TryParseNDBP(GuidFormat.D, outguid)) return true;
 
-            this.Reset();
+            this.reset();
             if (this.TryParseNDBP(GuidFormat.B, outguid)) return true;
 
-            this.Reset();
+            this.reset();
             if (this.TryParseNDBP(GuidFormat.P, outguid)) return true;
 
-            this.Reset();
+            this.reset();
             return this.TryParseX(outguid);
         }
 
@@ -566,7 +575,7 @@ module System {
             var b = new System.OutArgument<number>(0);
             var c = new System.OutArgument<number>(0);
 
-       
+
 
             if (format == GuidFormat.B && !this.ParseChar('{'))
                 return false;
@@ -577,7 +586,7 @@ module System {
             if (!this.ParseHex(8, true, a))
                 return false;
 
-            var has_hyphen = GuidParser.HasHyphen(format);
+            var has_hyphen = GuidParser.hasHyphen(format);
 
             if (has_hyphen && !this.ParseChar('-'))
                 return false;
@@ -596,14 +605,14 @@ module System {
 
             var d = new Uint8Array(8);
             for (var i: number = 0; i < d.length; i++) {
-					var dd = new System.OutArgument<number>(0);
-                if (!this.ParseHex(2, true,  dd))
+                var dd = new System.OutArgument<number>(0);
+                if (!this.ParseHex(2, true, dd))
                     return false;
 
                 if (i == 1 && has_hyphen && !this.ParseChar('-'))
                     return false;
 
-                d[i] = (dd.value & 0xFF); 
+                d[i] = (dd.value & 0xFF);
             }
 
             if (format == GuidFormat.B && !this.ParseChar('}'))
@@ -689,7 +698,7 @@ module System {
             res.value = 0;
             for (var i: number = 0; i < length; i++) {
                 if (this.Eof) return !(strict && (i + 1 != length));
-               
+
                 //var c: Char = Char.ToLowerInvariant(this._src[this._cur]);
 
                 var nr = parseInt(this._src[this._cur], 16);
@@ -701,8 +710,8 @@ module System {
                     this._cur++;
                 }
 
-                
-               
+
+
             }
 
             return true;

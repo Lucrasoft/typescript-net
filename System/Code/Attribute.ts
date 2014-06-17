@@ -6,7 +6,7 @@
 module System {
 
     export class Attribute implements IObject {
-        private static _type: Type = System.Type.RegisterClass(Attribute, "System.Attribute", []);
+        private static type: Type = System.Type.registerClass(Attribute, "System.Attribute", []);
 
         constructor() {
 
@@ -14,26 +14,26 @@ module System {
 
 
         //Static methods
-        public static GetCustomAttribute(element: IObject, attributeType: Type): Attribute {
+       static getCustomAttribute(element: IObject, attributeType: Type): Attribute {
             //TODO
             throw new System.NotImplementedException();
         }
 
-        public static IsDefined(element : IObject, attributeType : Type, inherit : boolean) : boolean
+        static isDefined(element : IObject, attributeType : Type, inherit : boolean) : boolean
         {
             //TODO
             throw new System.NotImplementedException();
         }
 
 
-        public static GetCustomAttributes(): Attribute[]{
+        static getCustomAttributes(): Attribute[]{
             //TODO 
             throw new System.NotImplementedException();
         }
 
 
         //IObject
-        public GetType(): Type { return Attribute._type; }
+        getType(): Type { return Attribute.type; }
 
     }
 

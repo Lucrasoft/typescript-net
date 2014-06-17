@@ -12,7 +12,7 @@ module System
 
     export class TimeSpan implements IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable, IObject {
 
-        private static _type: Type = System.Type.RegisterClass(TimeSpan, "System.TimeSpan", ["IComparable", "IEquatable", "IFormattable"]);
+        private static _type: Type = System.Type.registerClass(TimeSpan, "System.TimeSpan", ["IComparable", "IEquatable", "IFormattable"]);
         //var comparer = new System.Collections.Generic.GenericComparer<TimeSpan>();
         //var eqcomparer = new System.Collections.Generic.GenericEqualityComparer<TimeSpan>();
 
@@ -154,7 +154,7 @@ module System
             return this._ticks / TimeSpan.TicksPerSecond;
         }
 
-        public Add(ts: TimeSpan): TimeSpan {
+        add(ts: TimeSpan): TimeSpan {
             try {
                 return new TimeSpan(this._ticks + ts.Ticks);
             }
@@ -163,7 +163,7 @@ module System
             }
         }
 
-        public static Compare(t1: TimeSpan, t2: TimeSpan): number {
+        static compare(t1: TimeSpan, t2: TimeSpan): number {
             if (t1._ticks < t2._ticks)
                 return -1;
             if (t1._ticks > t2._ticks)
@@ -171,48 +171,48 @@ module System
             return 0;
         }
 
-        public CompareTo(value: any): number {
+        compareTo(value: any): number {
             if (value == null) return 1;
 
-			if (!(Statements.Is(value, TimeSpan._type)) {
+			if (!(Statements.is(value, TimeSpan._type))) {
                 throw new ArgumentException("Argument has to be a TimeSpan.", null, "value");
             }
 
-            return TimeSpan.Compare(this, <TimeSpan>value);
+            return TimeSpan.compare(this, <TimeSpan>value);
         }
 
 
-        public Equals(obj: any): boolean {
-            if (!(Statements.Is(obj, TimeSpan._type))) return false;
+        equals(obj: any): boolean {
+            if (!(Statements.is(obj, TimeSpan._type))) return false;
 
             return this._ticks == (<TimeSpan>obj)._ticks;
         }
 
-        public Duration(): TimeSpan {
+        duration(): TimeSpan {
             return new TimeSpan(Math.abs(this._ticks));
         }
 
-        public static Equals(t1: TimeSpan, t2: TimeSpan): boolean {
+        static equals(t1: TimeSpan, t2: TimeSpan): boolean {
             return t1._ticks == t2._ticks;
         }
 
-        public static FromDays(value: number): TimeSpan {
+        static fromDays(value: number): TimeSpan {
             return TimeSpan.FromMultiplied(value, TimeSpan.TicksPerDay);
         }
 
-        public static FromHours(value: number): TimeSpan {
+        static fromHours(value: number): TimeSpan {
             return TimeSpan.FromMultiplied(value, TimeSpan.TicksPerHour);
         }
 
-        public static FromMinutes(value: number): TimeSpan {
+        static fromMinutes(value: number): TimeSpan {
             return TimeSpan.FromMultiplied(value, TimeSpan.TicksPerMinute);
         }
 
-        public static FromSeconds(value: number): TimeSpan {
+        static fromSeconds(value: number): TimeSpan {
             return TimeSpan.FromMultiplied(value, TimeSpan.TicksPerSecond);
         }
 
-        public static FromMilliseconds(value: number): TimeSpan {
+        static fromMilliseconds(value: number): TimeSpan {
             return TimeSpan.FromMultiplied(value, TimeSpan.TicksPerMillisecond);
         }
 
@@ -229,21 +229,21 @@ module System
 
         }
 
-        public static FromTicks(value: number): TimeSpan {
+        static fromTicks(value: number): TimeSpan {
             return new TimeSpan(value);
         }
 
-        public GetHashCode(): number {
+        getHashCode(): number {
             return this._ticks;
         }
 
-        public Negate(): TimeSpan {
+        negate(): TimeSpan {
             if (this._ticks == TimeSpan.MinValue._ticks)
                 throw new OverflowException("This TimeSpan value is MinValue and cannot be negated.");
             return new TimeSpan(-this._ticks);
         }
 
-        public static Parse(input: string, formatProvider?: IFormatProvider): TimeSpan {
+        static parse(input: string, formatProvider?: IFormatProvider): TimeSpan {
             if (input == null) {
                 throw new ArgumentNullException("s");
             }
@@ -252,11 +252,11 @@ module System
             var p: Parser = new Parser(input, formatProvider);
 
             var outresult = new System.OutArgument<TimeSpan>(TimeSpan.MinValue);
-            p.Execute(false, outresult);
+            p.execute(false, outresult);
             return result.value;
         }
 
-        public static TryParse(s: string, result: System.OutArgument<TimeSpan>, formatProvider?: IFormatProvider): boolean {
+        static tryParse(s: string, result: System.OutArgument<TimeSpan>, formatProvider?: IFormatProvider): boolean {
             if (s == null) {
                 result = TimeSpan.Zero;
                 return false;
@@ -288,7 +288,7 @@ module System
             }
 
             var outresult = new System.OutArgument<TimeSpan>(TimeSpan.MinValue);
-            if (!TimeSpan.TryParseExact(input, formats, formatProvider, styles, outresult))
+            if (!TimeSpan.tryParseExact(input, formats, formatProvider, styles, outresult))
                 throw new FormatException("Invalid format.");
 
             return outresult.value;
@@ -297,10 +297,10 @@ module System
 
 
 
-        public static TryParseExact(input: string, format: string, formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
-        public static TryParseExact(input: string, format: string[], formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
+        static tryParseExact(input: string, format: string, formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
+        static tryParseExact(input: string, format: string[], formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
 
-        public static TryParseExact(input: string, format: any, formatProvider: IFormatProvider, styles?: System.Globalization.TimeSpanStyles = System.Globalization.TimeSpanStyles.None, result: System.OutArgument<TimeSpan>) {
+        static tryParseExact(input: string, format: any, formatProvider: IFormatProvider, styles?: System.Globalization.TimeSpanStyles = System.Globalization.TimeSpanStyles.None, result: System.OutArgument<TimeSpan>) {
 
             result.value = TimeSpan.Zero;
 
@@ -355,30 +355,30 @@ module System
             return false;
         }
 
-        public Subtract(ts: TimeSpan): TimeSpan {
+        subtract(ts: TimeSpan): TimeSpan {
             return new TimeSpan(this._ticks - ts.Ticks);
         }
 
 
         private __internalToStringDefault(): string {
-            var sb = new System.Text.StringBuilder(14);
-            if (this._ticks < 0) sb.Append('-');
+            var sb = new System.Text.StringBuilder("14");
+            if (this._ticks < 0) sb.append('-');
 
             if (this.Days != 0) {
-                sb.Append(Math.abs(this.Days));
-                sb.Append('.');
+                sb.append(Math.abs(this.Days));
+                sb.append('.');
             }
 
-            sb.Append(Math.abs(this.Hours).ToString("D2"));
-            sb.Append(':');
-            sb.Append(Math.abs(this.Minutes).ToString("D2"));
-            sb.Append(':');
-            sb.Append(Math.abs(this.Seconds).ToString("D2"));
+            sb.append(Math.abs(this.Hours).toString("D2"));
+            sb.append(':');
+            sb.append(Math.abs(this.Minutes).toString("D2"));
+            sb.append(':');
+            sb.append(Math.abs(this.Seconds).toString("D2"));
 
             var fractional: number = Math.floor(Math.abs(this._ticks % TimeSpan.TicksPerSecond));
             if (fractional != 0) {
-                sb.Append('.');
-                sb.Append(fractional.ToString("D7"));
+                sb.append('.');
+                sb.append(fractional.toString("D7"));
             }
 
             return sb.ToString();
@@ -466,11 +466,11 @@ module System
                 element = parser.GetNextElement();
                 switch (element.Type) {
                     case FormatElementType.Days:
-                        value = Math.Abs(Days);
+                        value = Math.abs(Days);
                         sb.Append(value.ToString("D" + element.IntValue));
                         break;
                     case FormatElementType.Hours:
-                        value = Math.Abs(Hours);
+                        value = Math.abs(Hours);
                         sb.Append(value.ToString("D" + element.IntValue));
                         break;
                     case FormatElementType.Minutes:
@@ -510,7 +510,7 @@ module System
 
 
         public static op_Addition(t1: TimeSpan, t2: TimeSpan): TimeSpan {
-            return t1.Add(t2);
+            return t1.add(t2);
         }
 
         public static op_Equalilty(t1: TimeSpan, t2: TimeSpan): boolean {
@@ -556,37 +556,35 @@ module System
         Overflow
     }
 
-		// Class Parser implements parser for TimeSpan.Parse
-	    private class Parser
+     class Parser
 		{
-			private _src : string;
-			private  _cur : number= 0;
-			private _length : number;
-    parse_error: ParseError ;
+        private _src: string;
+        private _cur: number = 0;
+        private _length: number;
+        parse_error: ParseError;
 
-			parsed_ticks : boolean;
-    number_format: NumberFormatInfo ;
-    parsed_numbers_count: number;
-    parsed_days_separator: boolean;
+        parsed_ticks: boolean;
+        number_format: NumberFormatInfo;
+        parsed_numbers_count: number;
+        parsed_days_separator: boolean;
 
-			public Exact : boolean; // no fallback, strict pattern.
-			public AllMembersRequired: boolean;
-			public CultureSensitive  :boolean = true;
-			public UseColonAsDaySeparator  : boolean = true;
+        public Exact: boolean; // no fallback, strict pattern.
+        public AllMembersRequired: boolean;
+        public CultureSensitive: boolean = true;
+        public UseColonAsDaySeparator: boolean = true;
 
-			public Parser(src : string)
-			{
-        this._src = src;
-        this._length = _src.length;
-				this.number_format = GetNumberFormatInfo(null);
+        constructor(src: string) {
+            this._src = src;
+            this._length = _src.length;
+            this.number_format = GetNumberFormatInfo(null);
 
-			}
+        }
 
 			// Reset state data, so we can execute another parse over the input.
-			void Reset()
+		reset()
 			{
-        _cur = 0;
-        parse_error = ParseError.None;
+        this._cur = 0;
+        this.parse_error = ParseError.None;
         parsed_ticks = parsed_days_separator = false;
         parsed_numbers_count = 0;
 			}
@@ -609,7 +607,7 @@ module System
 			}
 			public get AtEnd() : boolean {
 
-            return this._cur >= _length;
+        return this._cur >= _length;
 
 			}
 
@@ -693,8 +691,8 @@ module System
 
         if (!optional && (count == 0))
             SetParseError(ParseError.Format);
-				if (count > 0)
-                parsed_numbers_count++;
+        if (count > 0)
+            parsed_numbers_count++;
 
 				return (int) res;
 			}
@@ -796,12 +794,12 @@ module System
 
         if (!digitseen)
             SetParseError(ParseError.Format);
-				else if (!AtEnd && Char.IsDigit(_src, _cur))
+        else if (!AtEnd && Char.IsDigit(_src, _cur))
             SetParseError(ParseError.Overflow);
 
         parsed_ticks = true;
 
-				return res;
+        return res;
 			}
 
 			// Used by custom formats parsing
@@ -825,38 +823,38 @@ module System
             SetParseError(ParseError.Format);
 
         return res;
-			}
+    }
 
-			void SetParseError(ParseError error)
+    void SetParseError(ParseError error)
 			{
         // We preserve the very first error.
         if (parse_error != ParseError.None)
             return;
 
         parse_error = error;
-			}
+    }
 
-			bool CheckParseSuccess (bool tryParse)
-			bool CheckParseSuccess (int hours, int minutes, int seconds, bool tryParse)
+			bool CheckParseSuccess(bool tryParse)
+			bool CheckParseSuccess(int hours, int minutes, int seconds, bool tryParse)
 			{
-				// We always report the first error, but for 2.0 we need to give a higher
-				// precence to per-element overflow (as opposed to int32 overflow).
-				if (parse_error == ParseError.Overflow) {
-                if (parse_error == ParseError.Overflow || hours > 23 || minutes > 59 || seconds > 59) {
-					if (tryParse)
-                        return false;
-                    throw new OverflowException(
-                        Locale.GetText("Invalid time data."));
-				}
+        // We always report the first error, but for 2.0 we need to give a higher
+        // precence to per-element overflow (as opposed to int32 overflow).
+        if (parse_error == ParseError.Overflow) {
+            if (parse_error == ParseError.Overflow || hours > 23 || minutes > 59 || seconds > 59) {
+                if (tryParse)
+                    return false;
+                throw new OverflowException(
+                    Locale.GetText("Invalid time data."));
+            }
 
-                if (parse_error == ParseError.Format) {
-                    if (tryParse)
-                        return false;
-                    throw new FormatException(
-                        Locale.GetText("Invalid format for TimeSpan.Parse."));
-                }
+            if (parse_error == ParseError.Format) {
+                if (tryParse)
+                    return false;
+                throw new FormatException(
+                    Locale.GetText("Invalid format for TimeSpan.Parse."));
+            }
 
-                return true;
+            return true;
 			}
 
 #if NET_4_0
@@ -1148,21 +1146,19 @@ module System
         result = new TimeSpan(t);
         return true;
 			}
-#endif
-		}
-#if NET_4_0
+
 		enum FormatElementType {
-    Days,
-    Hours,
-    Minutes,
-    Seconds,
-    Ticks, // 'f'
-    TicksUppercase, // 'F'
-    Literal,
-    EscapedChar,
-    Error,
-    End
-}
+            Days,
+            Hours,
+            Minutes,
+            Seconds,
+            Ticks, // 'f'
+            TicksUppercase, // 'F'
+            Literal,
+            EscapedChar,
+            Error,
+            End
+        }
 
 		struct FormatElement
 		{
@@ -1336,3 +1332,8 @@ module System
 
 	}
 }
+}
+
+
+		// Class Parser implements parser for TimeSpan.Parse
+	   

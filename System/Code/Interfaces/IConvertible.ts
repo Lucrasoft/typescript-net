@@ -1,6 +1,6 @@
 /// <reference path="../TypeCode.ts" />
-/// <reference path="IFormatProvider.ts" />
-
+/// <reference path="IFormatProvider.ts"/>
+/// <reference path="../TypeCode.ts"/>
 
 module System {
 
@@ -10,11 +10,11 @@ module System {
 
 
 
-        GetTypeCode(): TypeCode;
+        getTypeCode(): TypeCode;
 
-        ToNumber(provider: IFormatProvider): number;
-        ToString(provider: IFormatProvider): string;
-        ToBoolean(provider: IFormatProvider): boolean;
+        toNumber(provider: IFormatProvider): number;
+        toString(provider: IFormatProvider): string;
+        toBoolean(provider: IFormatProvider): boolean;
 
         //ToByte(provider: IFormatProvider): System.Byte;
 

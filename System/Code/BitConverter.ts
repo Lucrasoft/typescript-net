@@ -1,4 +1,8 @@
 /// <reference path="Text/StringBuilder.ts" />
+/// <reference path="Exceptions/Exception.ts"/>
+/// <reference path="Char.ts"/>
+/// <reference path="Exceptions/ArgumentNullException.ts"/>
+/// <reference path="Exceptions/ArgumentOutOfRangeException.ts"/>
 
 
 module System {
@@ -15,7 +19,7 @@ module System {
     export class BitConverter {
         
 
-        public static IsLittleEndian: boolean = BitConverter.AmILittleEndian();
+        static IsLittleEndian: boolean = BitConverter.AmILittleEndian();
 
 
         private static AmILittleEndian(): boolean {
@@ -35,7 +39,7 @@ module System {
         }
 
 
-        public static GetBytes(value: any): Uint8Array {
+        static getBytes(value: any): Uint8Array {
 
             //TODO :
             //Detect type of value and select appropriate private static method.
@@ -49,7 +53,7 @@ module System {
             return res;
         }
 
-        public static GetBytes_String(value: string): Uint8Array {
+        static getBytes_String(value: string): Uint8Array {
             if (value = null) return null;
 
             //TODO : Test the surrogate cases !
@@ -65,7 +69,7 @@ module System {
         }
 
 
-        public static GetBytes_Int16(value: number): Uint8Array {
+        static getBytes_Int16(value: number): Uint8Array {
             if (value == null)
                 throw new ArgumentNullException("value");
 
@@ -75,7 +79,7 @@ module System {
             return res;
         }
 
-        public static GetBytes_Int32(value: number): Uint8Array {
+        static getBytes_Int32(value: number): Uint8Array {
             if (value == null)
                 throw new ArgumentNullException("value");
 
@@ -91,7 +95,7 @@ module System {
 
 
 
-        public static ToBoolean(value: Uint8Array, startIndex: number): boolean {
+        static toBoolean(value: Uint8Array, startIndex: number): boolean {
             BitConverter.__internalCheckParam(value, startIndex, 1);
 
             if (value[startIndex] != 0)
@@ -101,7 +105,7 @@ module System {
         }
 
 
-        public static ToChar(value: Uint8Array, startIndex: number): Char {
+        static toChar(value: Uint8Array, startIndex: number): Char {
             BitConverter.__internalCheckParam(value, startIndex, 1);
    
             return new System.Char(value[startIndex]);
@@ -111,7 +115,7 @@ module System {
 
 
 
-        public static ToInt16(value: Uint8Array, startIndex: number): System.Int16 {
+        static toInt16(value: Uint8Array, startIndex: number): System.Int16 {
             BitConverter.__internalCheckParam(value, startIndex, 2);
 
             var res = value[startIndex + 0];
@@ -120,7 +124,7 @@ module System {
             return new System.Int16(res);
         }
 
-        public static ToInt32(value: Uint8Array, startIndex: number): System.Int32 {
+        static toInt32(value: Uint8Array, startIndex: number): System.Int32 {
             BitConverter.__internalCheckParam(value, startIndex, 4);
 
             var res = value[startIndex+0];
@@ -131,7 +135,7 @@ module System {
             return new System.Int32(res);
         }
 
-        public static ToString(value: Uint8Array, startIndex: number, length: number): string {
+        static toString(value: Uint8Array, startIndex: number, length: number): string {
             BitConverter.__internalCheckParam(value, startIndex, length);
 
             if (length == 0) return "";

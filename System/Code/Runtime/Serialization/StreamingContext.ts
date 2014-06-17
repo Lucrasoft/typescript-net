@@ -1,12 +1,14 @@
 /// <reference path="StreamingContextStates.ts" />  
-
+/// <reference path="../../IObject.ts"/>
+/// <reference path="../../Type.ts"/>
+/// <reference path="../../Statements.ts"/>
 
 module System.Runtime.Serialization {
 
 
 
     export class StreamingContext implements IObject {
-        private static _type: Type = System.Type.RegisterClass(StreamingContext, "System.Runtime.Serialization.StreamingContext", []);
+        private static _type: Type = System.Type.registerClass(StreamingContext, "System.Runtime.Serialization.StreamingContext", []);
 
         state: StreamingContextStates
 		additional: any;
@@ -17,25 +19,25 @@ module System.Runtime.Serialization {
             this.additional = additional;
         }
 
-        public get Context(): any {
+       get Context(): any {
             return this.additional;
         }
 
-        public get State(): StreamingContextStates {
+        get State(): StreamingContextStates {
             return this.state;
         }
 
-        public Equals(obj: any): boolean {
-            if (!(Statements.Is(obj, StreamingContext._type))) return false;
+        equals(obj: any): boolean {
+            if (!(Statements.is(obj, StreamingContext._type))) return false;
 
             var other = <StreamingContext> obj;
             return (other.state == this.state) && (other.additional == this.additional);
         }
 
-        public GetHashCode(): number {
+        getHashCode(): number {
             return this.state;
         }
 
-        public GetType(): Type { return StreamingContext._type; }
+        getType(): Type { return StreamingContext._type; }
     }
 }

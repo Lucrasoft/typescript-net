@@ -1,10 +1,11 @@
 /// <reference path="Exception.ts" />  
-
+/// <reference path="../IObject.ts" /> 
+/// <reference path="../Type.ts"/> 
 
 module System {
 
     export class FormatException extends Exception implements IObject {
-        private static _type = System.Type.RegisterClass(FormatException, "System.FormatException", []);
+        private static _type = System.Type.registerClass(FormatException, "System.FormatException", []);
 
 
         constructor(message?: string, innerException?: System.Exception) {
@@ -13,7 +14,7 @@ module System {
 
 
         //IObject
-        public GetType(): Type { return FormatException._type; }
+        getType(): Type { return FormatException._type; }
 
     }
 }  

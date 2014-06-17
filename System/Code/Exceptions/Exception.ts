@@ -1,11 +1,13 @@
+/// <reference path="../Type.ts"/>
+/// <reference path="../IObject.ts"/>
 
 module System {
 
     export class Exception implements Error, IObject {
-        private static _type = System.Type.RegisterClass(Exception, "System.Exception", []);
+        private static type = System.Type.registerClass(Exception, "System.Exception", []);
 
         public get name(): string {
-            return this.GetType().name;
+            return this.getType().name;
         }
 
         public message: string = "";
@@ -22,7 +24,7 @@ module System {
         }
 
         //IObject
-        public GetType(): Type { return Exception._type; }
+        getType(): Type { return Exception.type; }
 
     }
 

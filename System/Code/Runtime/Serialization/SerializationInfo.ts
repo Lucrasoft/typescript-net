@@ -1,6 +1,5 @@
 /// <reference path="../../Type.ts" />  
-/// <reference path="../../IObject.ts" />  
-/// <reference path="../../Collections/Generic/Dictionary.ts" />  
+/// <reference path="../../IObject.ts" />   
 
 
 module System.Runtime.Serialization {
@@ -12,11 +11,11 @@ module System.Runtime.Serialization {
         }
 
         //place holder
-        public AddValue(name: string, value: any) {
+        addValue(name: string, value: any) {
             throw new NotImplementedException();
         }
 
-        public GetString(name: string): string {
+        getString(name: string): string {
             throw new NotImplementedException();
         }
     }

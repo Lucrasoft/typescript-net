@@ -1,9 +1,9 @@
-
-
+/// <reference path="IObject.ts"/>
+/// <reference path="Type.ts"/>
 
 module System {
     export class EventArgs implements IObject {
-        public static _type: Type = System.Type.RegisterClass(EventArgs, "System.EventArgs", []);
+        public static _type: Type = System.Type.registerClass(EventArgs, "System.EventArgs", []);
         
         public static Empty: EventArgs = new EventArgs();
 
@@ -11,7 +11,7 @@ module System {
         
 
         //IObject
-        public GetType(): Type { return EventArgs._type; }
+        public getType(): Type { return EventArgs._type; }
     }
 
 }

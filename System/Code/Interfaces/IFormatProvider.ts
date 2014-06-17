@@ -5,7 +5,7 @@
 module System {
 
     export interface IFormatProvider {
-         GetFormat(formatType : Type) : IObject
+         getFormat(formatType : Type) : IObject
     }
 
 }

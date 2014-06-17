@@ -1,7 +1,4 @@
 module System {
-
-
-    
     export interface Func<TResult> { (): TResult; }
 
     export interface Func<T, TResult> { (arg: T): TResult; }

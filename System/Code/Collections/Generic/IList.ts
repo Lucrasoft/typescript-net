@@ -1,13 +1,13 @@
-
+/// <reference path="ICollection.ts"/>
 
 module System.Collections.Generic {
 
     export interface IList<T> extends ICollection<T> {
 
-        Indexer(index : number): T;
-        IndexOf(item: T): number;
-        RemoveAt(index: number): void;
-        Insert(index: number, item: T): void;
+        indexer(index : number): T;
+        indexOf(item: T): number;
+        removeAt(index: number): void;
+        insert(index: number, item: T): void;
 
 
     }

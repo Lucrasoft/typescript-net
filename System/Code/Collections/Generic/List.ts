@@ -1,9 +1,12 @@
-
+/// <reference path="../../IObject.ts"/>
+/// <reference path="../../Interfaces/IEnumerable.ts"/>
+/// <reference path="../../Interfaces/IEnumerator.ts"/>
+/// <reference path="IList.ts"/>
 
 module System.Collections.Generic {
 
     export class List<T> implements IList<T>, IEnumberable<T>, IObject {
-        public static _type: Type = System.Type.RegisterClass(List, "System.Collections.Generic.List", [""]);
+        public static _type: Type = System.Type.registerClass(List, "System.Collections.Generic.List", [""]);
 
         private list: T[] = [];
         public changecount: number = 0;
@@ -27,20 +30,20 @@ module System.Collections.Generic {
             this.list = [];
         }
 
-        public Contains(item: T): boolean {
+        contains(item: T): boolean {
             return (this.list.indexOf(item) > -1);
         }
 
-        public CopyTo(array: T[], arrayIndex: number): void {
+        copyTo(array: T[], arrayIndex: number): void {
             //TODO : verify !
             for (var i: number = 0; i < this.list.length; i++) {
                 array[i + arrayIndex] = this.list[i];
             }
         }
 
-        public Remove(item: T): boolean {
+       remove(item: T): boolean {
             this.changecount++;
-            var index = this.IndexOf(item);
+            var index = this.indexOf(item);
             if (index >= 0) {
                 this.list.splice(index);
                 return true;
@@ -49,15 +52,15 @@ module System.Collections.Generic {
         }
 
 
-        public Indexer(index: number): T {
+        indexer(index: number): T {
             return this.list[index];
         }
 
-        public IndexOf(item: T): number {
+        indexOf(item: T): number {
             return this.list.indexOf(item);
         }
 
-        public RemoveAt(index: number): void {
+        removeAt(index: number): void {
             if (index >= this.list.length) {
                 throw new ArgumentOutOfRangeException("", null, "index");
             }
@@ -66,13 +69,13 @@ module System.Collections.Generic {
 
         }
 
-        public Insert(index: number, item: T): void {
+        insert(index: number, item: T): void {
             this.changecount++;
             this.list.splice(2, 0, item);
         }
 
 
-        public GetEnumerator(): System.IEnumerator<T> {
+        getEnumerator(): System.IEnumerator<T> {
             return new ListEnumerator(this);
         }
 
@@ -86,7 +89,7 @@ module System.Collections.Generic {
     class ListEnumerator<T> implements IEnumerator<T> {
 
         private interalList: List<T>;
-        private current: T;
+        private _current: T;
         private lastchangecount: number;
         private index: number;
 
@@ -102,14 +105,14 @@ module System.Collections.Generic {
             }
         }
 
-        public get Current(): T {
-            return this.current;
+        public get current(): T {
+            return this._current;
         }
 
-        public MoveNext(): boolean {
+        moveNext(): boolean {
 
             if (this.index < this.interalList.Count) {
-                this.current = this.interalList.Indexer(this.index);
+                this.current = this.interalList.indexer(this.index);
                 this.index++;
                 return true;
             }
@@ -121,11 +124,11 @@ module System.Collections.Generic {
             return false;
         }
 
-        public Reset(): void {
+        reset(): void {
             this.index = -1;
         }
 
-        public Dispose(): void {
+        dispose(): void {
             this.interalList = null;
         }
 

@@ -1,14 +1,15 @@
-/// <reference path="Exception.ts" />  
+/// <reference path="Exception.ts" />
+/// <reference path="../IObject.ts"/>
+/// <reference path="../Type.ts"/>
 
 module System {
 
     export class ArgumentException extends Exception implements IObject
     {
         
-        private static _type = System.Type.RegisterClass(ArgumentException, "System.ArgumentException", []);
+        private static _type = System.Type.registerClass(ArgumentException, "System.ArgumentException", []);
 
         public paramName: string;
-
 
         constructor(message?: string, innerException?: System.Exception, paramName?: string) {
             super(message, innerException);
@@ -16,7 +17,7 @@ module System {
 
         }
 
-        public toString() : string {
+        toString() : string {
             var s = super.toString();
             s += "Paramater : " + this.paramName;
             return s; 
@@ -24,7 +25,7 @@ module System {
 
 
         //IObject
-        public GetType(): Type { return ArgumentException._type; } 
+        getType(): Type { return ArgumentException._type; } 
 
     }
 } 

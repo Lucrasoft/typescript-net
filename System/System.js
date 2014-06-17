@@ -24,7 +24,6 @@
 /// <reference path="Code/String.ts" />
 /// <reference path="Code/Type.ts" />
 /// <reference path="Code/TypeCode.ts" />
-/// <reference path="Code/Collections/Generic/Dictionary.ts" />
 /// <reference path="Code/Collections/Generic/ICollection.ts" />
 /// <reference path="Code/Collections/Generic/IList.ts" />
 /// <reference path="Code/Collections/Generic/KeyNotFoundException.ts" />
