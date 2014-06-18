@@ -1,15 +1,15 @@
-/// <reference path="Type.ts" />
-/// <reference path="IObject.ts" />
+﻿/// <reference path="IObject.ts" />
 JSString = window["String"];
 
 var System;
 (function (System) {
     var Type = (function () {
         function Type() {
+            this.implementations = [];
             this.isRuntimeType = false;
             this.isClass = false;
             this.isInterface = false;
-            this.implementations = [];
+            this.isEnum = false;
         }
         Type.registerClass = function (_class, name, interfaces) {
             var res = new Type();
@@ -17,6 +17,7 @@ var System;
             res.name = name;
             res.obj = _class;
             res.implementations.concat(interfaces);
+
             Type._types.push(res);
             return res;
         };
@@ -29,6 +30,15 @@ var System;
                 res.implementations.push(parent);
             }
             Type._types.push(res);
+        };
+
+        Type.registerEnum = function (_enum, name) {
+            var res = new Type();
+            res.isEnum = true;
+            res.name = name;
+            res.obj = _enum;
+            Type._types.push(res);
+            return res;
         };
 
         // Idea was to register the JS internal types as well : string, number, function, object, etc.
@@ -63,6 +73,59 @@ var System;
         return Type;
     })();
     System.Type = Type;
+})(System || (System = {}));
+/// <reference path="Type.ts" />
+/// <reference path="IObject.ts" />
+/// <reference path="Type.ts" />
+var System;
+(function (System) {
+    var Object = (function () {
+        function Object() {
+        }
+        Object.prototype.equals = function (obj) {
+            return this == obj;
+        };
+
+        // <summary>
+        //   Compares two objects for equality
+        // </summary>
+        Object.equals = function (objA, objB) {
+            if (objA == objB)
+                return true;
+
+            if (objA == null || objB == null)
+                return false;
+
+            return objA.equals(objB);
+        };
+
+        //not tested yet !
+        Object.prototype.memberwiseClone = function () {
+            var clone = this.getInstance(this);
+
+            for (var prop in clone) {
+                if (clone.hasOwnProperty(prop)) {
+                    clone[prop] = this[prop];
+                }
+            }
+            return clone;
+        };
+
+        Object.prototype.getInstance = function (t) {
+            return new t;
+        };
+
+        Object.prototype.toString = function () {
+            return this.getType().name;
+        };
+
+        Object.prototype.getType = function () {
+            return Object._type;
+        };
+        Object._type = System.Type.registerClass(System.Object, "System.Object", []);
+        return Object;
+    })();
+    System.Object = Object;
 })(System || (System = {}));
 /// <reference path="../Type.ts"/>
 /// <reference path="../IObject.ts"/>
@@ -604,11 +667,7 @@ var System;
                 configurable: true
             });
 
-            StringBuilder.prototype.toString = function () {
-                return this._str;
-            };
-
-            StringBuilder.prototype.ToString = function (startIndex, length) {
+            StringBuilder.prototype.toString = function (startIndex, length) {
                 if (typeof startIndex === "undefined") { startIndex = 0; }
                 if (typeof length === "undefined") { length = this._str.length; }
                 if (startIndex < 0 || length < 0 || startIndex > this._str.length - length)
@@ -734,6 +793,7 @@ var System;
 /// <reference path="Type.ts"/>
 var System;
 (function (System) {
+    //just a start..
     var String = (function () {
         function String() {
         }
@@ -926,9 +986,11 @@ var System;
 (function (System) {
     //* docu : http://www.unicode.org/Public/UNIDATA
     //* docu: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
-    var Char = (function () {
+    var Char = (function (_super) {
+        __extends(Char, _super);
         function Char(c, index) {
             if (typeof index === "undefined") { index = 0; }
+            _super.call(this);
             var cc = Char.__checkAndConvertArgument(c, index);
             this.value = cc;
         }
@@ -1203,7 +1265,7 @@ var System;
         Char.MaxValue = 0xffff;
         Char.MinValue = 0x0000;
         return Char;
-    })();
+    })(System.Object);
     System.Char = Char;
 })(System || (System = {}));
 /// <reference path="Text/StringBuilder.ts" />
@@ -1216,7 +1278,7 @@ var System;
     //* Information about LittleEndian detection
     //* http://stackoverflow.com/questions/7869752/javascript-typed-arrays-and-endianness
     //*
-    //TODO : only LittleEndian code is implemented !
+    //REMARK : only LittleEndian code is implemented !
     var BitConverter = (function () {
         function BitConverter() {
         }
@@ -1333,28 +1395,19 @@ var System;
             var end = startIndex + length;
 
             for (var i = startIndex; i < end; i++) {
-                throw new System.NotImplementedException();
-                //if (i > startIndex)
-                //    builder.Append('-');
-                //	var high  : Char = (char)((value[i] >> 4) & 0x0f);
-                //	var low : Char = (char)(value[i] & 0x0f);
-                //if (high < 10)
-                //    high += '0';
-                //else {
-                //    high -= (char) 10;
-                //    high += 'A';
-                //}
-                //if (low < 10)
-                //    low += '0';
-                //else {
-                //    low -= (char) 10;
-                //    low += 'A';
-                //}
-                //builder.Append(high);
-                //builder.Append(low);
+                if (i > startIndex) {
+                    builder.append('-');
+                }
+                ;
+
+                var high = ((value[i] >> 4) & 0x0f);
+                var low = (value[i] & 0x0f);
+
+                builder.append(high.toString(16));
+                builder.append(low.toString(16));
             }
 
-            return builder.ToString();
+            return builder.toString();
         };
 
         BitConverter.__internalCheckParam = function (value, startIndex, length) {
@@ -1422,7 +1475,7 @@ var System;
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
-    System.Type.registerInterface("ICloneable");
+    System.Type.registerInterface("System.ICloneable");
 })(System || (System = {}));
 /// <reference path="BitConverter.ts" />
 /// <reference path="Interfaces/ICloneable.ts"/>
@@ -1773,7 +1826,7 @@ var System;
                 }
             }
 
-            return res.ToString();
+            return res.toString();
         };
 
         Guid.op_Equality = function (a, b) {
@@ -2112,7 +2165,32 @@ var System;
     System.Int16 = Int16;
 })(System || (System = {}));
 /// <reference path="../../Interfaces/IEnumerable.ts"/>
+/// <reference path="../../Type.ts"/>
 /// <reference path="ICollection.ts"/>
+var System;
+(function (System) {
+    (function (Collections) {
+        (function (Generic) {
+            System.Type.registerInterface("System.Collections.Generic.IList", "");
+        })(Collections.Generic || (Collections.Generic = {}));
+        var Generic = Collections.Generic;
+    })(System.Collections || (System.Collections = {}));
+    var Collections = System.Collections;
+})(System || (System = {}));
+
+var Sample;
+(function (Sample) {
+    var MyClass = (function (_super) {
+        __extends(MyClass, _super);
+        //optional
+        function MyClass() {
+            _super.call(this);
+        }
+        MyClass._type = System.Type.registerClass(MyClass, "Sample.MyClass", []);
+        return MyClass;
+    })(System.Object);
+    Sample.MyClass = MyClass;
+})(Sample || (Sample = {}));
 /// <reference path="../../Exceptions/Exception.ts"/>
 /// <reference path="../../IObject.ts"/>
 var System;
@@ -2383,6 +2461,7 @@ var System;
 //*
 //* Authors : Lucas Vos
 //*         : Mono , Stackoverflow
+/// <reference path="Code/Object.ts" />
 /// <reference path="Code/Action.ts" />
 /// <reference path="Code/Attribute.ts" />
 /// <reference path="Code/AttributeTargets.ts" />

@@ -6,5 +6,5 @@ module System {
         clone(): any;
     }
 
-    System.Type.registerInterface("ICloneable");
+    System.Type.registerInterface("System.ICloneable");
 }

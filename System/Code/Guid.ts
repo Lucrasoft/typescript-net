@@ -383,7 +383,7 @@ module System {
                 }
             }
 
-            return res.ToString();
+            return res.toString();
         }
 
 

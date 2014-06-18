@@ -8,9 +8,9 @@ describe("Guid", () => {
         var g = System.Guid.parse("{3F2504E0-4F89-11D3-9A0C-0305E82C3301}");
         var b = g.toByteArray();
 
-        expect(b[0]).toBe(3);
-        expect(b[1]).toBe(15);
-        expect(b[2]).toBe(2);
+        expect(b[0]).toBe(224);
+        expect(b[1]).toBe(4);
+        expect(b[2]).toBe(37);
 
 
     });

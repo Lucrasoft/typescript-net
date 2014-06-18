@@ -3,6 +3,7 @@
 //*
 //* Authors : Lucas Vos
 //*         : Mono , Stackoverflow
+/// <reference path="Code/Object.ts" />
 /// <reference path="Code/Action.ts" />
 /// <reference path="Code/Attribute.ts" />
 /// <reference path="Code/AttributeTargets.ts" />

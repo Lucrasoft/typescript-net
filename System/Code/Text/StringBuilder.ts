@@ -32,12 +32,8 @@ module System.Text {
         }
 
 
-        public toString(): string {
-            return this._str;
-        }
 
-
-        public ToString(startIndex: number= 0, length: number = this._str.length): string {
+        public toString(startIndex: number= 0, length: number = this._str.length): string {
             if (startIndex < 0 || length < 0 || startIndex > this._str.length - length)
                 throw new ArgumentOutOfRangeException();
 

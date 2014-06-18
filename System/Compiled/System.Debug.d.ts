@@ -1,4 +1,40 @@
 /// <reference path="../Code/LinqStuff.d.ts" />
+declare var JSString: any;
+declare module System {
+    class Type {
+        private static _types;
+        private obj;
+        private implementations;
+        public name: string;
+        public isRuntimeType: boolean;
+        public isClass: boolean;
+        public isInterface: boolean;
+        public isEnum: boolean;
+        static registerClass(_class: any, name: string, interfaces: string[]): Type;
+        static registerInterface(name: string, parent?: string): void;
+        static registerEnum(_enum: any, name: string): Type;
+        private static registerInternal(_type, name);
+        static getTypeName(obj: any): string;
+        private static InitializeType();
+    }
+}
+declare module System {
+    interface IObject {
+        getType(): Type;
+    }
+}
+declare module System {
+    class Object {
+        static _type: Type;
+        constructor();
+        public equals(obj: any): boolean;
+        static equals(objA: any, objB: any): boolean;
+        private memberwiseClone();
+        private getInstance(t);
+        public toString(): string;
+        public getType(): Type;
+    }
+}
 declare module System {
     interface Action<T> {
         (arg: T): void;
@@ -8,28 +44,6 @@ declare module System {
     }
     interface Action3<T1, T2, T3> {
         (arg1: T1, arg2: T2, arg3: T3): void;
-    }
-}
-declare module System {
-    interface IObject {
-        getType(): Type;
-    }
-}
-declare var JSString: any;
-declare module System {
-    class Type {
-        private static _types;
-        private obj;
-        public isRuntimeType: boolean;
-        public isClass: boolean;
-        public isInterface: boolean;
-        public implementations: string[];
-        public name: string;
-        static registerClass(_class: any, name: string, interfaces: string[]): Type;
-        static registerInterface(name: string): any;
-        private static registerInternal(_type, name);
-        static getTypeName(obj: any): string;
-        private static InitializeType();
     }
 }
 declare module System {
@@ -252,8 +266,7 @@ declare module System.Text {
         constructor(value?: string);
         public MaxCapacity : number;
         public Length : number;
-        public toString(): string;
-        public ToString(startIndex?: number, length?: number): string;
+        public toString(startIndex?: number, length?: number): string;
         public equals(sb: StringBuilder): boolean;
         public remove(startIndex: number, length: number): StringBuilder;
         public replace(oldValue: string, newValue: string): StringBuilder;
@@ -364,11 +377,12 @@ declare module System {
 }
 declare module System.Globalization {
     class CultureInfo {
+        constructor();
     }
 }
 declare module System {
-    class Char implements IConvertible, IComparable<Char>, IEquatable<Char> {
-        private static _type;
+    class Char extends Object implements IConvertible, IComparable<Char>, IEquatable<Char> {
+        static _type: Type;
         static MaxValue: number;
         static MinValue: number;
         public value: number;
@@ -605,6 +619,12 @@ declare module System.Collections.Generic {
         indexOf(item: T): number;
         removeAt(index: number): void;
         insert(index: number, item: T): void;
+    }
+}
+declare module Sample {
+    class MyClass extends System.Object {
+        static _type: System.Type;
+        constructor();
     }
 }
 declare module System.Collections.Generic {

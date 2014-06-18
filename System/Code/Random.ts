@@ -8,7 +8,7 @@
 
 module System {
 
-    //Wrapper around the built-in javascript randaom 
+    //Wrapper around the built-in javascript random 
 
     export class Random implements IObject {
         private static _type: Type = System.Type.registerClass(Random, "System.Random", []);

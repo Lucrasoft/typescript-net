@@ -6,4 +6,5 @@ module System.Globalization {
         AssumeNegative = 1
     }
 
+    System.Type.registerEnum(TimeSpanStyles, "System.Globalization.TimeSpanStyles");
 }

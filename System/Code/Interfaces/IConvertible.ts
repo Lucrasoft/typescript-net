@@ -4,7 +4,7 @@
 
 module System {
 
-    // not fully implemented, only 
+    // not fully specified, only 
     
     export interface IConvertible {
 

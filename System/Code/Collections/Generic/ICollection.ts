@@ -13,8 +13,7 @@ module System {
         remove(item: T): boolean;
 
 
-
     }
 
-
+    System.Type.registerInterface("System.Collections.Generic.ICollection", "System.IEnumberable");
 }

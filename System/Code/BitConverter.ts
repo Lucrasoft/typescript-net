@@ -14,10 +14,10 @@ module System {
 
 
 
-    //TODO : only LittleEndian code is implemented !
-    
+    //REMARK : only LittleEndian code is implemented !
+
     export class BitConverter {
-        
+
 
         static IsLittleEndian: boolean = BitConverter.AmILittleEndian();
 
@@ -25,7 +25,7 @@ module System {
         private static AmILittleEndian(): boolean {
 
             var a = new ArrayBuffer(4);
-            
+
             var b = new Uint8Array(a);
             var c = new Uint32Array(a);
             b[0] = 0xa1;
@@ -57,12 +57,12 @@ module System {
             if (value = null) return null;
 
             //TODO : Test the surrogate cases !
-            var res = new Uint8Array(value.length*2 );
+            var res = new Uint8Array(value.length * 2);
             for (var i: number = 0; i < value.length; i++) {
                 //code is 16 bit.
                 var charcode = value.charCodeAt(i);
-                    res[i * 2 + 0] = charcode & 0x0F;
-                    res[i * 2 + 1] = charcode >> 8;
+                res[i * 2 + 0] = charcode & 0x0F;
+                res[i * 2 + 1] = charcode >> 8;
 
             }
             return res;
@@ -74,7 +74,8 @@ module System {
                 throw new ArgumentNullException("value");
 
             var res = new Uint8Array(2);
-            res[0] = value & 0xFF; value = value >> 8;
+            res[0] = value & 0xFF;
+            value = value >> 8;
             res[1] = value & 0xFF;
             return res;
         }
@@ -107,7 +108,7 @@ module System {
 
         static toChar(value: Uint8Array, startIndex: number): Char {
             BitConverter.__internalCheckParam(value, startIndex, 1);
-   
+
             return new System.Char(value[startIndex]);
 
         }
@@ -127,10 +128,10 @@ module System {
         static toInt32(value: Uint8Array, startIndex: number): System.Int32 {
             BitConverter.__internalCheckParam(value, startIndex, 4);
 
-            var res = value[startIndex+0];
-            res += (value[startIndex+1] << 8);
-            res += (value[startIndex +2] << 16);
-            res += (value[startIndex +3] << 24);
+            var res = value[startIndex + 0];
+            res += (value[startIndex + 1] << 8);
+            res += (value[startIndex + 2] << 16);
+            res += (value[startIndex + 3] << 24);
 
             return new System.Int32(res);
         }
@@ -144,31 +145,17 @@ module System {
             var end: number = startIndex + length;
 
             for (var i: number = startIndex; i < end; i++) {
-                throw new NotImplementedException();
-                //if (i > startIndex)
-                //    builder.Append('-');
 
-                //	var high  : Char = (char)((value[i] >> 4) & 0x0f);
-                //	var low : Char = (char)(value[i] & 0x0f);
+                if (i > startIndex) { builder.append('-') };
 
-                //if (high < 10)
-                //    high += '0';
-                //else {
-                //    high -= (char) 10;
-                //    high += 'A';
-                //}
+                var high = ((value[i] >> 4) & 0x0f);
+                var low = (value[i] & 0x0f);
 
-                //if (low < 10)
-                //    low += '0';
-                //else {
-                //    low -= (char) 10;
-                //    low += 'A';
-                //}
-                //builder.Append(high);
-                //builder.Append(low);
+                builder.append(high.toString(16));
+                builder.append(low.toString(16));
             }
 
-            return builder.ToString();
+            return builder.toString();
         }
 
 

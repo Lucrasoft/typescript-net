@@ -5,7 +5,7 @@
 describe("StringBuilder", () => {
 
     it("should init correcty", () => {
-        expect(new System.Text.StringBuilder("hello").ToString()).toBe("hello");
+        expect(new System.Text.StringBuilder("hello").toString()).toBe("hello");
     });
 
     it("Insert", () => {
@@ -13,7 +13,7 @@ describe("StringBuilder", () => {
         sb.append("hello");
         sb.append("world");
         sb.insert(5, "-", 2);
-        expect(sb.ToString()).toBe("hello--world");
+        expect(sb.toString()).toBe("hello--world");
     });
 
 });

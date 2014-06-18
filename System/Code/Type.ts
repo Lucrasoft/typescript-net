@@ -8,6 +8,7 @@ JSString = window["String"];
 
 module System {
 
+
     export class Type {
 
         // *** STATIC 
@@ -17,28 +18,30 @@ module System {
 
 
         private obj: any;
+        private implementations: string[] = [];
+
+        public name: string;
 
         public isRuntimeType: boolean = false;
         public isClass: boolean = false;
         public isInterface: boolean = false;
+        public isEnum: boolean = false;
 
-        public implementations: string[] = [];
-        public name: string;
-        
-     
-       static registerClass(_class: any, name: string, interfaces: string[]): Type {
+
+
+        static registerClass(_class: any, name: string, interfaces: string[]): Type {
             var res = new Type();
             res.isClass = true;
             res.name = name;
             res.obj = _class;
             res.implementations.concat(interfaces);
+
             Type._types.push(res);
             return res;
-       }
+        }
 
 
-        static registerInterface(name: string);
-        static registerInterface(name: string, parent? : string) {
+        static registerInterface(name: string, parent?: string) {
             var res = new Type();
             res.isInterface = true;
             res.name = name;
@@ -48,8 +51,16 @@ module System {
             Type._types.push(res);
         }
 
+        static registerEnum(_enum: any, name: string) {
+            var res = new Type();
+            res.isEnum = true;
+            res.name = name;
+            res.obj = _enum;
+            Type._types.push(res);
+            return res;
+        }
 
-        // Idea was to register the JS internal types as well : string, number, function, object, etc. 
+        // Idea was to register the JS internal types as well : string, number, function, object, etc.
         private static registerInternal(_type: any, name: string): Type {
             var res = new Type();
             res.isRuntimeType = true;

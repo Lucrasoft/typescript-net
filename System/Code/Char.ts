@@ -23,8 +23,8 @@ module System {
     //* docu: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
 
 
-    export class Char implements IConvertible, IComparable<Char>, IEquatable<Char>{
-        private static _type: Type = System.Type.registerClass(Char, "System.Char", ["System.IConvertible", "System.IComparable", "System.IEquatable"]);
+    export class Char extends System.Object implements IConvertible, IComparable<Char>, IEquatable<Char>{
+        static _type: Type = System.Type.registerClass(Char, "System.Char", ["System.IConvertible", "System.IComparable", "System.IEquatable"]);
 
 
 
@@ -40,6 +40,7 @@ module System {
         constructor(c: string, index: number);
 
         constructor(c: any, index: number= 0) {
+            super();
             var cc = Char.__checkAndConvertArgument(c, index);
             this.value = cc;
         }
@@ -429,6 +430,7 @@ module System {
 		}
 
 	
+
 
 		// =========== IConvertible Methods =========== //
 
