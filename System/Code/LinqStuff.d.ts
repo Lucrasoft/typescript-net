@@ -7,13 +7,13 @@ export declare class Yielder {
 export declare class EnumeratorImpl<T> implements System.IEnumerator<T> {
     private initialize;
     private tryGetNext;
-    private dispose;
+    private Dispose;
     private yielder;
     private state;
     private initializefunc;
-    constructor(initialize: Function, tryGetNext: Function, dispose: Function);
-    public Current : T;
-    public MoveNext(): boolean;
-    public Reset(): void;
-    public Dispose(): void;
+    constructor(initialize: Function, tryGetNext: Function, Dispose: Function);
+    public current : T;
+    public moveNext(): boolean;
+    public reset(): void;
+    public dispose(): void;
 }

@@ -3,7 +3,7 @@
     describe("Char", () => {
 
         it("should init correctly by number", () => {
-            expect(new System.Char(65).ToString()).toBe("A");
+            expect(new System.Char(65).toString()).toBe("A");
         });
 
         it("should init correctly by string", () => {
@@ -11,7 +11,7 @@
         });
 
         it("should convert a number character to a numeric value", () => {
-            expect(System.Char.GetNumericValue("5")).toBe(5);
+            expect(System.Char.getNumericValue("5")).toBe(5);
         });
 
     });

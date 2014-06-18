@@ -12,7 +12,7 @@ module System {
     //TODO : IConvertible
     export class Int16 extends IntBase implements IFormattable, IComparable<Int16>, IEquatable<Int16>, IObject {
 
-        private static _type: Type = System.Type.registerClass(Int32, "System.Int16", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
+        static _type: Type = System.Type.registerClass(Int32, "System.Int16", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
 
         public static MaxValue: number = 32767;
         public static MinValue: number = -32768;

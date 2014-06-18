@@ -17,7 +17,7 @@ module System {
     //TODO : IConvertible
     export class IntBase implements IFormattable, IComparable<IntBase>, IEquatable<IntBase>, IObject {
 
-        private static type: Type = System.Type.registerClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
+        static _type: Type = System.Type.registerClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
 
    
         private value: number;
@@ -90,7 +90,7 @@ module System {
 
 
         //IObject
-        getType(): Type { return IntBase.type; }
+        getType(): Type { return IntBase._type; }
     }
 
 

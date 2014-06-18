@@ -9,48 +9,50 @@ JSString = window["String"];
 module System {
 
     export class Type {
-     
-
-
-        private obj: Object;
-        public IsRuntimeType: boolean = false;
-        public IsClass: boolean = false;
-        public IsInterface: boolean = false;
-
-        public implementations: string[] = [];
-        public name: string;
-
 
         // *** STATIC 
 
         //List of all the types
         private static _types: Type[] = Type.InitializeType();
 
+
+        private obj: any;
+
+        public isRuntimeType: boolean = false;
+        public isClass: boolean = false;
+        public isInterface: boolean = false;
+
+        public implementations: string[] = [];
+        public name: string;
         
      
        static registerClass(_class: any, name: string, interfaces: string[]): Type {
             var res = new Type();
-            res.IsClass = true;
+            res.isClass = true;
             res.name = name;
             res.obj = _class;
             res.implementations.concat(interfaces);
             Type._types.push(res);
             return res;
-        }
+       }
 
 
-        static registerInterface(name: string) {
+        static registerInterface(name: string);
+        static registerInterface(name: string, parent? : string) {
             var res = new Type();
-            res.IsInterface = true;
+            res.isInterface = true;
             res.name = name;
+            if (parent) {
+                res.implementations.push(parent);
+            }
             Type._types.push(res);
         }
 
 
         // Idea was to register the JS internal types as well : string, number, function, object, etc. 
-        private static RegisterInternal(_type: any, name: string): Type {
+        private static registerInternal(_type: any, name: string): Type {
             var res = new Type();
-            res.IsRuntimeType = true;
+            res.isRuntimeType = true;
             res.obj = _type;
             res.name = (typeof _type);
             return res;
@@ -71,9 +73,9 @@ module System {
 
         private static InitializeType(): Type[] {
             var res: Type[] = [];
-            res.push(Type.RegisterInternal(Number, typeof 0));
-            res.push(Type.RegisterInternal(JSString, typeof ""));
-            res.push(Type.RegisterInternal(Boolean, typeof true));
+            res.push(Type.registerInternal(Number, typeof 0));
+            res.push(Type.registerInternal(JSString, typeof ""));
+            res.push(Type.registerInternal(Boolean, typeof true));
             return res;
         }
 

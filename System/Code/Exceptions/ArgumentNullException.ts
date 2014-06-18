@@ -7,7 +7,7 @@ module System {
 
     export class ArgumentNullException extends ArgumentException implements IObject {
 
-        private static _type: Type = System.Type.registerClass(ArgumentNullException, "System.ArgumentNullException", []);
+        static _type: Type = System.Type.registerClass(ArgumentNullException, "System.ArgumentNullException", []);
 
         constructor(message?: string, innerException?: System.Exception, paramName?: string) {
             super(message, innerException, paramName);

@@ -12,11 +12,11 @@ module System.Collections.Generic {
         public changecount: number = 0;
 
 
-        public get Count() : number {
+        public get count() : number {
             return this.list.length;
         }
 
-        public get IsReadOnly(): boolean {
+        public get isReadOnly(): boolean {
             return false;
         }
 
@@ -111,7 +111,7 @@ module System.Collections.Generic {
 
         moveNext(): boolean {
 
-            if (this.index < this.interalList.Count) {
+            if (this.index < this.interalList.count) {
                 this.current = this.interalList.indexer(this.index);
                 this.index++;
                 return true;
@@ -119,7 +119,7 @@ module System.Collections.Generic {
 
             this.checkChangeCount();
 
-            this.index = this.interalList.Count + 1;
+            this.index = this.interalList.count + 1;
             this.current = null;
             return false;
         }

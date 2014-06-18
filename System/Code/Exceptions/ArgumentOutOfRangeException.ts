@@ -7,7 +7,7 @@ module System {
     
     export class ArgumentOutOfRangeException extends ArgumentException implements IObject {
 
-        private static _type: Type = System.Type.registerClass(ArgumentOutOfRangeException, "System.ArgumentOutOfRangeException", []);
+        static _type: Type = System.Type.registerClass(ArgumentOutOfRangeException, "System.ArgumentOutOfRangeException", []);
 
         constructor(message?: string, innerException?: System.Exception, paramName?: string) {
             super(message, innerException, paramName);

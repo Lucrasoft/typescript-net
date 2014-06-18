@@ -445,7 +445,7 @@ module System {
 
 
         static parseFormat(format: string): GuidFormat {
-            if (String.IsNullOrEmpty(format))
+            if (String.isNullOrEmpty(format))
                 return GuidFormat.D;
 
             switch (format[0]) {

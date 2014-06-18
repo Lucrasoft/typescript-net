@@ -12,51 +12,51 @@ declare module System {
 }
 declare module System {
     interface IObject {
-        GetType(): System.Type;
+        getType(): Type;
     }
 }
 declare var JSString: any;
 declare module System {
     class Type {
+        private static _types;
         private obj;
-        public IsRuntimeType: boolean;
-        public IsClass: boolean;
-        public IsInterface: boolean;
+        public isRuntimeType: boolean;
+        public isClass: boolean;
+        public isInterface: boolean;
         public implementations: string[];
         public name: string;
-        private static _types;
-        static RegisterClass(_class: any, name: string, interfaces: string[]): Type;
-        static RegisterInterface(name: string): void;
-        private static RegisterInternal(_type, name);
-        static GetTypeName(obj: any): string;
+        static registerClass(_class: any, name: string, interfaces: string[]): Type;
+        static registerInterface(name: string): any;
+        private static registerInternal(_type, name);
+        static getTypeName(obj: any): string;
         private static InitializeType();
     }
 }
 declare module System {
-    class Exception implements Error, System.IObject {
-        private static _type;
+    class Exception implements Error, IObject {
+        private static type;
         public name : string;
         public message: string;
         private err;
         constructor(message?: string, innerException?: Exception);
-        public GetType(): System.Type;
+        public getType(): Type;
     }
 }
 declare module System {
-    class NotImplementedException extends System.Exception implements System.IObject {
+    class NotImplementedException extends Exception implements IObject {
         private static _type;
-        constructor(message?: string, innerException?: System.Exception);
-        public GetType(): System.Type;
+        constructor(message?: string, innerException?: Exception);
+        public getType(): Type;
     }
 }
 declare module System {
-    class Attribute implements System.IObject {
-        private static _type;
+    class Attribute implements IObject {
+        private static type;
         constructor();
-        static GetCustomAttribute(element: System.IObject, attributeType: System.Type): Attribute;
-        static IsDefined(element: System.IObject, attributeType: System.Type, inherit: boolean): boolean;
-        static GetCustomAttributes(): Attribute[];
-        public GetType(): System.Type;
+        static getCustomAttribute(element: IObject, attributeType: Type): Attribute;
+        static isDefined(element: IObject, attributeType: Type, inherit: boolean): boolean;
+        static getCustomAttributes(): Attribute[];
+        public getType(): Type;
     }
 }
 declare module System {
@@ -80,39 +80,40 @@ declare module System {
     }
 }
 declare module System {
-    class AttributeUsageAttribute extends System.Attribute implements System.IObject {
+    class AttributeUsageAttribute extends Attribute implements IObject {
         private static _type;
         private valid_on;
         public Inherited: boolean;
         public AllowMultiple: boolean;
-        constructor(validOn: System.AttributeTargets);
-        public ValidOn : System.AttributeTargets;
-        public GetType(): System.Type;
+        constructor(validOn: AttributeTargets);
+        public validOn : AttributeTargets;
+        public getType(): Type;
     }
 }
 declare module System {
     interface IDisposable {
-        Dispose(): void;
+        dispose(): void;
     }
 }
 declare module System {
-    interface IEnumerator<T> extends System.IDisposable {
-        Current: T;
-        MoveNext(): boolean;
-        Reset(): void;
+    interface IEnumerator<T> extends IDisposable {
+        current: T;
+        moveNext(): boolean;
+        reset(): void;
     }
 }
 declare module System {
     interface IEnumberable<T> {
-        GetEnumerator(): System.IEnumerator<T>;
+        getEnumerator(): IEnumerator<T>;
     }
 }
 declare module System {
     class Statements {
-        static ForEach<T>(collection: System.IEnumberable<T>, callback: System.Action<T>): void;
+        static forEach<T>(collection: IEnumberable<T>, callback: Action<T>): void;
+        static as<T>(object: any, TofT: Type): T;
         static Implements(object: any, Interface: string): void;
-        static TypeOf(object: any): System.IObject;
-        static Is(object: any, type: System.Type): boolean;
+        static typeOf(object: any): Type;
+        static is(object: any, type: Type): boolean;
     }
 }
 declare module System {
@@ -126,38 +127,38 @@ declare module System {
 }
 declare module System {
     interface IFormatProvider {
-        GetFormat(formatType: System.Type): System.IObject;
+        getFormat(formatType: Type): IObject;
     }
 }
 declare module System {
     interface IFormattable {
-        ToString(format: string, formatProvider: System.IFormatProvider): string;
+        toString(format: string, formatProvider: IFormatProvider): string;
     }
 }
 declare module System {
     interface IEquatable<T> {
-        Equals(other: T): boolean;
+        equals(other: T): boolean;
     }
 }
 declare module System {
     interface IComparable<T> {
-        CompareTo(other: T): number;
+        compareTo(other: T): number;
     }
 }
 declare module System {
-    class ArgumentException extends System.Exception implements System.IObject {
-        private static _type;
+    class ArgumentException extends Exception implements IObject {
+        static _type: Type;
         public paramName: string;
-        constructor(message?: string, innerException?: System.Exception, paramName?: string);
+        constructor(message?: string, innerException?: Exception, paramName?: string);
         public toString(): string;
-        public GetType(): System.Type;
+        public getType(): Type;
     }
 }
 declare module System {
-    class ArgumentNullException extends System.ArgumentException implements System.IObject {
-        private static _type;
-        constructor(message?: string, innerException?: System.Exception, paramName?: string);
-        public GetType(): System.Type;
+    class ArgumentNullException extends ArgumentException implements IObject {
+        static _type: Type;
+        constructor(message?: string, innerException?: Exception, paramName?: string);
+        public getType(): Type;
     }
 }
 declare module System.Globalization {
@@ -182,44 +183,28 @@ declare module System.Globalization {
     }
 }
 declare module System {
-    class IntBase implements System.IFormattable, System.IComparable<IntBase>, System.IEquatable<IntBase>, System.IObject {
-        private static _type;
+    class IntBase implements IFormattable, IComparable<IntBase>, IEquatable<IntBase>, IObject {
+        static _type: Type;
         private value;
         public Value : number;
         constructor(value: number);
-        public CompareTo(value: any): number;
-        public Equals(obj: any): boolean;
-        public GetHashCode(): number;
-        static Parse(s: string, style?: System.Globalization.NumberStyles, provider?: System.IFormatProvider): number;
-        static TryParse(s: string, result: System.OutArgument<number>, style?: System.Globalization.NumberStyles, provider?: System.IFormatProvider): boolean;
-        public ToString(format?: string, provider?: System.IFormatProvider): string;
-        public ToType(targetType: System.Type, provider: System.IFormatProvider): void;
-        public GetType(): System.Type;
+        public compareTo(value: any): number;
+        public equals(obj: any): boolean;
+        public getHashCode(): number;
+        static parse(s: string, style?: Globalization.NumberStyles, provider?: IFormatProvider): number;
+        static tryParse(s: string, result: OutArgument<number>, style?: Globalization.NumberStyles, provider?: IFormatProvider): boolean;
+        public ToString(format?: string, provider?: IFormatProvider): string;
+        public toType(targetType: Type, provider: IFormatProvider): void;
+        public getType(): Type;
     }
 }
 declare module System {
-    class Int32 extends System.IntBase implements System.IFormattable, System.IComparable<Int32>, System.IEquatable<Int32>, System.IObject {
-        private static _type;
+    class Int32 extends IntBase implements IFormattable, IComparable<Int32>, IEquatable<Int32>, IObject {
+        static _type: Type;
         static MaxValue: number;
         static MinValue: number;
         constructor(value: number);
-        public GetType(): System.Type;
-    }
-}
-declare module System.Runtime.Serialization {
-    interface ISerializable {
-        GetObjectData(info: Serialization.SerializationInfo, context: Serialization.StreamingContext): void;
-    }
-}
-declare module System.Collections.Generic {
-    class Dictionary<TKey, TValue> {
-    }
-}
-declare module System.Runtime.Serialization {
-    class SerializationInfo {
-        constructor();
-        public AddValue(name: string, value: any): void;
-        public GetString(name: string): string;
+        public getType(): Type;
     }
 }
 declare module System.Runtime.Serialization {
@@ -236,20 +221,32 @@ declare module System.Runtime.Serialization {
     }
 }
 declare module System.Runtime.Serialization {
-    class StreamingContext implements System.IObject {
+    class StreamingContext implements IObject {
         private static _type;
-        public state: Serialization.StreamingContextStates;
+        public state: StreamingContextStates;
         public additional: any;
-        constructor(state: Serialization.StreamingContextStates, additional?: any);
+        constructor(state: StreamingContextStates, additional?: any);
         public Context : any;
-        public State : Serialization.StreamingContextStates;
-        public Equals(obj: any): boolean;
-        public GetHashCode(): number;
-        public GetType(): System.Type;
+        public State : StreamingContextStates;
+        public equals(obj: any): boolean;
+        public getHashCode(): number;
+        public getType(): Type;
+    }
+}
+declare module System.Runtime.Serialization {
+    class SerializationInfo {
+        constructor();
+        public addValue(name: string, value: any): void;
+        public getString(name: string): string;
+    }
+}
+declare module System.Runtime.Serialization {
+    interface ISerializable {
+        getObjectData(info: SerializationInfo, context: StreamingContext): void;
     }
 }
 declare module System.Text {
-    class StringBuilder implements System.Runtime.Serialization.ISerializable, System.IObject {
+    class StringBuilder implements Runtime.Serialization.ISerializable, IObject {
         private static _type;
         private _str;
         constructor(value?: string);
@@ -257,39 +254,27 @@ declare module System.Text {
         public Length : number;
         public toString(): string;
         public ToString(startIndex?: number, length?: number): string;
-        public Equals(sb: StringBuilder): boolean;
-        public Remove(startIndex: number, length: number): StringBuilder;
-        public Replace(oldValue: string, newValue: string): StringBuilder;
-        public Append(value: any): StringBuilder;
-        public Clear(): StringBuilder;
-        public AppendLine(value?: string): StringBuilder;
-        public AppendFormat(format: string, ...args: any[]): StringBuilder;
+        public equals(sb: StringBuilder): boolean;
+        public remove(startIndex: number, length: number): StringBuilder;
+        public replace(oldValue: string, newValue: string): StringBuilder;
+        public append(value: any): StringBuilder;
+        public clear(): StringBuilder;
+        public appendLine(value?: string): StringBuilder;
+        public appendFormat(format: string, ...args: any[]): StringBuilder;
         private InsertInternal(index, value);
-        public Insert(index: number, value: string, count?: number): StringBuilder;
-        public GetType(): System.Type;
-        public GetObjectData(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext): void;
-        static ctor_Serializable(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext): StringBuilder;
+        public insert(index: number, value: string, count?: number): StringBuilder;
+        public getType(): Type;
+        public getObjectData(info: Runtime.Serialization.SerializationInfo, context: Runtime.Serialization.StreamingContext): void;
+        static ctor_Serializable(info: Runtime.Serialization.SerializationInfo, context: Runtime.Serialization.StreamingContext): StringBuilder;
     }
 }
 declare module System {
-    class BitConverter {
-        static IsLittleEndian: boolean;
-        private static AmILittleEndian();
-        static GetBytes(value: any): Uint8Array;
-        private static GetBytes_Boolean(value);
-        static GetBytes_String(value: string): Uint8Array;
-        static GetBytes_Int16(value: number): Uint8Array;
-        static GetBytes_Int32(value: number): Uint8Array;
-        static ToBoolean(value: Uint8Array, startIndex: number): boolean;
-        static ToChar(value: Uint8Array, startIndex: number): System.Char;
-        static ToInt16(value: Uint8Array, startIndex: number): System.Int16;
-        static ToInt32(value: Uint8Array, startIndex: number): System.Int32;
-        static ToString(value: Uint8Array, startIndex: number, length: number): string;
-        private static __internalCheckParam(value, startIndex, length);
-    }
-}
-declare module System {
-    class Byte {
+    class String implements IObject {
+        private static _type;
+        static empty : string;
+        static format(value: string, ...replacements: any[]): string;
+        static isNullOrEmpty(value: string): boolean;
+        public getType(): Type;
     }
 }
 declare module System {
@@ -316,10 +301,10 @@ declare module System {
 }
 declare module System {
     interface IConvertible {
-        GetTypeCode(): System.TypeCode;
-        ToNumber(provider: System.IFormatProvider): number;
-        ToString(provider: System.IFormatProvider): string;
-        ToBoolean(provider: System.IFormatProvider): boolean;
+        getTypeCode(): TypeCode;
+        toNumber(provider: IFormatProvider): number;
+        toString(provider: IFormatProvider): string;
+        toBoolean(provider: IFormatProvider): boolean;
     }
 }
 declare module System.Globalization {
@@ -357,7 +342,32 @@ declare module System.Globalization {
     }
 }
 declare module System {
-    class Char implements System.IConvertible, System.IComparable<Char>, System.IEquatable<Char> {
+    class ArgumentOutOfRangeException extends ArgumentException implements IObject {
+        static _type: Type;
+        constructor(message?: string, innerException?: Exception, paramName?: string);
+        public getType(): Type;
+    }
+}
+declare module System {
+    class InvalidCastException extends Exception implements IObject {
+        private static _type;
+        constructor(message?: string, innerException?: Exception);
+        public getType(): Type;
+    }
+}
+declare module System {
+    class FormatException extends Exception implements IObject {
+        private static _type;
+        constructor(message?: string, innerException?: Exception);
+        public getType(): Type;
+    }
+}
+declare module System.Globalization {
+    class CultureInfo {
+    }
+}
+declare module System {
+    class Char implements IConvertible, IComparable<Char>, IEquatable<Char> {
         private static _type;
         static MaxValue: number;
         static MinValue: number;
@@ -365,99 +375,122 @@ declare module System {
         constructor(c: number);
         constructor(c: string);
         constructor(c: string, index: number);
-        public Equals(obj: any): boolean;
-        public CompareTo(other: Char): number;
-        static ConvertFromUtf32(utf32: number): string;
+        public equals(obj: any): boolean;
+        public compareTo(other: Char): number;
+        static convertFromUtf32(utf32: number): string;
         private static __checkAndConvertArgument(arg, index);
-        static ConvertToUtf32(highSurrogate: string, lowSurrogate: string): number;
-        static ConvertToUtf32(highSurrogate: number, lowSurrogate: number): number;
-        static ConvertToUtf32(highSurrogate: Char, lowSurrogate: Char): number;
-        static ConvertToUtf32FromString(s: string, index: number): number;
-        static IsSurrogatePair(highSurrogate: Char, lowSurrogate: Char): boolean;
-        static IsSurrogatePair(highSurrogate: string, lowSurrogate: string): boolean;
-        static IsSurrogatePair(highSurrogate: number, lowSurrogate: number): boolean;
-        static IsSurrogatePairString(s: string, index: number): boolean;
-        public GetHashCode(): number;
-        static GetNumericValue(c: number): number;
-        static GetNumericValue(c: string): number;
-        static GetNumericValue(c: string, index: number): number;
-        static GetNumericValue(c: Char): number;
-        static GetUnicodeCategory(c: Char): System.Globalization.UnicodeCategory;
-        static GetUnicodeCategory(c: string): System.Globalization.UnicodeCategory;
-        static GetUnicodeCategory(c: string, index: number): System.Globalization.UnicodeCategory;
-        static GetUnicodeCategory(c: number): System.Globalization.UnicodeCategory;
-        static IsControl(c: Char): boolean;
-        static IsControl(c: string): boolean;
-        static IsControl(c: string, index: number): boolean;
-        static IsControl(c: number): boolean;
-        static IsDigit(c: Char): boolean;
-        static IsDigit(c: string): boolean;
-        static IsDigit(c: string, index: number): boolean;
-        static IsDigit(c: number): boolean;
-        static IsHighSurrogate(c: Char): boolean;
-        static IsHighSurrogate(c: string): boolean;
-        static IsHighSurrogate(c: string, index: number): boolean;
-        static IsHighSurrogate(c: number): boolean;
-        static IsLetter(c: Char): boolean;
-        static IsLetter(c: string): boolean;
-        static IsLetter(c: string, index: number): boolean;
-        static IsLetter(c: number): boolean;
-        static IsLetterOrDigit(c: Char): boolean;
-        static IsLetterOrDigit(c: string): boolean;
-        static IsLetterOrDigit(c: string, index: number): boolean;
-        static IsLetterOrDigit(c: number): boolean;
-        static IsLower(c: Char): boolean;
-        static IsLower(c: string): boolean;
-        static IsLower(c: string, index: number): boolean;
-        static IsLower(c: number): boolean;
-        static IsLowSurrogate(c: Char): boolean;
-        static IsLowSurrogate(c: string): boolean;
-        static IsLowSurrogate(c: string, index: number): boolean;
-        static IsLowSurrogate(c: number): boolean;
-        static IsNumber(c: Char): boolean;
-        static IsNumber(c: string): boolean;
-        static IsNumber(c: string, index: number): boolean;
-        static IsNumber(c: number): boolean;
-        static IsPunctuation(c: Char): boolean;
-        static IsPunctuation(c: string): boolean;
-        static IsPunctuation(c: string, index: number): boolean;
-        static IsPunctuation(c: number): boolean;
-        static IsSeparator(c: Char): boolean;
-        static IsSeparator(c: string): boolean;
-        static IsSeparator(c: string, index: number): boolean;
-        static IsSeparator(c: number): boolean;
-        static IsSurrogate(c: Char): boolean;
-        static IsSurrogate(c: string): boolean;
-        static IsSurrogate(c: string, index: number): boolean;
-        static IsSurrogate(c: number): boolean;
-        static IsSymbol(c: Char): boolean;
-        static IsSymbol(c: string): boolean;
-        static IsSymbol(c: string, index: number): boolean;
-        static IsSymbol(c: number): boolean;
-        static IsUpper(c: Char): boolean;
-        static IsUpper(c: string): boolean;
-        static IsUpper(c: string, index: number): boolean;
-        static IsUpper(c: number): boolean;
-        static IsWhiteSpace(c: Char): boolean;
-        static IsWhiteSpace(c: string): boolean;
-        static IsWhiteSpace(c: string, index: number): boolean;
-        static IsWhiteSpace(c: number): boolean;
+        static convertToUtf32(highSurrogate: string, lowSurrogate: string): number;
+        static convertToUtf32(highSurrogate: number, lowSurrogate: number): number;
+        static convertToUtf32(highSurrogate: Char, lowSurrogate: Char): number;
+        static convertToUtf32FromString(s: string, index: number): number;
+        static isSurrogatePair(highSurrogate: Char, lowSurrogate: Char): boolean;
+        static isSurrogatePair(highSurrogate: string, lowSurrogate: string): boolean;
+        static isSurrogatePair(highSurrogate: number, lowSurrogate: number): boolean;
+        static isSurrogatePairString(s: string, index: number): boolean;
+        public getHashCode(): number;
+        static getNumericValue(c: number): number;
+        static getNumericValue(c: string): number;
+        static getNumericValue(c: string, index: number): number;
+        static getNumericValue(c: Char): number;
+        static getUnicodeCategory(c: Char): Globalization.UnicodeCategory;
+        static getUnicodeCategory(c: string): Globalization.UnicodeCategory;
+        static getUnicodeCategory(c: string, index: number): Globalization.UnicodeCategory;
+        static getUnicodeCategory(c: number): Globalization.UnicodeCategory;
+        static isControl(c: Char): boolean;
+        static isControl(c: string): boolean;
+        static isControl(c: string, index: number): boolean;
+        static isControl(c: number): boolean;
+        static isDigit(c: Char): boolean;
+        static isDigit(c: string): boolean;
+        static isDigit(c: string, index: number): boolean;
+        static isDigit(c: number): boolean;
+        static isHighSurrogate(c: Char): boolean;
+        static isHighSurrogate(c: string): boolean;
+        static isHighSurrogate(c: string, index: number): boolean;
+        static isHighSurrogate(c: number): boolean;
+        static isLetter(c: Char): boolean;
+        static isLetter(c: string): boolean;
+        static isLetter(c: string, index: number): boolean;
+        static isLetter(c: number): boolean;
+        static isLetterOrDigit(c: Char): boolean;
+        static isLetterOrDigit(c: string): boolean;
+        static isLetterOrDigit(c: string, index: number): boolean;
+        static isLetterOrDigit(c: number): boolean;
+        static isLower(c: Char): boolean;
+        static isLower(c: string): boolean;
+        static isLower(c: string, index: number): boolean;
+        static isLower(c: number): boolean;
+        static isLowSurrogate(c: Char): boolean;
+        static isLowSurrogate(c: string): boolean;
+        static isLowSurrogate(c: string, index: number): boolean;
+        static isLowSurrogate(c: number): boolean;
+        static isNumber(c: Char): boolean;
+        static isNumber(c: string): boolean;
+        static isNumber(c: string, index: number): boolean;
+        static isNumber(c: number): boolean;
+        static isPunctuation(c: Char): boolean;
+        static isPunctuation(c: string): boolean;
+        static isPunctuation(c: string, index: number): boolean;
+        static isPunctuation(c: number): boolean;
+        static isSeparator(c: Char): boolean;
+        static isSeparator(c: string): boolean;
+        static isSeparator(c: string, index: number): boolean;
+        static isSeparator(c: number): boolean;
+        static isSurrogate(c: Char): boolean;
+        static isSurrogate(c: string): boolean;
+        static isSurrogate(c: string, index: number): boolean;
+        static isSurrogate(c: number): boolean;
+        static isSymbol(c: Char): boolean;
+        static isSymbol(c: string): boolean;
+        static isSymbol(c: string, index: number): boolean;
+        static isSymbol(c: number): boolean;
+        static isUpper(c: Char): boolean;
+        static isUpper(c: string): boolean;
+        static isUpper(c: string, index: number): boolean;
+        static isUpper(c: number): boolean;
+        static isWhiteSpace(c: Char): boolean;
+        static isWhiteSpace(c: string): boolean;
+        static isWhiteSpace(c: string, index: number): boolean;
+        static isWhiteSpace(c: number): boolean;
         private static __internalCheckParameters(s, index);
-        static TryParse(s: string, result: System.OutArgument<Char>): boolean;
-        static Parse(s: string): Char;
-        static ToLower(c: Char, culture?: System.Globalization.CultureInfo): Char;
-        static ToLowerInvariant(c: Char): Char;
-        static ToLowerInvariant(c: string): Char;
-        static ToLowerInvariant(c: number): Char;
-        static ToUpper(c: Char, culture?: System.Globalization.CultureInfo): Char;
-        static ToUpperInvariant(c: Char): Char;
-        static ToUpperInvariant(c: string): Char;
-        static ToUpperInvariant(c: number): Char;
-        public ToString(provider?: System.IFormatProvider): string;
-        static ToString(c: Char): string;
-        public GetTypeCode(): System.TypeCode;
-        public ToNumber(provider: System.IFormatProvider): number;
-        public ToBoolean(provider: System.IFormatProvider): boolean;
+        static tryParse(s: string, result: OutArgument<Char>): boolean;
+        static parse(s: string): Char;
+        static toLower(c: Char, culture?: Globalization.CultureInfo): Char;
+        static toLowerInvariant(c: Char): Char;
+        static toLowerInvariant(c: string): Char;
+        static toLowerInvariant(c: number): Char;
+        static toUpper(c: Char, culture?: Globalization.CultureInfo): Char;
+        static toUpperInvariant(c: Char): Char;
+        static toUpperInvariant(c: string): Char;
+        static toUpperInvariant(c: number): Char;
+        public toString(provider?: IFormatProvider): string;
+        static toString(c: Char): string;
+        public getTypeCode(): TypeCode;
+        public toNumber(provider: IFormatProvider): number;
+        public toBoolean(provider: IFormatProvider): boolean;
+    }
+}
+declare module System {
+    class BitConverter {
+        static IsLittleEndian: boolean;
+        private static AmILittleEndian();
+        static getBytes(value: any): Uint8Array;
+        private static GetBytes_Boolean(value);
+        static getBytes_String(value: string): Uint8Array;
+        static getBytes_Int16(value: number): Uint8Array;
+        static getBytes_Int32(value: number): Uint8Array;
+        static toBoolean(value: Uint8Array, startIndex: number): boolean;
+        static toChar(value: Uint8Array, startIndex: number): Char;
+        static toInt16(value: Uint8Array, startIndex: number): Int16;
+        static toInt32(value: Uint8Array, startIndex: number): Int32;
+        static toString(value: Uint8Array, startIndex: number, length: number): string;
+        private static __internalCheckParam(value, startIndex, length);
+    }
+}
+declare module System {
+    class Byte {
+        static MinValue: number;
+        static MaxValue: number;
     }
 }
 declare module System {
@@ -471,22 +504,27 @@ declare module System {
     }
 }
 declare module System {
-    interface Func<TResult, T, T1, T2, T3> {
+    interface Func<TResult> {
         (): TResult;
     }
-    interface Func<TResult, T, T1, T2, T3> {
+    interface Func1<T, TResult> {
         (arg: T): TResult;
     }
-    interface Func<TResult, T, T1, T2, T3> {
+    interface Func2<T1, T2, TResult> {
         (arg1: T1, arg2: T2): TResult;
     }
-    interface Func<TResult, T, T1, T2, T3> {
+    interface Func3<T1, T2, T3, TResult> {
         (arg1: T1, arg2: T2, arg3: T3): TResult;
     }
 }
 declare module System {
-    class Guid implements System.ICloneable, System.IObject {
-        static _type: System.Type;
+    interface ICloneable {
+        clone(): any;
+    }
+}
+declare module System {
+    class Guid implements ICloneable, IObject {
+        static _type: Type;
         private _a;
         private _b;
         private _c;
@@ -502,36 +540,36 @@ declare module System {
         constructor(byteArray: Uint8Array);
         constructor(guidString: string);
         constructor(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number);
-        static NewGuid(): Guid;
+        static newGuid(): Guid;
         private static CreateFormatException(s);
-        static Construct_numbers(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number): Guid;
-        static Empty: Guid;
-        public Equals(o: any): boolean;
+        static construct_numbers(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number): Guid;
+        static empty: Guid;
+        public equals(o: any): boolean;
         private static __internalCompare(x, y);
-        public CompareTo(value: Guid): number;
-        public GetHashCode(): number;
+        public compareTo(value: Guid): number;
+        public getHashCode(): number;
         private static ToHex(b);
-        public ToByteArray(): Uint8Array;
-        private static AppendInt(builder, value);
-        private static AppendShort(builder, value);
-        private static AppendByte(builder, value);
-        public ToString2(): string;
-        public ToString3(format?: string): string;
-        public ToString(): string;
-        public ToString(format: GuidFormat): string;
-        public ToString(format: string): string;
+        public toByteArray(): Uint8Array;
+        private static appendInt(builder, value);
+        private static appendShort(builder, value);
+        private static appendByte(builder, value);
+        public toString2(): string;
+        public toString3(format?: string): string;
+        public toString(): string;
+        public toString(format: GuidFormat): string;
+        public toString(format: string): string;
         static op_Equality(a: Guid, b: Guid): boolean;
         static op_Inequality(a: Guid, b: Guid): boolean;
-        static Parse(input: string): Guid;
-        static ParseExact(input: string, format: string): Guid;
-        static TryParse(input: string, result: System.OutArgument<Guid>): boolean;
-        static TryParseExact(input: string, format: string, result: System.OutArgument<Guid>): boolean;
-        static ParseFormat(format: string): GuidFormat;
+        static parse(input: string): Guid;
+        static parseExact(input: string, format: string): Guid;
+        static tryParse(input: string, result: OutArgument<Guid>): boolean;
+        static tryParseExact(input: string, format: string, result: OutArgument<Guid>): boolean;
+        static parseFormat(format: string): GuidFormat;
         private static CheckNull(o);
         private static CheckLength(o, l);
         private static CheckArray(o, l);
-        public Clone(): Guid;
-        public GetType(): System.Type;
+        public clone(): Guid;
+        public getType(): Type;
     }
     enum GuidFormat {
         N = 0,
@@ -542,46 +580,37 @@ declare module System {
     }
 }
 declare module System {
-    class Int16 extends System.IntBase implements System.IFormattable, System.IComparable<Int16>, System.IEquatable<Int16>, System.IObject {
-        private static _type;
+    class Int16 extends IntBase implements IFormattable, IComparable<Int16>, IEquatable<Int16>, IObject {
+        static _type: Type;
         static MaxValue: number;
         static MinValue: number;
         constructor(value: number);
-        public GetType(): System.Type;
+        public getType(): Type;
     }
 }
 declare module System {
-    class String implements System.IObject {
-        private static _type;
-        static Empty : string;
-        static Format(value: string, ...replacements: any[]): string;
-        static IsNullOrEmpty(value: string): boolean;
-        public GetType(): System.Type;
-    }
-}
-declare module System {
-    interface ICollection<T> extends System.IEnumberable<T> {
-        Count: number;
-        IsReadOnly: boolean;
-        Add(item: T): void;
-        Clear(): void;
-        Contains(item: T): boolean;
-        CopyTo(array: T[], arrayIndex: number): void;
-        Remove(item: T): boolean;
+    interface ICollection<T> extends IEnumberable<T> {
+        count: number;
+        isReadOnly: boolean;
+        add(item: T): void;
+        clear(): void;
+        contains(item: T): boolean;
+        copyTo(array: T[], arrayIndex: number): void;
+        remove(item: T): boolean;
     }
 }
 declare module System.Collections.Generic {
-    interface IList<T> extends System.ICollection<T> {
-        Indexer(index: number): T;
-        IndexOf(item: T): number;
-        RemoveAt(index: number): void;
-        Insert(index: number, item: T): void;
+    interface IList<T> extends ICollection<T> {
+        indexer(index: number): T;
+        indexOf(item: T): number;
+        removeAt(index: number): void;
+        insert(index: number, item: T): void;
     }
 }
 declare module System.Collections.Generic {
-    class KeyNotFoundException extends System.Exception implements System.IObject {
+    class KeyNotFoundException extends Exception implements IObject {
         private static _type;
-        public GetType(): System.Type;
+        public getType(): Type;
     }
 }
 declare module System.Collections.Generic {
@@ -595,60 +624,30 @@ declare module System.Collections.Generic {
     }
 }
 declare module System.Collections.Generic {
-    class List<T> implements Generic.IList<T>, System.IEnumberable<T>, System.IObject {
-        static _type: System.Type;
+    class List<T> implements IList<T>, IEnumberable<T>, IObject {
+        static _type: Type;
         private list;
         public changecount: number;
-        public Count : number;
-        public IsReadOnly : boolean;
-        public Add(item: T): void;
-        public Clear(): void;
-        public Contains(item: T): boolean;
-        public CopyTo(array: T[], arrayIndex: number): void;
-        public Remove(item: T): boolean;
-        public Indexer(index: number): T;
-        public IndexOf(item: T): number;
-        public RemoveAt(index: number): void;
-        public Insert(index: number, item: T): void;
-        public GetEnumerator(): System.IEnumerator<T>;
-        public GetType(): System.Type;
+        public count : number;
+        public isReadOnly : boolean;
+        public add(item: T): void;
+        public clear(): void;
+        public contains(item: T): boolean;
+        public copyTo(array: T[], arrayIndex: number): void;
+        public remove(item: T): boolean;
+        public indexer(index: number): T;
+        public indexOf(item: T): number;
+        public removeAt(index: number): void;
+        public insert(index: number, item: T): void;
+        public getEnumerator(): IEnumerator<T>;
+        public getType(): Type;
     }
 }
 declare module System {
-    class ArgumentOutOfRangeException extends System.ArgumentException implements System.IObject {
+    class InvalidOperationException extends Exception implements IObject {
         private static _type;
-        constructor(message?: string, innerException?: System.Exception, paramName?: string);
-        public GetType(): System.Type;
-    }
-}
-declare module System {
-    class FormatException extends System.Exception implements System.IObject {
-        private static _type;
-        constructor(message?: string, innerException?: System.Exception);
-        public GetType(): System.Type;
-    }
-}
-declare module System {
-    class InvalidCastException extends System.Exception implements System.IObject {
-        private static _type;
-        constructor(message?: string, innerException?: System.Exception);
-        public GetType(): System.Type;
-    }
-}
-declare module System {
-    class InvalidOperationException extends System.Exception implements System.IObject {
-        private static _type;
-        constructor(message?: string, innerException?: System.Exception);
-        public GetType(): System.Type;
-    }
-}
-declare module System.Globalization {
-    class CultureInfo {
-    }
-}
-declare module System {
-    interface ICloneable {
-        Clone(): any;
+        constructor(message?: string, innerException?: Exception);
+        public getType(): Type;
     }
 }
 declare module System.Runtime.Serialization {
@@ -658,12 +657,12 @@ declare module System.Runtime.Serialization {
 declare module System.Runtime.Serialization {
     class SerializationEntry {
         public name: string;
-        public objectType: System.Type;
+        public objectType: Type;
         public value: any;
         public Name : string;
-        public ObjectType : System.Type;
+        public ObjectType : Type;
         public Value : any;
-        constructor(name: string, type: System.Type, value: any);
+        constructor(name: string, type: Type, value: any);
     }
 }
 declare module System.Text {

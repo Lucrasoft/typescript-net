@@ -7,7 +7,7 @@ module System {
     export class ArgumentException extends Exception implements IObject
     {
         
-        private static _type = System.Type.registerClass(ArgumentException, "System.ArgumentException", []);
+        static _type = System.Type.registerClass(ArgumentException, "System.ArgumentException", []);
 
         public paramName: string;
 

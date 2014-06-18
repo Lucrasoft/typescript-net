@@ -24,7 +24,7 @@ module System {
 
 
     export class Char implements IConvertible, IComparable<Char>, IEquatable<Char>{
-        private static _type: Type = System.Type.RegisterClass(Char, "System.Char", ["System.IConvertible", "System.IComparable", "System.IEquatable"]);
+        private static _type: Type = System.Type.registerClass(Char, "System.Char", ["System.IConvertible", "System.IComparable", "System.IEquatable"]);
 
 
 

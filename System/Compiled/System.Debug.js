@@ -6,14 +6,14 @@ var System;
 (function (System) {
     var Type = (function () {
         function Type() {
-            this.IsRuntimeType = false;
-            this.IsClass = false;
-            this.IsInterface = false;
+            this.isRuntimeType = false;
+            this.isClass = false;
+            this.isInterface = false;
             this.implementations = [];
         }
-        Type.RegisterClass = function (_class, name, interfaces) {
+        Type.registerClass = function (_class, name, interfaces) {
             var res = new Type();
-            res.IsClass = true;
+            res.isClass = true;
             res.name = name;
             res.obj = _class;
             res.implementations.concat(interfaces);
@@ -21,29 +21,32 @@ var System;
             return res;
         };
 
-        Type.RegisterInterface = function (name) {
+        Type.registerInterface = function (name, parent) {
             var res = new Type();
-            res.IsInterface = true;
+            res.isInterface = true;
             res.name = name;
+            if (parent) {
+                res.implementations.push(parent);
+            }
             Type._types.push(res);
         };
 
         // Idea was to register the JS internal types as well : string, number, function, object, etc.
-        Type.RegisterInternal = function (_type, name) {
+        Type.registerInternal = function (_type, name) {
             var res = new Type();
-            res.IsRuntimeType = true;
+            res.isRuntimeType = true;
             res.obj = _type;
             res.name = (typeof _type);
             return res;
         };
 
-        Type.GetTypeName = function (obj) {
+        Type.getTypeName = function (obj) {
             if (!obj)
                 return "undefined";
             var str = typeof obj;
             if (str === "object") {
                 if (obj.hasOwnProperty("GetType")) {
-                    return obj.GetType().name;
+                    return obj.getType().name;
                 }
             }
             return str;
@@ -51,9 +54,9 @@ var System;
 
         Type.InitializeType = function () {
             var res = [];
-            res.push(Type.RegisterInternal(Number, typeof 0));
-            res.push(Type.RegisterInternal(JSString, typeof ""));
-            res.push(Type.RegisterInternal(Boolean, typeof true));
+            res.push(Type.registerInternal(Number, typeof 0));
+            res.push(Type.registerInternal(JSString, typeof ""));
+            res.push(Type.registerInternal(Boolean, typeof true));
             return res;
         };
         Type._types = Type.InitializeType();
@@ -61,6 +64,8 @@ var System;
     })();
     System.Type = Type;
 })(System || (System = {}));
+/// <reference path="../Type.ts"/>
+/// <reference path="../IObject.ts"/>
 var System;
 (function (System) {
     var Exception = (function () {
@@ -73,22 +78,24 @@ var System;
         }
         Object.defineProperty(Exception.prototype, "name", {
             get: function () {
-                return this.GetType().name;
+                return this.getType().name;
             },
             enumerable: true,
             configurable: true
         });
 
         //IObject
-        Exception.prototype.GetType = function () {
-            return Exception._type;
+        Exception.prototype.getType = function () {
+            return Exception.type;
         };
-        Exception._type = System.Type.RegisterClass(Exception, "System.Exception", []);
+        Exception.type = System.Type.registerClass(Exception, "System.Exception", []);
         return Exception;
     })();
     System.Exception = Exception;
 })(System || (System = {}));
 /// <reference path="Exception.ts" />
+/// <reference path="../IObject.ts"/>
+/// <reference path="../Type.ts"/>
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -103,10 +110,10 @@ var System;
             _super.call(this, message, innerException);
         }
         //IObject
-        NotImplementedException.prototype.GetType = function () {
+        NotImplementedException.prototype.getType = function () {
             return NotImplementedException._type;
         };
-        NotImplementedException._type = System.Type.RegisterClass(NotImplementedException, "System.NotImplementedException", []);
+        NotImplementedException._type = System.Type.registerClass(NotImplementedException, "System.NotImplementedException", []);
         return NotImplementedException;
     })(System.Exception);
     System.NotImplementedException = NotImplementedException;
@@ -120,23 +127,23 @@ var System;
         function Attribute() {
         }
         //Static methods
-        Attribute.GetCustomAttribute = function (element, attributeType) {
+        Attribute.getCustomAttribute = function (element, attributeType) {
             throw new System.NotImplementedException();
         };
 
-        Attribute.IsDefined = function (element, attributeType, inherit) {
+        Attribute.isDefined = function (element, attributeType, inherit) {
             throw new System.NotImplementedException();
         };
 
-        Attribute.GetCustomAttributes = function () {
+        Attribute.getCustomAttributes = function () {
             throw new System.NotImplementedException();
         };
 
         //IObject
-        Attribute.prototype.GetType = function () {
-            return Attribute._type;
+        Attribute.prototype.getType = function () {
+            return Attribute.type;
         };
-        Attribute._type = System.Type.RegisterClass(Attribute, "System.Attribute", []);
+        Attribute.type = System.Type.registerClass(Attribute, "System.Attribute", []);
         return Attribute;
     })();
     System.Attribute = Attribute;
@@ -176,7 +183,7 @@ var System;
             this.Inherited = true;
             this.valid_on = validOn;
         }
-        Object.defineProperty(AttributeUsageAttribute.prototype, "ValidOn", {
+        Object.defineProperty(AttributeUsageAttribute.prototype, "validOn", {
             get: function () {
                 return this.valid_on;
             },
@@ -185,10 +192,10 @@ var System;
         });
 
         //IObject
-        AttributeUsageAttribute.prototype.GetType = function () {
+        AttributeUsageAttribute.prototype.getType = function () {
             return AttributeUsageAttribute._type;
         };
-        AttributeUsageAttribute._type = System.Type.RegisterClass(System.Attribute, "System.Attribute", []);
+        AttributeUsageAttribute._type = System.Type.registerClass(System.Attribute, "System.Attribute", []);
         return AttributeUsageAttribute;
     })(System.Attribute);
     System.AttributeUsageAttribute = AttributeUsageAttribute;
@@ -198,17 +205,24 @@ var System;
 /// <reference path="Action.ts" />
 /// <reference path="Exceptions/NotImplementedException.ts" />
 /// <reference path="Interfaces/IEnumerable.ts" />
+/// <reference path="Type.ts"/>
 var System;
 (function (System) {
     var Statements = (function () {
         function Statements() {
         }
         //Simulates the ForEach statement
-        Statements.ForEach = function (collection, callback) {
-            var enumerator = collection.GetEnumerator();
-            while (enumerator.MoveNext()) {
-                callback(enumerator.Current);
+        Statements.forEach = function (collection, callback) {
+            var enumerator = collection.getEnumerator();
+            while (enumerator.moveNext()) {
+                callback(enumerator.current);
             }
+        };
+
+        Statements.as = function (object, TofT) {
+            var objType = Statements.typeOf(object);
+
+            return null;
         };
 
         //Simulates the "implements"
@@ -216,21 +230,25 @@ var System;
             throw new System.NotImplementedException();
         };
 
-        Statements.TypeOf = function (object) {
+        Statements.typeOf = function (object) {
             throw new System.NotImplementedException();
         };
 
         //Simulates the "is" statement of C#
         //Example in C# : if ( obj is Guid) { }
         //Example in TS : if (Statements.is(obj,Guid.GetType())
-        Statements.Is = function (object, type) {
+        Statements.is = function (object, type) {
             if (!object) {
                 return false;
             }
             if (!object.GetType) {
                 return false;
             }
-            return (object.GetType().name == type.name);
+
+            //TODO : name check is way too simple!
+            //  1. overervering class
+            //  2. interfaces
+            return (object.getType().name == type.name);
         };
         return Statements;
     })();
@@ -250,7 +268,13 @@ var System;
 /// <reference path="../Type.ts" />
 /// <reference path="../IObject.ts" />
 /// <reference path="IFormatProvider.ts" />
+var System;
+(function (System) {
+    System.Type.registerInterface("System.IComparable");
+})(System || (System = {}));
 /// <reference path="Exception.ts" />
+/// <reference path="../IObject.ts"/>
+/// <reference path="../Type.ts"/>
 var System;
 (function (System) {
     var ArgumentException = (function (_super) {
@@ -266,15 +290,17 @@ var System;
         };
 
         //IObject
-        ArgumentException.prototype.GetType = function () {
+        ArgumentException.prototype.getType = function () {
             return ArgumentException._type;
         };
-        ArgumentException._type = System.Type.RegisterClass(ArgumentException, "System.ArgumentException", []);
+        ArgumentException._type = System.Type.registerClass(ArgumentException, "System.ArgumentException", []);
         return ArgumentException;
     })(System.Exception);
     System.ArgumentException = ArgumentException;
 })(System || (System = {}));
 /// <reference path="ArgumentException.ts" />
+/// <reference path="../IObject.ts"/>
+/// <reference path="../Type.ts"/>
 var System;
 (function (System) {
     var ArgumentNullException = (function (_super) {
@@ -283,10 +309,10 @@ var System;
             _super.call(this, message, innerException, paramName);
         }
         //IObject
-        ArgumentNullException.prototype.GetType = function () {
+        ArgumentNullException.prototype.getType = function () {
             return ArgumentNullException._type;
         };
-        ArgumentNullException._type = System.Type.RegisterClass(ArgumentNullException, "System.ArgumentNullException", []);
+        ArgumentNullException._type = System.Type.registerClass(ArgumentNullException, "System.ArgumentNullException", []);
         return ArgumentNullException;
     })(System.ArgumentException);
     System.ArgumentNullException = ArgumentNullException;
@@ -345,11 +371,11 @@ var System;
             configurable: true
         });
 
-        IntBase.prototype.CompareTo = function (value) {
+        IntBase.prototype.compareTo = function (value) {
             if (value == null)
                 return 1;
 
-            if (!(System.Statements.Is(value, System.IntBase._type)))
+            if (!(System.Statements.is(value, System.IntBase._type)))
                 throw new System.ArgumentException("Value is not a System.IntXX");
 
             var xv = value.value;
@@ -361,18 +387,18 @@ var System;
                 return -1;
         };
 
-        IntBase.prototype.Equals = function (obj) {
-            if (!System.Statements.Is(obj, System.IntBase._type))
+        IntBase.prototype.equals = function (obj) {
+            if (!System.Statements.is(obj, System.IntBase._type))
                 return false;
 
             return obj.value == this.value;
         };
 
-        IntBase.prototype.GetHashCode = function () {
+        IntBase.prototype.getHashCode = function () {
             return this.value;
         };
 
-        IntBase.Parse = function (s, style, provider) {
+        IntBase.parse = function (s, style, provider) {
             if (typeof style === "undefined") { style = null; }
             if (typeof provider === "undefined") { provider = null; }
             if (style != null)
@@ -384,11 +410,11 @@ var System;
             return parseInt(s);
         };
 
-        IntBase.TryParse = function (s, result, style, provider) {
+        IntBase.tryParse = function (s, result, style, provider) {
             if (typeof style === "undefined") { style = null; }
             if (typeof provider === "undefined") { provider = null; }
             try  {
-                result.value = IntBase.Parse(s, style, provider);
+                result.value = IntBase.parse(s, style, provider);
                 return true;
             } catch (e) {
             }
@@ -402,16 +428,16 @@ var System;
             //return NumberFormatter.NumberToString(format, m_value, provider);
         };
 
-        IntBase.prototype.ToType = function (targetType, provider) {
+        IntBase.prototype.toType = function (targetType, provider) {
             if (targetType == null)
                 throw new System.ArgumentNullException("targetType");
         };
 
         //IObject
-        IntBase.prototype.GetType = function () {
+        IntBase.prototype.getType = function () {
             return IntBase._type;
         };
-        IntBase._type = System.Type.RegisterClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
+        IntBase._type = System.Type.registerClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
         return IntBase;
     })();
     System.IntBase = IntBase;
@@ -419,6 +445,10 @@ var System;
 /// <reference path="IntBase.ts" />
 /// <reference path="Interfaces/IFormattable.ts" />
 /// <reference path="Globalization/NumberStyles.ts" />
+/// <reference path="IObject.ts"/>
+/// <reference path="Interfaces/IComparable.ts"/>
+/// <reference path="Interfaces/IEquatable.ts"/>
+/// <reference path="Type.ts"/>
 var System;
 (function (System) {
     //TODO : IConvertible
@@ -428,59 +458,16 @@ var System;
             _super.call(this, value);
         }
         //IObject
-        Int32.prototype.GetType = function () {
+        Int32.prototype.getType = function () {
             return Int32._type;
         };
-        Int32._type = System.Type.RegisterClass(Int32, "System.Int32", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
+        Int32._type = System.Type.registerClass(Int32, "System.Int32", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
 
         Int32.MaxValue = 0x7fffffff;
         Int32.MinValue = -2147483648;
         return Int32;
     })(System.IntBase);
     System.Int32 = Int32;
-})(System || (System = {}));
-var System;
-(function (System) {
-    (function (Collections) {
-        (function (Generic) {
-            //TODO : implement ;)
-            var Dictionary = (function () {
-                function Dictionary() {
-                }
-                return Dictionary;
-            })();
-            Generic.Dictionary = Dictionary;
-        })(Collections.Generic || (Collections.Generic = {}));
-        var Generic = Collections.Generic;
-    })(System.Collections || (System.Collections = {}));
-    var Collections = System.Collections;
-})(System || (System = {}));
-/// <reference path="../../Type.ts" />
-/// <reference path="../../IObject.ts" />
-/// <reference path="../../Collections/Generic/Dictionary.ts" />
-var System;
-(function (System) {
-    (function (Runtime) {
-        (function (Serialization) {
-            var SerializationInfo = (function () {
-                function SerializationInfo() {
-                    throw new System.NotImplementedException();
-                }
-                //place holder
-                SerializationInfo.prototype.AddValue = function (name, value) {
-                    throw new System.NotImplementedException();
-                };
-
-                SerializationInfo.prototype.GetString = function (name) {
-                    throw new System.NotImplementedException();
-                };
-                return SerializationInfo;
-            })();
-            Serialization.SerializationInfo = SerializationInfo;
-        })(Runtime.Serialization || (Runtime.Serialization = {}));
-        var Serialization = Runtime.Serialization;
-    })(System.Runtime || (System.Runtime = {}));
-    var Runtime = System.Runtime;
 })(System || (System = {}));
 var System;
 (function (System) {
@@ -504,6 +491,9 @@ var System;
     var Runtime = System.Runtime;
 })(System || (System = {}));
 /// <reference path="StreamingContextStates.ts" />
+/// <reference path="../../IObject.ts"/>
+/// <reference path="../../Type.ts"/>
+/// <reference path="../../Statements.ts"/>
 var System;
 (function (System) {
     (function (Runtime) {
@@ -530,22 +520,22 @@ var System;
                     configurable: true
                 });
 
-                StreamingContext.prototype.Equals = function (obj) {
-                    if (!(System.Statements.Is(obj, StreamingContext._type)))
+                StreamingContext.prototype.equals = function (obj) {
+                    if (!(System.Statements.is(obj, StreamingContext._type)))
                         return false;
 
                     var other = obj;
                     return (other.state == this.state) && (other.additional == this.additional);
                 };
 
-                StreamingContext.prototype.GetHashCode = function () {
+                StreamingContext.prototype.getHashCode = function () {
                     return this.state;
                 };
 
-                StreamingContext.prototype.GetType = function () {
+                StreamingContext.prototype.getType = function () {
                     return StreamingContext._type;
                 };
-                StreamingContext._type = System.Type.RegisterClass(StreamingContext, "System.Runtime.Serialization.StreamingContext", []);
+                StreamingContext._type = System.Type.registerClass(StreamingContext, "System.Runtime.Serialization.StreamingContext", []);
                 return StreamingContext;
             })();
             Serialization.StreamingContext = StreamingContext;
@@ -554,13 +544,41 @@ var System;
     })(System.Runtime || (System.Runtime = {}));
     var Runtime = System.Runtime;
 })(System || (System = {}));
-/// <reference path="../Type.ts" />
-/// <reference path="../Int32.ts" />
+/// <reference path="../../Type.ts" />
+/// <reference path="../../IObject.ts" />
 var System;
 (function (System) {
-    /// <reference path="../Runtime/Serialization/ISerializable.ts" />
-    /// <reference path="../Runtime/Serialization/SerializationInfo.ts" />
-    /// <reference path="../Runtime/Serialization/StreamingContext.ts" />
+    (function (Runtime) {
+        (function (Serialization) {
+            var SerializationInfo = (function () {
+                function SerializationInfo() {
+                    throw new System.NotImplementedException();
+                }
+                //place holder
+                SerializationInfo.prototype.addValue = function (name, value) {
+                    throw new System.NotImplementedException();
+                };
+
+                SerializationInfo.prototype.getString = function (name) {
+                    throw new System.NotImplementedException();
+                };
+                return SerializationInfo;
+            })();
+            Serialization.SerializationInfo = SerializationInfo;
+        })(Runtime.Serialization || (Runtime.Serialization = {}));
+        var Serialization = Runtime.Serialization;
+    })(System.Runtime || (System.Runtime = {}));
+    var Runtime = System.Runtime;
+})(System || (System = {}));
+/// <reference path="StreamingContext.ts" />
+/// <reference path="SerializationInfo.ts"/>
+/// <reference path="../Type.ts" />
+/// <reference path="../Int32.ts" />
+/// <reference path="../Runtime/Serialization/ISerializable.ts" />
+/// <reference path="../Runtime/Serialization/SerializationInfo.ts" />
+/// <reference path="../Runtime/Serialization/StreamingContext.ts" />
+var System;
+(function (System) {
     (function (Text) {
         //Basic implementation
         var StringBuilder = (function () {
@@ -602,7 +620,7 @@ var System;
                     return this._str.substr(startIndex, length);
             };
 
-            StringBuilder.prototype.Equals = function (sb) {
+            StringBuilder.prototype.equals = function (sb) {
                 if (sb == null)
                     return false;
                 if (this.toString() == sb.toString())
@@ -610,7 +628,7 @@ var System;
                 return false;
             };
 
-            StringBuilder.prototype.Remove = function (startIndex, length) {
+            StringBuilder.prototype.remove = function (startIndex, length) {
                 if (startIndex < 0 || length < 0 || startIndex > this._str.length - length)
                     throw new System.ArgumentOutOfRangeException();
 
@@ -619,7 +637,7 @@ var System;
                 return this;
             };
 
-            StringBuilder.prototype.Replace = function (oldValue, newValue) {
+            StringBuilder.prototype.replace = function (oldValue, newValue) {
                 if (oldValue == null)
                     throw new System.ArgumentNullException("The old value cannot be null.");
 
@@ -631,7 +649,7 @@ var System;
             };
 
             /* The Append Methods */
-            StringBuilder.prototype.Append = function (value) {
+            StringBuilder.prototype.append = function (value) {
                 if (value == null)
                     return this;
 
@@ -641,22 +659,22 @@ var System;
                 return this;
             };
 
-            StringBuilder.prototype.Clear = function () {
-                this._str = System.String.Empty;
+            StringBuilder.prototype.clear = function () {
+                this._str = System.String.empty;
                 return this;
             };
 
-            StringBuilder.prototype.AppendLine = function (value) {
+            StringBuilder.prototype.appendLine = function (value) {
                 if (typeof value === "undefined") { value = ""; }
-                return this.Append(value).Append(System.Environment.NewLine);
+                return this.append(value).append(System.Environment.NewLine);
             };
 
-            StringBuilder.prototype.AppendFormat = function (format) {
+            StringBuilder.prototype.appendFormat = function (format) {
                 var args = [];
                 for (var _i = 0; _i < (arguments.length - 1); _i++) {
                     args[_i] = arguments[_i + 1];
                 }
-                return this.Append(System.String.Format(format, args));
+                return this.append(System.String.format(format, args));
             };
 
             StringBuilder.prototype.InsertInternal = function (index, value) {
@@ -673,7 +691,7 @@ var System;
                 return this;
             };
 
-            StringBuilder.prototype.Insert = function (index, value, count) {
+            StringBuilder.prototype.insert = function (index, value, count) {
                 if (typeof count === "undefined") { count = 1; }
                 if (count < 0)
                     throw new System.ArgumentOutOfRangeException();
@@ -686,33 +704,513 @@ var System;
             };
 
             //IObject
-            StringBuilder.prototype.GetType = function () {
+            StringBuilder.prototype.getType = function () {
                 return StringBuilder._type;
             };
 
             //ISerializable
-            StringBuilder.prototype.GetObjectData = function (info, context) {
+            StringBuilder.prototype.getObjectData = function (info, context) {
                 //info.AddValue("m_MaxCapacity", _maxCapacity);
                 //info.AddValue("Capacity", Capacity);
-                info.AddValue("m_StringValue", this.toString());
-                info.AddValue("m_currentThread", 0);
+                info.addValue("m_StringValue", this.toString());
+                info.addValue("m_currentThread", 0);
             };
 
             //Serializable constructor
             StringBuilder.ctor_Serializable = function (info, context) {
-                var s = info.GetString("m_StringValue");
+                var s = info.getString("m_StringValue");
                 var result = new StringBuilder(s);
 
                 return result;
             };
-            StringBuilder._type = System.Type.RegisterClass(StringBuilder, "System.Text.StringBuilder", ["System.Runtime.Serialization.ISerializable"]);
+            StringBuilder._type = System.Type.registerClass(StringBuilder, "System.Text.StringBuilder", ["System.Runtime.Serialization.ISerializable"]);
             return StringBuilder;
         })();
         Text.StringBuilder = StringBuilder;
     })(System.Text || (System.Text = {}));
     var Text = System.Text;
 })(System || (System = {}));
+/// <reference path="IObject.ts"/>
+/// <reference path="Type.ts"/>
+var System;
+(function (System) {
+    var String = (function () {
+        function String() {
+        }
+        Object.defineProperty(String, "empty", {
+            get: function () {
+                return "";
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        String.format = function (value) {
+            var replacements = [];
+            for (var _i = 0; _i < (arguments.length - 1); _i++) {
+                replacements[_i] = arguments[_i + 1];
+            }
+            var formatted = value;
+            for (var i = 0; i < replacements.length; i++) {
+                formatted = formatted.replace(RegExp("\\{" + i + "\\}", 'g'), replacements[i].toString());
+            }
+            return formatted;
+        };
+
+        String.isNullOrEmpty = function (value) {
+            return (value == null) || (value.length == 0);
+        };
+
+        //IObject
+        String.prototype.getType = function () {
+            return String._type;
+        };
+        String._type = System.Type.registerClass(String, "System.String", []);
+        return String;
+    })();
+    System.String = String;
+})(System || (System = {}));
+var System;
+(function (System) {
+    (function (TypeCode) {
+        TypeCode[TypeCode["Empty"] = 0] = "Empty";
+        TypeCode[TypeCode["Object"] = 1] = "Object";
+        TypeCode[TypeCode["DBNull"] = 2] = "DBNull";
+        TypeCode[TypeCode["Boolean"] = 3] = "Boolean";
+        TypeCode[TypeCode["Char"] = 4] = "Char";
+        TypeCode[TypeCode["SByte"] = 5] = "SByte";
+        TypeCode[TypeCode["Byte"] = 6] = "Byte";
+        TypeCode[TypeCode["Int16"] = 7] = "Int16";
+        TypeCode[TypeCode["UInt16"] = 8] = "UInt16";
+        TypeCode[TypeCode["Int32"] = 9] = "Int32";
+        TypeCode[TypeCode["UInt32"] = 10] = "UInt32";
+        TypeCode[TypeCode["Int64"] = 11] = "Int64";
+        TypeCode[TypeCode["UInt64"] = 12] = "UInt64";
+        TypeCode[TypeCode["Single"] = 13] = "Single";
+        TypeCode[TypeCode["Double"] = 14] = "Double";
+        TypeCode[TypeCode["Decimal"] = 15] = "Decimal";
+        TypeCode[TypeCode["DateTime"] = 16] = "DateTime";
+        TypeCode[TypeCode["String"] = 18] = "String";
+    })(System.TypeCode || (System.TypeCode = {}));
+    var TypeCode = System.TypeCode;
+})(System || (System = {}));
+/// <reference path="../TypeCode.ts" />
+/// <reference path="IFormatProvider.ts"/>
+/// <reference path="../TypeCode.ts"/>
+var System;
+(function (System) {
+    (function (Globalization) {
+        (function (UnicodeCategory) {
+            UnicodeCategory[UnicodeCategory["UppercaseLetter"] = 0] = "UppercaseLetter";
+            UnicodeCategory[UnicodeCategory["LowercaseLetter"] = 1] = "LowercaseLetter";
+            UnicodeCategory[UnicodeCategory["TitlecaseLetter"] = 2] = "TitlecaseLetter";
+            UnicodeCategory[UnicodeCategory["ModifierLetter"] = 3] = "ModifierLetter";
+            UnicodeCategory[UnicodeCategory["OtherLetter"] = 4] = "OtherLetter";
+            UnicodeCategory[UnicodeCategory["NonSpacingMark"] = 5] = "NonSpacingMark";
+            UnicodeCategory[UnicodeCategory["SpacingCombiningMark"] = 6] = "SpacingCombiningMark";
+            UnicodeCategory[UnicodeCategory["EnclosingMark"] = 7] = "EnclosingMark";
+            UnicodeCategory[UnicodeCategory["DecimalDigitNumber"] = 8] = "DecimalDigitNumber";
+            UnicodeCategory[UnicodeCategory["LetterNumber"] = 9] = "LetterNumber";
+            UnicodeCategory[UnicodeCategory["OtherNumber"] = 10] = "OtherNumber";
+            UnicodeCategory[UnicodeCategory["SpaceSeparator"] = 11] = "SpaceSeparator";
+            UnicodeCategory[UnicodeCategory["LineSeparator"] = 12] = "LineSeparator";
+            UnicodeCategory[UnicodeCategory["ParagraphSeparator"] = 13] = "ParagraphSeparator";
+            UnicodeCategory[UnicodeCategory["Control"] = 14] = "Control";
+            UnicodeCategory[UnicodeCategory["Format"] = 15] = "Format";
+            UnicodeCategory[UnicodeCategory["Surrogate"] = 16] = "Surrogate";
+            UnicodeCategory[UnicodeCategory["PrivateUse"] = 17] = "PrivateUse";
+            UnicodeCategory[UnicodeCategory["ConnectorPunctuation"] = 18] = "ConnectorPunctuation";
+            UnicodeCategory[UnicodeCategory["DashPunctuation"] = 19] = "DashPunctuation";
+            UnicodeCategory[UnicodeCategory["OpenPunctuation"] = 20] = "OpenPunctuation";
+            UnicodeCategory[UnicodeCategory["ClosePunctuation"] = 21] = "ClosePunctuation";
+            UnicodeCategory[UnicodeCategory["InitialQuotePunctuation"] = 22] = "InitialQuotePunctuation";
+            UnicodeCategory[UnicodeCategory["FinalQuotePunctuation"] = 23] = "FinalQuotePunctuation";
+            UnicodeCategory[UnicodeCategory["OtherPunctuation"] = 24] = "OtherPunctuation";
+            UnicodeCategory[UnicodeCategory["MathSymbol"] = 25] = "MathSymbol";
+            UnicodeCategory[UnicodeCategory["CurrencySymbol"] = 26] = "CurrencySymbol";
+            UnicodeCategory[UnicodeCategory["ModifierSymbol"] = 27] = "ModifierSymbol";
+            UnicodeCategory[UnicodeCategory["OtherSymbol"] = 28] = "OtherSymbol";
+            UnicodeCategory[UnicodeCategory["OtherNotAssigned"] = 29] = "OtherNotAssigned";
+        })(Globalization.UnicodeCategory || (Globalization.UnicodeCategory = {}));
+        var UnicodeCategory = Globalization.UnicodeCategory;
+    })(System.Globalization || (System.Globalization = {}));
+    var Globalization = System.Globalization;
+})(System || (System = {}));
+/// <reference path="ArgumentException.ts" />
+/// <reference path="../IObject.ts" />
+/// <reference path="../Type.ts"/>
+var System;
+(function (System) {
+    var ArgumentOutOfRangeException = (function (_super) {
+        __extends(ArgumentOutOfRangeException, _super);
+        function ArgumentOutOfRangeException(message, innerException, paramName) {
+            _super.call(this, message, innerException, paramName);
+        }
+        //IObject
+        ArgumentOutOfRangeException.prototype.getType = function () {
+            return ArgumentOutOfRangeException._type;
+        };
+        ArgumentOutOfRangeException._type = System.Type.registerClass(ArgumentOutOfRangeException, "System.ArgumentOutOfRangeException", []);
+        return ArgumentOutOfRangeException;
+    })(System.ArgumentException);
+    System.ArgumentOutOfRangeException = ArgumentOutOfRangeException;
+})(System || (System = {}));
+/// <reference path="Exception.ts" />
+/// <reference path="../IObject.ts" />
+/// <reference path="../Type.ts"/>
+var System;
+(function (System) {
+    var InvalidCastException = (function (_super) {
+        __extends(InvalidCastException, _super);
+        function InvalidCastException(message, innerException) {
+            _super.call(this, message, innerException);
+        }
+        //IObject
+        InvalidCastException.prototype.getType = function () {
+            return InvalidCastException._type;
+        };
+        InvalidCastException._type = System.Type.registerClass(InvalidCastException, "System.InvalidCastException", []);
+        return InvalidCastException;
+    })(System.Exception);
+    System.InvalidCastException = InvalidCastException;
+})(System || (System = {}));
+/// <reference path="Exception.ts" />
+/// <reference path="../IObject.ts" />
+/// <reference path="../Type.ts"/>
+var System;
+(function (System) {
+    var FormatException = (function (_super) {
+        __extends(FormatException, _super);
+        function FormatException(message, innerException) {
+            _super.call(this, message, innerException);
+        }
+        //IObject
+        FormatException.prototype.getType = function () {
+            return FormatException._type;
+        };
+        FormatException._type = System.Type.registerClass(FormatException, "System.FormatException", []);
+        return FormatException;
+    })(System.Exception);
+    System.FormatException = FormatException;
+})(System || (System = {}));
+var System;
+(function (System) {
+    (function (Globalization) {
+        var CultureInfo = (function () {
+            function CultureInfo() {
+            }
+            return CultureInfo;
+        })();
+        Globalization.CultureInfo = CultureInfo;
+    })(System.Globalization || (System.Globalization = {}));
+    var Globalization = System.Globalization;
+})(System || (System = {}));
+/// <reference path="IObject.ts" />
+/// <reference path="Type.ts" />
+/// <reference path="String.ts"/>
+/// <reference path="Interfaces/IConvertible.ts" />
+/// <reference path="Interfaces/IComparable.ts" />
+/// <reference path="Interfaces/IEquatable.ts" />
+/// <reference path="Globalization/UnicodeCategory.ts" />
+/// <reference path="Exceptions/ArgumentOutOfRangeException.ts"/>
+/// <reference path="Exceptions/ArgumentNullException.ts"/>
+/// <reference path="Exceptions/ArgumentException.ts"/>
+/// <reference path="Exceptions/InvalidCastException.ts"/>
+/// <reference path="Exceptions/FormatException.ts"/>
+/// <reference path="OutArgument.ts"/>
+/// <reference path="Globalization/UnicodeCategory.ts"/>
+/// <reference path="Globalization/CultureInfo.ts"/>
+/// <reference path="Interfaces/IFormatProvider.ts"/>
+/// <reference path="TypeCode.ts"/>
+var System;
+(function (System) {
+    //* docu : http://www.unicode.org/Public/UNIDATA
+    //* docu: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
+    var Char = (function () {
+        function Char(c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            this.value = cc;
+        }
+        Char.prototype.equals = function (obj) {
+            if (!(System.Statements.is(obj, Char._type)))
+                return false;
+
+            return obj.value == this.value;
+        };
+
+        Char.prototype.compareTo = function (other) {
+            if (this.value == other.value)
+                return 0;
+
+            if (this.value > other.value)
+                return 1;
+            else
+                return -1;
+        };
+
+        Char.convertFromUtf32 = function (utf32) {
+            if (utf32 < 0 || utf32 > 0x10FFFF)
+                throw new System.ArgumentOutOfRangeException("The argument must be from 0 to 0x10FFFF.", null, "utf32");
+            if (0xD800 <= utf32 && utf32 <= 0xDFFF)
+                throw new System.ArgumentOutOfRangeException("The argument must not be in surrogate pair range.", null, "utf32");
+
+            if (utf32 < 0x10000)
+                return JSString.fromCharCode(utf32);
+
+            utf32 -= 0x10000;
+            return JSString.fromCharCode((utf32 >> 10) + 0xD800, (utf32 % 0x0400 + 0xDC00));
+        };
+
+        Char.__checkAndConvertArgument = function (arg, index) {
+            var typestr = System.Type.getTypeName(arg);
+            if (typestr === "string") {
+                var s = arg;
+                if (s.length == 0)
+                    throw new System.ArgumentOutOfRangeException("The argument cannot be an empty string.");
+                if (index < 0 || index >= s.length)
+                    throw new System.ArgumentOutOfRangeException("The value of index is less than zero, or greater than or equal to the length of s.");
+                return s.charCodeAt(index);
+            }
+            if (typestr === "number") {
+                return arg;
+            }
+            if (typestr === "System.Char") {
+                return arg.value;
+            }
+            throw new System.ArgumentException("Argument not of expected type");
+        };
+
+        Char.convertToUtf32 = function (highSurrogate, lowSurrogate) {
+            highSurrogate = Char.__checkAndConvertArgument(highSurrogate, 0);
+
+            if (highSurrogate < 0xD800 || 0xDBFF < highSurrogate)
+                throw new System.ArgumentOutOfRangeException("highSurrogate");
+            if (lowSurrogate < 0xDC00 || 0xDFFF < lowSurrogate)
+                throw new System.ArgumentOutOfRangeException("lowSurrogate");
+
+            return 0x10000 + ((highSurrogate - 0xD800) << 10) + (lowSurrogate - 0xDC00);
+        };
+
+        Char.convertToUtf32FromString = function (s, index) {
+            Char.__internalCheckParameters(s, index);
+
+            if (!Char.isSurrogate(s[index]))
+                return s.charCodeAt(index);
+            if (!Char.isHighSurrogate(s[index]) || index == s.length - 1 || !Char.isLowSurrogate(s[index + 1]))
+                throw new System.ArgumentException(System.String.format("The string contains invalid surrogate pair character at {0}", index));
+            return Char.convertToUtf32(s[index], s[index + 1]);
+        };
+
+        Char.isSurrogatePair = function (highSurrogate, lowSurrogate) {
+            var hs = Char.__checkAndConvertArgument(highSurrogate, 0);
+            var ls = Char.__checkAndConvertArgument(lowSurrogate, 0);
+
+            return 0xD800 <= hs && hs <= 0xDBFF && 0xDC00 <= ls && ls <= 0xDFFF;
+        };
+
+        Char.isSurrogatePairString = function (s, index) {
+            Char.__internalCheckParameters(s, index);
+            return index + 1 < s.length && Char.isSurrogatePair(s[index], s[index + 1]);
+        };
+
+        Char.prototype.getHashCode = function () {
+            return this.value;
+        };
+
+        Char.getNumericValue = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            return parseInt(JSString.fromCharCode(cc));
+        };
+
+        Char.getUnicodeCategory = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            throw new System.NotImplementedException();
+            return 0;
+            // return (category_data[cc]);
+        };
+
+        Char.isControl = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            return (Char.getUnicodeCategory(cc) == 14 /* Control */);
+        };
+
+        Char.isDigit = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            return (Char.getUnicodeCategory(cc) == 8 /* DecimalDigitNumber */);
+        };
+
+        Char.isHighSurrogate = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            return cc >= 0xD800 && cc <= 0xDBFF;
+        };
+
+        Char.isLetter = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return cat <= 4 /* OtherLetter */;
+        };
+
+        Char.isLetterOrDigit = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+
+            return (cat <= (4 /* OtherLetter */) || cat == (8 /* DecimalDigitNumber */));
+        };
+
+        Char.isLower = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return (cat == 1 /* LowercaseLetter */);
+        };
+
+        Char.isLowSurrogate = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            return cc >= 0xDC00 && cc <= 0xDFFF;
+        };
+
+        Char.isNumber = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return (cat >= (8 /* DecimalDigitNumber */) && cat <= (10 /* OtherNumber */));
+        };
+
+        Char.isPunctuation = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return (cat >= (18 /* ConnectorPunctuation */) && cat <= (24 /* OtherPunctuation */));
+        };
+
+        Char.isSeparator = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return (cat >= (11 /* SpaceSeparator */) && cat <= (13 /* ParagraphSeparator */));
+        };
+
+        Char.isSurrogate = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return (cat == 16 /* Surrogate */);
+        };
+
+        Char.isSymbol = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return (cat >= (25 /* MathSymbol */) && cat <= (28 /* OtherSymbol */));
+        };
+
+        Char.isUpper = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cat = Char.getUnicodeCategory(c, index);
+            return (cat == 0 /* UppercaseLetter */);
+        };
+
+        Char.isWhiteSpace = function (c, index) {
+            if (typeof index === "undefined") { index = 0; }
+            var cc = Char.__checkAndConvertArgument(c, index);
+            if (cc < 0x1680)
+                return cc == 0x20 || cc >= 0x09 && cc <= 0x0d || cc == 0x85 || cc == 0xA0;
+
+            var cat = Char.getUnicodeCategory(c, index);
+            return cat > 10 /* OtherNumber */ && cat <= 13 /* ParagraphSeparator */;
+        };
+
+        Char.__internalCheckParameters = function (s, index) {
+            if (s == null)
+                throw new System.ArgumentNullException("s");
+
+            if (index < 0 || index >= s.length)
+                throw new System.ArgumentOutOfRangeException("The value of index is less than zero, or greater than or equal to the length of s.");
+        };
+
+        Char.tryParse = function (s, result) {
+            if (s == null || s.length != 1) {
+                result.value = new Char(0);
+                return false;
+            }
+
+            result.value = new Char(s);
+            return true;
+        };
+
+        Char.parse = function (s) {
+            if (s == null)
+                throw new System.ArgumentNullException("s");
+
+            if (s.length != 1)
+                throw new System.FormatException("s contains more than one character.");
+
+            return new Char(s[0]);
+        };
+
+        Char.toLower = function (c, culture) {
+            //TODO : culture is ignored.
+            //use JS string lower
+            var cstr = JSString.fromCharCode(c.value).toLocaleLowerCase();
+            return new Char(cstr);
+        };
+
+        Char.toLowerInvariant = function (c) {
+            //use JS string lower
+            var cc = Char.__checkAndConvertArgument(c, 0);
+
+            var cstr = JSString.fromCharCode(cc).toLowerCase();
+            return new Char(cstr);
+        };
+
+        Char.toUpper = function (c, culture) {
+            //TODO : culture is ignored.
+            //use JS string lower
+            var cstr = JSString.fromCharCode(c.value).toLocaleUpperCase();
+            return new Char(cstr);
+        };
+
+        Char.toUpperInvariant = function (c) {
+            var cc = Char.__checkAndConvertArgument(c, 0);
+            var cstr = JSString.fromCharCode(cc).toUpperCase();
+            return new Char(cstr);
+        };
+
+        Char.prototype.toString = function (provider) {
+            //provider is ignored?
+            return JSString.fromCharCode(this.value);
+        };
+
+        Char.toString = function (c) {
+            return JSString.fromCharCode(c.value);
+        };
+
+        // =========== IConvertible Methods =========== //
+        Char.prototype.getTypeCode = function () {
+            return 4 /* Char */;
+        };
+
+        Char.prototype.toNumber = function (provider) {
+            return this.value;
+        };
+
+        Char.prototype.toBoolean = function (provider) {
+            throw new System.InvalidCastException();
+        };
+        Char._type = System.Type.registerClass(Char, "System.Char", ["System.IConvertible", "System.IComparable", "System.IEquatable"]);
+
+        Char.MaxValue = 0xffff;
+        Char.MinValue = 0x0000;
+        return Char;
+    })();
+    System.Char = Char;
+})(System || (System = {}));
 /// <reference path="Text/StringBuilder.ts" />
+/// <reference path="Exceptions/Exception.ts"/>
+/// <reference path="Char.ts"/>
+/// <reference path="Exceptions/ArgumentNullException.ts"/>
+/// <reference path="Exceptions/ArgumentOutOfRangeException.ts"/>
 var System;
 (function (System) {
     //* Information about LittleEndian detection
@@ -739,7 +1237,7 @@ var System;
             throw new System.Exception("This should not be possible.");
         };
 
-        BitConverter.GetBytes = function (value) {
+        BitConverter.getBytes = function (value) {
             throw new System.NotImplementedException();
         };
 
@@ -749,7 +1247,7 @@ var System;
             return res;
         };
 
-        BitConverter.GetBytes_String = function (value) {
+        BitConverter.getBytes_String = function (value) {
             if (value = null)
                 return null;
 
@@ -764,7 +1262,7 @@ var System;
             return res;
         };
 
-        BitConverter.GetBytes_Int16 = function (value) {
+        BitConverter.getBytes_Int16 = function (value) {
             if (value == null)
                 throw new System.ArgumentNullException("value");
 
@@ -775,7 +1273,7 @@ var System;
             return res;
         };
 
-        BitConverter.GetBytes_Int32 = function (value) {
+        BitConverter.getBytes_Int32 = function (value) {
             if (value == null)
                 throw new System.ArgumentNullException("value");
 
@@ -790,12 +1288,8 @@ var System;
             return res;
         };
 
-        BitConverter.ToBoolean = function (value, startIndex) {
-            if (value == null)
-                throw new System.ArgumentNullException("value");
-
-            if (startIndex < 0 || (startIndex > value.length - 1))
-                throw new System.ArgumentOutOfRangeException("Index was" + " out of range. Must be non-negative and less than the" + " size of the collection.", null, "startIndex");
+        BitConverter.toBoolean = function (value, startIndex) {
+            BitConverter.__internalCheckParam(value, startIndex, 1);
 
             if (value[startIndex] != 0)
                 return true;
@@ -803,13 +1297,13 @@ var System;
             return false;
         };
 
-        BitConverter.ToChar = function (value, startIndex) {
+        BitConverter.toChar = function (value, startIndex) {
             BitConverter.__internalCheckParam(value, startIndex, 1);
 
             return new System.Char(value[startIndex]);
         };
 
-        BitConverter.ToInt16 = function (value, startIndex) {
+        BitConverter.toInt16 = function (value, startIndex) {
             BitConverter.__internalCheckParam(value, startIndex, 2);
 
             var res = value[startIndex + 0];
@@ -818,7 +1312,7 @@ var System;
             return new System.Int16(res);
         };
 
-        BitConverter.ToInt32 = function (value, startIndex) {
+        BitConverter.toInt32 = function (value, startIndex) {
             BitConverter.__internalCheckParam(value, startIndex, 4);
 
             var res = value[startIndex + 0];
@@ -829,7 +1323,7 @@ var System;
             return new System.Int32(res);
         };
 
-        BitConverter.ToString = function (value, startIndex, length) {
+        BitConverter.toString = function (value, startIndex, length) {
             BitConverter.__internalCheckParam(value, startIndex, length);
 
             if (length == 0)
@@ -883,364 +1377,11 @@ var System;
     var Byte = (function () {
         function Byte() {
         }
+        Byte.MinValue = 0;
+        Byte.MaxValue = 255;
         return Byte;
     })();
     System.Byte = Byte;
-})(System || (System = {}));
-var System;
-(function (System) {
-    (function (TypeCode) {
-        TypeCode[TypeCode["Empty"] = 0] = "Empty";
-        TypeCode[TypeCode["Object"] = 1] = "Object";
-        TypeCode[TypeCode["DBNull"] = 2] = "DBNull";
-        TypeCode[TypeCode["Boolean"] = 3] = "Boolean";
-        TypeCode[TypeCode["Char"] = 4] = "Char";
-        TypeCode[TypeCode["SByte"] = 5] = "SByte";
-        TypeCode[TypeCode["Byte"] = 6] = "Byte";
-        TypeCode[TypeCode["Int16"] = 7] = "Int16";
-        TypeCode[TypeCode["UInt16"] = 8] = "UInt16";
-        TypeCode[TypeCode["Int32"] = 9] = "Int32";
-        TypeCode[TypeCode["UInt32"] = 10] = "UInt32";
-        TypeCode[TypeCode["Int64"] = 11] = "Int64";
-        TypeCode[TypeCode["UInt64"] = 12] = "UInt64";
-        TypeCode[TypeCode["Single"] = 13] = "Single";
-        TypeCode[TypeCode["Double"] = 14] = "Double";
-        TypeCode[TypeCode["Decimal"] = 15] = "Decimal";
-        TypeCode[TypeCode["DateTime"] = 16] = "DateTime";
-        TypeCode[TypeCode["String"] = 18] = "String";
-    })(System.TypeCode || (System.TypeCode = {}));
-    var TypeCode = System.TypeCode;
-})(System || (System = {}));
-/// <reference path="../TypeCode.ts" />
-/// <reference path="IFormatProvider.ts" />
-var System;
-(function (System) {
-    (function (Globalization) {
-        (function (UnicodeCategory) {
-            UnicodeCategory[UnicodeCategory["UppercaseLetter"] = 0] = "UppercaseLetter";
-            UnicodeCategory[UnicodeCategory["LowercaseLetter"] = 1] = "LowercaseLetter";
-            UnicodeCategory[UnicodeCategory["TitlecaseLetter"] = 2] = "TitlecaseLetter";
-            UnicodeCategory[UnicodeCategory["ModifierLetter"] = 3] = "ModifierLetter";
-            UnicodeCategory[UnicodeCategory["OtherLetter"] = 4] = "OtherLetter";
-            UnicodeCategory[UnicodeCategory["NonSpacingMark"] = 5] = "NonSpacingMark";
-            UnicodeCategory[UnicodeCategory["SpacingCombiningMark"] = 6] = "SpacingCombiningMark";
-            UnicodeCategory[UnicodeCategory["EnclosingMark"] = 7] = "EnclosingMark";
-            UnicodeCategory[UnicodeCategory["DecimalDigitNumber"] = 8] = "DecimalDigitNumber";
-            UnicodeCategory[UnicodeCategory["LetterNumber"] = 9] = "LetterNumber";
-            UnicodeCategory[UnicodeCategory["OtherNumber"] = 10] = "OtherNumber";
-            UnicodeCategory[UnicodeCategory["SpaceSeparator"] = 11] = "SpaceSeparator";
-            UnicodeCategory[UnicodeCategory["LineSeparator"] = 12] = "LineSeparator";
-            UnicodeCategory[UnicodeCategory["ParagraphSeparator"] = 13] = "ParagraphSeparator";
-            UnicodeCategory[UnicodeCategory["Control"] = 14] = "Control";
-            UnicodeCategory[UnicodeCategory["Format"] = 15] = "Format";
-            UnicodeCategory[UnicodeCategory["Surrogate"] = 16] = "Surrogate";
-            UnicodeCategory[UnicodeCategory["PrivateUse"] = 17] = "PrivateUse";
-            UnicodeCategory[UnicodeCategory["ConnectorPunctuation"] = 18] = "ConnectorPunctuation";
-            UnicodeCategory[UnicodeCategory["DashPunctuation"] = 19] = "DashPunctuation";
-            UnicodeCategory[UnicodeCategory["OpenPunctuation"] = 20] = "OpenPunctuation";
-            UnicodeCategory[UnicodeCategory["ClosePunctuation"] = 21] = "ClosePunctuation";
-            UnicodeCategory[UnicodeCategory["InitialQuotePunctuation"] = 22] = "InitialQuotePunctuation";
-            UnicodeCategory[UnicodeCategory["FinalQuotePunctuation"] = 23] = "FinalQuotePunctuation";
-            UnicodeCategory[UnicodeCategory["OtherPunctuation"] = 24] = "OtherPunctuation";
-            UnicodeCategory[UnicodeCategory["MathSymbol"] = 25] = "MathSymbol";
-            UnicodeCategory[UnicodeCategory["CurrencySymbol"] = 26] = "CurrencySymbol";
-            UnicodeCategory[UnicodeCategory["ModifierSymbol"] = 27] = "ModifierSymbol";
-            UnicodeCategory[UnicodeCategory["OtherSymbol"] = 28] = "OtherSymbol";
-            UnicodeCategory[UnicodeCategory["OtherNotAssigned"] = 29] = "OtherNotAssigned";
-        })(Globalization.UnicodeCategory || (Globalization.UnicodeCategory = {}));
-        var UnicodeCategory = Globalization.UnicodeCategory;
-    })(System.Globalization || (System.Globalization = {}));
-    var Globalization = System.Globalization;
-})(System || (System = {}));
-/// <reference path="IObject.ts" />
-/// <reference path="Type.ts" />
-/// <reference path="Interfaces/IConvertible.ts" />
-/// <reference path="Interfaces/IComparable.ts" />
-/// <reference path="Interfaces/IEquatable.ts" />
-/// <reference path="Globalization/UnicodeCategory.ts" />
-var System;
-(function (System) {
-    //* docu : http://www.unicode.org/Public/UNIDATA
-    //* docu: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
-    var Char = (function () {
-        function Char(c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            this.value = cc;
-        }
-        Char.prototype.Equals = function (obj) {
-            if (!(System.Statements.Is(obj, Char._type)))
-                return false;
-
-            return obj.value == this.value;
-        };
-
-        Char.prototype.CompareTo = function (other) {
-            if (this.value == other.value)
-                return 0;
-
-            if (this.value > other.value)
-                return 1;
-            else
-                return -1;
-        };
-
-        Char.ConvertFromUtf32 = function (utf32) {
-            if (utf32 < 0 || utf32 > 0x10FFFF)
-                throw new System.ArgumentOutOfRangeException("The argument must be from 0 to 0x10FFFF.", null, "utf32");
-            if (0xD800 <= utf32 && utf32 <= 0xDFFF)
-                throw new System.ArgumentOutOfRangeException("The argument must not be in surrogate pair range.", null, "utf32");
-
-            if (utf32 < 0x10000)
-                return JSString.fromCharCode(utf32);
-
-            utf32 -= 0x10000;
-            return JSString.fromCharCode((utf32 >> 10) + 0xD800, (utf32 % 0x0400 + 0xDC00));
-        };
-
-        Char.__checkAndConvertArgument = function (arg, index) {
-            var typestr = System.Type.GetTypeName(arg);
-            if (typestr === "string") {
-                var s = arg;
-                if (s.length == 0)
-                    throw new System.ArgumentOutOfRangeException("The argument cannot be an empty string.");
-                if (index < 0 || index >= s.length)
-                    throw new System.ArgumentOutOfRangeException("The value of index is less than zero, or greater than or equal to the length of s.");
-                return s.charCodeAt(index);
-            }
-            if (typestr === "number") {
-                return arg;
-            }
-            if (typestr === "System.Char") {
-                return arg.value;
-            }
-            throw new System.ArgumentException("Argument not of expected type");
-        };
-
-        Char.ConvertToUtf32 = function (highSurrogate, lowSurrogate) {
-            highSurrogate = Char.__checkAndConvertArgument(highSurrogate, 0);
-
-            if (highSurrogate < 0xD800 || 0xDBFF < highSurrogate)
-                throw new System.ArgumentOutOfRangeException("highSurrogate");
-            if (lowSurrogate < 0xDC00 || 0xDFFF < lowSurrogate)
-                throw new System.ArgumentOutOfRangeException("lowSurrogate");
-
-            return 0x10000 + ((highSurrogate - 0xD800) << 10) + (lowSurrogate - 0xDC00);
-        };
-
-        Char.ConvertToUtf32FromString = function (s, index) {
-            Char.__internalCheckParameters(s, index);
-
-            if (!Char.IsSurrogate(s[index]))
-                return s.charCodeAt(index);
-            if (!Char.IsHighSurrogate(s[index]) || index == s.length - 1 || !Char.IsLowSurrogate(s[index + 1]))
-                throw new System.ArgumentException(System.String.Format("The string contains invalid surrogate pair character at {0}", index));
-            return Char.ConvertToUtf32(s[index], s[index + 1]);
-        };
-
-        Char.IsSurrogatePair = function (highSurrogate, lowSurrogate) {
-            var hs = Char.__checkAndConvertArgument(highSurrogate, 0);
-            var ls = Char.__checkAndConvertArgument(lowSurrogate, 0);
-
-            return 0xD800 <= hs && hs <= 0xDBFF && 0xDC00 <= ls && ls <= 0xDFFF;
-        };
-
-        Char.IsSurrogatePairString = function (s, index) {
-            Char.__internalCheckParameters(s, index);
-            return index + 1 < s.length && Char.IsSurrogatePair(s[index], s[index + 1]);
-        };
-
-        Char.prototype.GetHashCode = function () {
-            return this.value;
-        };
-
-        Char.GetNumericValue = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            return parseInt(JSString.fromCharCode(cc));
-        };
-
-        Char.GetUnicodeCategory = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            throw new System.NotImplementedException();
-            return 0;
-            // return (category_data[cc]);
-        };
-
-        Char.IsControl = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            return (Char.GetUnicodeCategory(cc) == 14 /* Control */);
-        };
-
-        Char.IsDigit = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            return (Char.GetUnicodeCategory(cc) == 8 /* DecimalDigitNumber */);
-        };
-
-        Char.IsHighSurrogate = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            return cc >= 0xD800 && cc <= 0xDBFF;
-        };
-
-        Char.IsLetter = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return cat <= 4 /* OtherLetter */;
-        };
-
-        Char.IsLetterOrDigit = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-
-            return (cat <= (4 /* OtherLetter */) || cat == (8 /* DecimalDigitNumber */));
-        };
-
-        Char.IsLower = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return (cat == 1 /* LowercaseLetter */);
-        };
-
-        Char.IsLowSurrogate = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            return cc >= 0xDC00 && cc <= 0xDFFF;
-        };
-
-        Char.IsNumber = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return (cat >= (8 /* DecimalDigitNumber */) && cat <= (10 /* OtherNumber */));
-        };
-
-        Char.IsPunctuation = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return (cat >= (18 /* ConnectorPunctuation */) && cat <= (24 /* OtherPunctuation */));
-        };
-
-        Char.IsSeparator = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return (cat >= (11 /* SpaceSeparator */) && cat <= (13 /* ParagraphSeparator */));
-        };
-
-        Char.IsSurrogate = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return (cat == 16 /* Surrogate */);
-        };
-
-        Char.IsSymbol = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return (cat >= (25 /* MathSymbol */) && cat <= (28 /* OtherSymbol */));
-        };
-
-        Char.IsUpper = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cat = Char.GetUnicodeCategory(c, index);
-            return (cat == 0 /* UppercaseLetter */);
-        };
-
-        Char.IsWhiteSpace = function (c, index) {
-            if (typeof index === "undefined") { index = 0; }
-            var cc = Char.__checkAndConvertArgument(c, index);
-            if (cc < 0x1680)
-                return cc == 0x20 || cc >= 0x09 && cc <= 0x0d || cc == 0x85 || cc == 0xA0;
-
-            var cat = Char.GetUnicodeCategory(c, index);
-            return cat > 10 /* OtherNumber */ && cat <= 13 /* ParagraphSeparator */;
-        };
-
-        Char.__internalCheckParameters = function (s, index) {
-            if (s == null)
-                throw new System.ArgumentNullException("s");
-
-            if (index < 0 || index >= s.length)
-                throw new System.ArgumentOutOfRangeException("The value of index is less than zero, or greater than or equal to the length of s.");
-        };
-
-        Char.TryParse = function (s, result) {
-            if (s == null || s.length != 1) {
-                result.value = new Char(0);
-                return false;
-            }
-
-            result.value = new Char(s);
-            return true;
-        };
-
-        Char.Parse = function (s) {
-            if (s == null)
-                throw new System.ArgumentNullException("s");
-
-            if (s.length != 1)
-                throw new System.FormatException("s contains more than one character.");
-
-            return new Char(s[0]);
-        };
-
-        Char.ToLower = function (c, culture) {
-            //TODO : culture is ignored.
-            //use JS string lower
-            var cstr = JSString.fromCharCode(c.value).toLocaleLowerCase();
-            return new Char(cstr);
-        };
-
-        Char.ToLowerInvariant = function (c) {
-            //use JS string lower
-            var cc = Char.__checkAndConvertArgument(c, 0);
-
-            var cstr = JSString.fromCharCode(cc).toLowerCase();
-            return new Char(cstr);
-        };
-
-        Char.ToUpper = function (c, culture) {
-            //TODO : culture is ignored.
-            //use JS string lower
-            var cstr = JSString.fromCharCode(c.value).toLocaleUpperCase();
-            return new Char(cstr);
-        };
-
-        Char.ToUpperInvariant = function (c) {
-            var cc = Char.__checkAndConvertArgument(c, 0);
-            var cstr = JSString.fromCharCode(cc).toUpperCase();
-            return new Char(cstr);
-        };
-
-        Char.prototype.ToString = function (provider) {
-            //provider is ignored?
-            return JSString.fromCharCode(this.value);
-        };
-
-        Char.ToString = function (c) {
-            return JSString.fromCharCode(c.value);
-        };
-
-        // =========== IConvertible Methods =========== //
-        Char.prototype.GetTypeCode = function () {
-            return 4 /* Char */;
-        };
-
-        Char.prototype.ToNumber = function (provider) {
-            return this.value;
-        };
-
-        Char.prototype.ToBoolean = function (provider) {
-            throw new System.InvalidCastException();
-        };
-        Char._type = System.Type.RegisterClass(Char, "System.Char", ["System.IConvertible", "System.IComparable", "System.IEquatable"]);
-
-        Char.MaxValue = 0xffff;
-        Char.MinValue = 0x0000;
-        return Char;
-    })();
-    System.Char = Char;
 })(System || (System = {}));
 var System;
 (function (System) {
@@ -1278,7 +1419,22 @@ var System;
     })();
     System.Environment = Environment;
 })(System || (System = {}));
+/// <reference path="../Type.ts"/>
+var System;
+(function (System) {
+    System.Type.registerInterface("ICloneable");
+})(System || (System = {}));
 /// <reference path="BitConverter.ts" />
+/// <reference path="Interfaces/ICloneable.ts"/>
+/// <reference path="IObject.ts"/>
+/// <reference path="Type.ts"/>
+/// <reference path="String.ts"/>
+/// <reference path="Exceptions/FormatException.ts"/>
+/// <reference path="Statements.ts"/>
+/// <reference path="Text/StringBuilder.ts"/>
+/// <reference path="Exceptions/NotImplementedException.ts"/>
+/// <reference path="Exceptions/ArgumentNullException.ts"/>
+/// <reference path="OutArgument.ts"/>
 var System;
 (function (System) {
     var Guid = (function () {
@@ -1296,7 +1452,7 @@ var System;
                     g = g.trim();
                     var parser = new GuidParser(g);
                     var outguid = new System.OutArgument();
-                    if (!parser.Parse(outguid))
+                    if (!parser.parse(outguid))
                         throw Guid.CreateFormatException(g);
                     this._a = outguid.value._a;
                     this._b = outguid.value._b;
@@ -1330,9 +1486,9 @@ var System;
                 if (typeof args[0] == "Array") {
                     var b = args;
                     Guid.CheckArray(b, 16);
-                    this._a = System.BitConverter.ToInt32(b, 0).Value;
-                    this._b = System.BitConverter.ToInt16(b, 4).Value;
-                    this._c = System.BitConverter.ToInt16(b, 6).Value;
+                    this._a = System.BitConverter.toInt32(b, 0).Value;
+                    this._b = System.BitConverter.toInt16(b, 4).Value;
+                    this._c = System.BitConverter.toInt16(b, 6).Value;
                     this._d = b[8];
                     this._e = b[9];
                     this._f = b[10];
@@ -1344,7 +1500,7 @@ var System;
                 }
             }
         }
-        Guid.NewGuid = function () {
+        Guid.newGuid = function () {
             var b = new Uint8Array(16);
 
             for (var i = 0; i < 16; i++) {
@@ -1362,10 +1518,10 @@ var System;
         };
 
         Guid.CreateFormatException = function (s) {
-            return new System.FormatException(System.String.Format("Invalid Guid format: {0}", s));
+            return new System.FormatException(System.String.format("Invalid Guid format: {0}", s));
         };
 
-        Guid.Construct_numbers = function (a, b, c, d, e, f, g, h, i, j, k) {
+        Guid.construct_numbers = function (a, b, c, d, e, f, g, h, i, j, k) {
             var result = new Guid();
             result._a = a;
             result._b = b;
@@ -1381,9 +1537,9 @@ var System;
             return result;
         };
 
-        Guid.prototype.Equals = function (o) {
-            if (System.Statements.Is(o, Guid._type))
-                return this.CompareTo(o) == 0;
+        Guid.prototype.equals = function (o) {
+            if (System.Statements.is(o, Guid._type))
+                return this.compareTo(o) == 0;
 
             return false;
         };
@@ -1395,7 +1551,7 @@ var System;
             return (x < y) ? -1 : 1;
         };
 
-        Guid.prototype.CompareTo = function (value) {
+        Guid.prototype.compareTo = function (value) {
             if (this._a != value._a) {
                 return Guid.__internalCompare(this._a, value._a);
             }
@@ -1432,7 +1588,7 @@ var System;
             return 0;
         };
 
-        Guid.prototype.GetHashCode = function () {
+        Guid.prototype.getHashCode = function () {
             var res;
             res = this._a;
             res = res ^ (this._b << 16 | this._c);
@@ -1451,25 +1607,25 @@ var System;
             return b.toString(16);
         };
 
-        Guid.prototype.ToByteArray = function () {
+        Guid.prototype.toByteArray = function () {
             var res = new Uint8Array(16);
 
             var tmp;
             var d = 0;
             var s;
 
-            tmp = System.BitConverter.GetBytes_Int32(this._a);
+            tmp = System.BitConverter.getBytes_Int32(this._a);
 
             for (s = 0; s < 4; ++s) {
                 res[d++] = tmp[s];
             }
 
-            tmp = System.BitConverter.GetBytes_Int16(this._b);
+            tmp = System.BitConverter.getBytes_Int16(this._b);
             for (s = 0; s < 2; ++s) {
                 res[d++] = tmp[s];
             }
 
-            tmp = System.BitConverter.GetBytes_Int16(this._c);
+            tmp = System.BitConverter.getBytes_Int16(this._c);
             for (s = 0; s < 2; ++s) {
                 res[d++] = tmp[s];
             }
@@ -1486,42 +1642,42 @@ var System;
             return res;
         };
 
-        Guid.AppendInt = function (builder, value) {
-            builder.Append(Guid.ToHex((value >> 28) & 0xf));
-            builder.Append(Guid.ToHex((value >> 24) & 0xf));
-            builder.Append(Guid.ToHex((value >> 20) & 0xf));
-            builder.Append(Guid.ToHex((value >> 16) & 0xf));
-            builder.Append(Guid.ToHex((value >> 12) & 0xf));
-            builder.Append(Guid.ToHex((value >> 8) & 0xf));
-            builder.Append(Guid.ToHex((value >> 4) & 0xf));
-            builder.Append(Guid.ToHex(value & 0xf));
+        Guid.appendInt = function (builder, value) {
+            builder.append(Guid.ToHex((value >> 28) & 0xf));
+            builder.append(Guid.ToHex((value >> 24) & 0xf));
+            builder.append(Guid.ToHex((value >> 20) & 0xf));
+            builder.append(Guid.ToHex((value >> 16) & 0xf));
+            builder.append(Guid.ToHex((value >> 12) & 0xf));
+            builder.append(Guid.ToHex((value >> 8) & 0xf));
+            builder.append(Guid.ToHex((value >> 4) & 0xf));
+            builder.append(Guid.ToHex(value & 0xf));
         };
 
-        Guid.AppendShort = function (builder, value) {
-            builder.Append(Guid.ToHex((value >> 12) & 0xf));
-            builder.Append(Guid.ToHex((value >> 8) & 0xf));
-            builder.Append(Guid.ToHex((value >> 4) & 0xf));
-            builder.Append(Guid.ToHex(value & 0xf));
+        Guid.appendShort = function (builder, value) {
+            builder.append(Guid.ToHex((value >> 12) & 0xf));
+            builder.append(Guid.ToHex((value >> 8) & 0xf));
+            builder.append(Guid.ToHex((value >> 4) & 0xf));
+            builder.append(Guid.ToHex(value & 0xf));
         };
 
-        Guid.AppendByte = function (builder, value) {
-            builder.Append(Guid.ToHex((value >> 4) & 0xf));
-            builder.Append(Guid.ToHex(value & 0xf));
+        Guid.appendByte = function (builder, value) {
+            builder.append(Guid.ToHex((value >> 4) & 0xf));
+            builder.append(Guid.ToHex(value & 0xf));
         };
 
-        Guid.prototype.ToString2 = function () {
-            return this.ToString(1 /* D */);
+        Guid.prototype.toString2 = function () {
+            return this.toString(1 /* D */);
         };
 
-        Guid.prototype.ToString3 = function (format) {
+        Guid.prototype.toString3 = function (format) {
             if (typeof format === "undefined") { format = "D"; }
-            return this.ToString(Guid.ParseFormat(format));
+            return this.toString(Guid.parseFormat(format));
         };
 
-        Guid.prototype.ToString = function (format) {
+        Guid.prototype.toString = function (format) {
             if (format) {
                 if (typeof format === "string") {
-                    format = Guid.ParseFormat(format);
+                    format = Guid.parseFormat(format);
                 }
             } else {
                 format = 1 /* D */;
@@ -1547,73 +1703,73 @@ var System;
             }
 
             var res = new System.Text.StringBuilder();
-            var has_hyphen = GuidParser.HasHyphen(format);
+            var has_hyphen = GuidParser.hasHyphen(format);
 
             if (format == 3 /* P */) {
-                res.Append('(');
+                res.append('(');
             } else if (format == 2 /* B */) {
-                res.Append('{');
+                res.append('{');
             } else if (format == 4 /* X */) {
-                res.Append('{').Append('0').Append('x');
+                res.append('{').append('0').append('x');
             }
 
-            Guid.AppendInt(res, this._a);
+            Guid.appendInt(res, this._a);
             if (has_hyphen) {
-                res.Append('-');
+                res.append('-');
             } else if (format == 4 /* X */) {
-                res.Append(',').Append('0').Append('x');
+                res.append(',').append('0').append('x');
             }
 
-            Guid.AppendShort(res, this._b);
+            Guid.appendShort(res, this._b);
             if (has_hyphen) {
-                res.Append('-');
+                res.append('-');
             } else if (format == 4 /* X */) {
-                res.Append(',').Append('0').Append('x');
+                res.append(',').append('0').append('x');
             }
 
-            Guid.AppendShort(res, this._c);
+            Guid.appendShort(res, this._c);
             if (has_hyphen) {
-                res.Append('-');
+                res.append('-');
             }
 
             if (format == 4 /* X */) {
-                res.Append(',').Append('{').Append('0').Append('x');
-                Guid.AppendByte(res, this._d);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._e);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._f);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._g);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._h);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._i);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._j);
-                res.Append(',').Append('0').Append('x');
-                Guid.AppendByte(res, this._k);
-                res.Append('}').Append('}');
+                res.append(',').append('{').append('0').append('x');
+                Guid.appendByte(res, this._d);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._e);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._f);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._g);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._h);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._i);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._j);
+                res.append(',').append('0').append('x');
+                Guid.appendByte(res, this._k);
+                res.append('}').append('}');
                 ;
             } else {
-                Guid.AppendByte(res, this._d);
-                Guid.AppendByte(res, this._e);
+                Guid.appendByte(res, this._d);
+                Guid.appendByte(res, this._e);
 
                 if (has_hyphen) {
-                    res.Append('-');
+                    res.append('-');
                 }
 
-                Guid.AppendByte(res, this._f);
-                Guid.AppendByte(res, this._g);
-                Guid.AppendByte(res, this._h);
-                Guid.AppendByte(res, this._i);
-                Guid.AppendByte(res, this._j);
-                Guid.AppendByte(res, this._k);
+                Guid.appendByte(res, this._f);
+                Guid.appendByte(res, this._g);
+                Guid.appendByte(res, this._h);
+                Guid.appendByte(res, this._i);
+                Guid.appendByte(res, this._j);
+                Guid.appendByte(res, this._k);
 
                 if (format == 3 /* P */) {
-                    res.Append(')');
+                    res.append(')');
                 } else if (format == 2 /* B */) {
-                    res.Append('}');
+                    res.append('}');
                 }
             }
 
@@ -1621,60 +1777,60 @@ var System;
         };
 
         Guid.op_Equality = function (a, b) {
-            return a.Equals(b);
+            return a.equals(b);
         };
 
         Guid.op_Inequality = function (a, b) {
-            return !(a.Equals(b));
+            return !(a.equals(b));
         };
 
-        Guid.Parse = function (input) {
+        Guid.parse = function (input) {
             if (input == null)
                 throw new System.ArgumentNullException("input");
 
             var outguid = new System.OutArgument(null);
 
-            if (!Guid.TryParse(input, outguid))
+            if (!Guid.tryParse(input, outguid))
                 throw Guid.CreateFormatException(input);
 
             return outguid.value;
         };
 
-        Guid.ParseExact = function (input, format) {
+        Guid.parseExact = function (input, format) {
             if (input == null)
                 throw new System.ArgumentNullException("input");
             if (format == null)
                 throw new System.ArgumentNullException("format");
 
             var outguid = new System.OutArgument(null);
-            if (!Guid.TryParseExact(input, format, outguid))
+            if (!Guid.tryParseExact(input, format, outguid))
                 throw Guid.CreateFormatException(input);
 
             return outguid.value;
         };
 
-        Guid.TryParse = function (input, result) {
+        Guid.tryParse = function (input, result) {
             if (input == null) {
-                result.value = Guid.Empty;
+                result.value = Guid.empty;
                 return false;
             }
             var parser = new GuidParser(input);
-            return parser.Parse(result);
+            return parser.parse(result);
         };
 
-        Guid.TryParseExact = function (input, format, result) {
+        Guid.tryParseExact = function (input, format, result) {
             if (input == null || format == null) {
-                result.value = Guid.Empty;
+                result.value = Guid.empty;
                 return false;
             }
 
             var parser = new GuidParser(input);
 
-            return parser.Parse(result, Guid.ParseFormat(format));
+            return parser.parse(result, Guid.parseFormat(format));
         };
 
-        Guid.ParseFormat = function (format) {
-            if (System.String.IsNullOrEmpty(format))
+        Guid.parseFormat = function (format) {
+            if (System.String.isNullOrEmpty(format))
                 return 1 /* D */;
 
             switch (format[0]) {
@@ -1707,7 +1863,7 @@ var System;
 
         Guid.CheckLength = function (o, l) {
             if (o.length != l) {
-                throw new System.ArgumentException(System.String.Format("Array should be exactly {0} bytes long.", l));
+                throw new System.ArgumentException(System.String.format("Array should be exactly {0} bytes long.", l));
             }
         };
 
@@ -1717,17 +1873,17 @@ var System;
         };
 
         //ICloneable
-        Guid.prototype.Clone = function () {
+        Guid.prototype.clone = function () {
             return new Guid(this._a, this._b, this._c, this._d, this._e, this._f, this._g, this._h, this._i, this._j, this._k);
         };
 
         //IObject
-        Guid.prototype.GetType = function () {
+        Guid.prototype.getType = function () {
             return Guid._type;
         };
-        Guid._type = System.Type.RegisterClass(Guid, "System.Guid", ["System.ICloneable"]);
+        Guid._type = System.Type.registerClass(Guid, "System.Guid", ["System.ICloneable"]);
 
-        Guid.Empty = Guid.Construct_numbers(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        Guid.empty = Guid.construct_numbers(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         return Guid;
     })();
     System.Guid = Guid;
@@ -1745,9 +1901,9 @@ var System;
     var GuidParser = (function () {
         function GuidParser(src) {
             this._src = src;
-            this.Reset();
+            this.reset();
         }
-        GuidParser.prototype.Reset = function () {
+        GuidParser.prototype.reset = function () {
             this._cur = 0;
             this._length = this._src.length;
         };
@@ -1760,7 +1916,7 @@ var System;
             configurable: true
         });
 
-        GuidParser.HasHyphen = function (format) {
+        GuidParser.hasHyphen = function (format) {
             switch (format) {
                 case 1 /* D */:
                 case 2 /* B */:
@@ -1771,7 +1927,7 @@ var System;
             }
         };
 
-        GuidParser.prototype.Parse = function (outguid, format) {
+        GuidParser.prototype.parse = function (outguid, format) {
             if (format) {
                 if (format == 4 /* X */)
                     return this.TryParseX(outguid);
@@ -1782,19 +1938,19 @@ var System;
             if (this.TryParseNDBP(0 /* N */, outguid))
                 return true;
 
-            this.Reset();
+            this.reset();
             if (this.TryParseNDBP(1 /* D */, outguid))
                 return true;
 
-            this.Reset();
+            this.reset();
             if (this.TryParseNDBP(2 /* B */, outguid))
                 return true;
 
-            this.Reset();
+            this.reset();
             if (this.TryParseNDBP(3 /* P */, outguid))
                 return true;
 
-            this.Reset();
+            this.reset();
             return this.TryParseX(outguid);
         };
 
@@ -1812,7 +1968,7 @@ var System;
             if (!this.ParseHex(8, true, a))
                 return false;
 
-            var has_hyphen = GuidParser.HasHyphen(format);
+            var has_hyphen = GuidParser.hasHyphen(format);
 
             if (has_hyphen && !this.ParseChar('-'))
                 return false;
@@ -1929,7 +2085,12 @@ var System;
     })();
 })(System || (System = {}));
 /// <reference path="Interfaces/IFormattable.ts" />
+/// <reference path="Interfaces/IComparable.ts"/>
+/// <reference path="Interfaces/IEquatable.ts"/>
 /// <reference path="Globalization/NumberStyles.ts" />
+/// <reference path="IObject.ts"/>
+/// <reference path="Type.ts"/>
+/// <reference path="IntBase.ts"/>
 var System;
 (function (System) {
     //TODO : IConvertible
@@ -1939,10 +2100,10 @@ var System;
             _super.call(this, value);
         }
         //IObject
-        Int16.prototype.GetType = function () {
+        Int16.prototype.getType = function () {
             return Int16._type;
         };
-        Int16._type = System.Type.RegisterClass(System.Int32, "System.Int16", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
+        Int16._type = System.Type.registerClass(System.Int32, "System.Int16", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
 
         Int16.MaxValue = 32767;
         Int16.MinValue = -32768;
@@ -1950,44 +2111,10 @@ var System;
     })(System.IntBase);
     System.Int16 = Int16;
 })(System || (System = {}));
-var System;
-(function (System) {
-    var String = (function () {
-        function String() {
-        }
-        Object.defineProperty(String, "Empty", {
-            get: function () {
-                return "";
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        String.Format = function (value) {
-            var replacements = [];
-            for (var _i = 0; _i < (arguments.length - 1); _i++) {
-                replacements[_i] = arguments[_i + 1];
-            }
-            var formatted = value;
-            for (var i = 0; i < replacements.length; i++) {
-                formatted = formatted.replace(RegExp("\\{" + i + "\\}", 'g'), replacements[i].toString());
-            }
-            return formatted;
-        };
-
-        String.IsNullOrEmpty = function (value) {
-            return (value == null) || (value.length == 0);
-        };
-
-        //IObject
-        String.prototype.GetType = function () {
-            return String._type;
-        };
-        String._type = System.Type.RegisterClass(String, "System.String", []);
-        return String;
-    })();
-    System.String = String;
-})(System || (System = {}));
+/// <reference path="../../Interfaces/IEnumerable.ts"/>
+/// <reference path="ICollection.ts"/>
+/// <reference path="../../Exceptions/Exception.ts"/>
+/// <reference path="../../IObject.ts"/>
 var System;
 (function (System) {
     (function (Collections) {
@@ -1998,10 +2125,10 @@ var System;
                     _super.apply(this, arguments);
                 }
                 //IObject
-                KeyNotFoundException.prototype.GetType = function () {
+                KeyNotFoundException.prototype.getType = function () {
                     return KeyNotFoundException._type;
                 };
-                KeyNotFoundException._type = System.Type.RegisterClass(KeyNotFoundException, "System.Collection.Generic.KeyNotFoundException", []);
+                KeyNotFoundException._type = System.Type.registerClass(KeyNotFoundException, "System.Collection.Generic.KeyNotFoundException", []);
                 return KeyNotFoundException;
             })(System.Exception);
             Generic.KeyNotFoundException = KeyNotFoundException;
@@ -2047,6 +2174,10 @@ var System;
     })(System.Collections || (System.Collections = {}));
     var Collections = System.Collections;
 })(System || (System = {}));
+/// <reference path="../../IObject.ts"/>
+/// <reference path="../../Interfaces/IEnumerable.ts"/>
+/// <reference path="../../Interfaces/IEnumerator.ts"/>
+/// <reference path="IList.ts"/>
 var System;
 (function (System) {
     (function (Collections) {
@@ -2056,7 +2187,7 @@ var System;
                     this.list = [];
                     this.changecount = 0;
                 }
-                Object.defineProperty(List.prototype, "Count", {
+                Object.defineProperty(List.prototype, "count", {
                     get: function () {
                         return this.list.length;
                     },
@@ -2064,7 +2195,7 @@ var System;
                     configurable: true
                 });
 
-                Object.defineProperty(List.prototype, "IsReadOnly", {
+                Object.defineProperty(List.prototype, "isReadOnly", {
                     get: function () {
                         return false;
                     },
@@ -2072,29 +2203,29 @@ var System;
                     configurable: true
                 });
 
-                List.prototype.Add = function (item) {
+                List.prototype.add = function (item) {
                     this.changecount++;
                     this.list.push(item);
                 };
 
-                List.prototype.Clear = function () {
+                List.prototype.clear = function () {
                     this.changecount++;
                     this.list = [];
                 };
 
-                List.prototype.Contains = function (item) {
+                List.prototype.contains = function (item) {
                     return (this.list.indexOf(item) > -1);
                 };
 
-                List.prototype.CopyTo = function (array, arrayIndex) {
+                List.prototype.copyTo = function (array, arrayIndex) {
                     for (var i = 0; i < this.list.length; i++) {
                         array[i + arrayIndex] = this.list[i];
                     }
                 };
 
-                List.prototype.Remove = function (item) {
+                List.prototype.remove = function (item) {
                     this.changecount++;
-                    var index = this.IndexOf(item);
+                    var index = this.indexOf(item);
                     if (index >= 0) {
                         this.list.splice(index);
                         return true;
@@ -2102,15 +2233,15 @@ var System;
                     return false;
                 };
 
-                List.prototype.Indexer = function (index) {
+                List.prototype.indexer = function (index) {
                     return this.list[index];
                 };
 
-                List.prototype.IndexOf = function (item) {
+                List.prototype.indexOf = function (item) {
                     return this.list.indexOf(item);
                 };
 
-                List.prototype.RemoveAt = function (index) {
+                List.prototype.removeAt = function (index) {
                     if (index >= this.list.length) {
                         throw new System.ArgumentOutOfRangeException("", null, "index");
                     }
@@ -2118,20 +2249,20 @@ var System;
                     this.list.splice(index);
                 };
 
-                List.prototype.Insert = function (index, item) {
+                List.prototype.insert = function (index, item) {
                     this.changecount++;
                     this.list.splice(2, 0, item);
                 };
 
-                List.prototype.GetEnumerator = function () {
+                List.prototype.getEnumerator = function () {
                     return new ListEnumerator(this);
                 };
 
                 //IObject
-                List.prototype.GetType = function () {
+                List.prototype.getType = function () {
                     return List._type;
                 };
-                List._type = System.Type.RegisterClass(List, "System.Collections.Generic.List", [""]);
+                List._type = System.Type.registerClass(List, "System.Collections.Generic.List", [""]);
                 return List;
             })();
             Generic.List = List;
@@ -2147,33 +2278,33 @@ var System;
                     }
                 };
 
-                Object.defineProperty(ListEnumerator.prototype, "Current", {
+                Object.defineProperty(ListEnumerator.prototype, "current", {
                     get: function () {
-                        return this.current;
+                        return this._current;
                     },
                     enumerable: true,
                     configurable: true
                 });
 
-                ListEnumerator.prototype.MoveNext = function () {
-                    if (this.index < this.interalList.Count) {
-                        this.current = this.interalList.Indexer(this.index);
+                ListEnumerator.prototype.moveNext = function () {
+                    if (this.index < this.interalList.count) {
+                        this.current = this.interalList.indexer(this.index);
                         this.index++;
                         return true;
                     }
 
                     this.checkChangeCount();
 
-                    this.index = this.interalList.Count + 1;
+                    this.index = this.interalList.count + 1;
                     this.current = null;
                     return false;
                 };
 
-                ListEnumerator.prototype.Reset = function () {
+                ListEnumerator.prototype.reset = function () {
                     this.index = -1;
                 };
 
-                ListEnumerator.prototype.Dispose = function () {
+                ListEnumerator.prototype.dispose = function () {
                     this.interalList = null;
                 };
                 return ListEnumerator;
@@ -2183,58 +2314,9 @@ var System;
     })(System.Collections || (System.Collections = {}));
     var Collections = System.Collections;
 })(System || (System = {}));
-/// <reference path="ArgumentException.ts" />
-var System;
-(function (System) {
-    var ArgumentOutOfRangeException = (function (_super) {
-        __extends(ArgumentOutOfRangeException, _super);
-        function ArgumentOutOfRangeException(message, innerException, paramName) {
-            _super.call(this, message, innerException, paramName);
-        }
-        //IObject
-        ArgumentOutOfRangeException.prototype.GetType = function () {
-            return ArgumentOutOfRangeException._type;
-        };
-        ArgumentOutOfRangeException._type = System.Type.RegisterClass(ArgumentOutOfRangeException, "System.ArgumentOutOfRangeException", []);
-        return ArgumentOutOfRangeException;
-    })(System.ArgumentException);
-    System.ArgumentOutOfRangeException = ArgumentOutOfRangeException;
-})(System || (System = {}));
 /// <reference path="Exception.ts" />
-var System;
-(function (System) {
-    var FormatException = (function (_super) {
-        __extends(FormatException, _super);
-        function FormatException(message, innerException) {
-            _super.call(this, message, innerException);
-        }
-        //IObject
-        FormatException.prototype.GetType = function () {
-            return FormatException._type;
-        };
-        FormatException._type = System.Type.RegisterClass(FormatException, "System.FormatException", []);
-        return FormatException;
-    })(System.Exception);
-    System.FormatException = FormatException;
-})(System || (System = {}));
-/// <reference path="Exception.ts" />
-var System;
-(function (System) {
-    var InvalidCastException = (function (_super) {
-        __extends(InvalidCastException, _super);
-        function InvalidCastException(message, innerException) {
-            _super.call(this, message, innerException);
-        }
-        //IObject
-        InvalidCastException.prototype.GetType = function () {
-            return InvalidCastException._type;
-        };
-        InvalidCastException._type = System.Type.RegisterClass(InvalidCastException, "System.InvalidCastException", []);
-        return InvalidCastException;
-    })(System.Exception);
-    System.InvalidCastException = InvalidCastException;
-})(System || (System = {}));
-/// <reference path="Exception.ts" />
+/// <reference path="../IObject.ts"/>
+/// <reference path="../Type.ts"/>
 var System;
 (function (System) {
     var InvalidOperationException = (function (_super) {
@@ -2243,29 +2325,13 @@ var System;
             _super.call(this, message, innerException);
         }
         //IObject
-        InvalidOperationException.prototype.GetType = function () {
+        InvalidOperationException.prototype.getType = function () {
             return InvalidOperationException._type;
         };
-        InvalidOperationException._type = System.Type.RegisterClass(InvalidOperationException, "System.InvalidOperationException", []);
+        InvalidOperationException._type = System.Type.registerClass(InvalidOperationException, "System.InvalidOperationException", []);
         return InvalidOperationException;
     })(System.Exception);
     System.InvalidOperationException = InvalidOperationException;
-})(System || (System = {}));
-var System;
-(function (System) {
-    (function (Globalization) {
-        var CultureInfo = (function () {
-            function CultureInfo() {
-            }
-            return CultureInfo;
-        })();
-        Globalization.CultureInfo = CultureInfo;
-    })(System.Globalization || (System.Globalization = {}));
-    var Globalization = System.Globalization;
-})(System || (System = {}));
-var System;
-(function (System) {
-    System.Type.RegisterInterface("ICloneable");
 })(System || (System = {}));
 /// <reference path="../../Type.ts" />
 var System;
@@ -2312,3 +2378,62 @@ var System;
     var Runtime = System.Runtime;
 })(System || (System = {}));
 /// <reference path="../Int32.ts" />
+//* Typescript Base Class Library
+//* Closing the gap between C# and Javascript
+//*
+//* Authors : Lucas Vos
+//*         : Mono , Stackoverflow
+/// <reference path="Code/Action.ts" />
+/// <reference path="Code/Attribute.ts" />
+/// <reference path="Code/AttributeTargets.ts" />
+/// <reference path="Code/AttributeUsageAttribute.ts" />
+/// <reference path="Code/BitConverter.ts" />
+/// <reference path="Code/Byte.ts" />
+/// <reference path="Code/Char.ts" />
+/// <reference path="Code/DateTime.ts" />
+/// <reference path="Code/Environment.ts" />
+/// <reference path="Code/Func.ts" />
+/// <reference path="Code/Guid.ts" />
+/// <reference path="Code/Int16.ts" />
+/// <reference path="Code/Int32.ts" />
+/// <reference path="Code/IntBase.ts" />
+/// <reference path="Code/IObject.ts" />
+/// <reference path="Code/LinqStuff.ts" />
+/// <reference path="Code/OutArgument.ts" />
+/// <reference path="Code/Statements.ts" />
+/// <reference path="Code/String.ts" />
+/// <reference path="Code/Type.ts" />
+/// <reference path="Code/TypeCode.ts" />
+/// <reference path="Code/Collections/Generic/ICollection.ts" />
+/// <reference path="Code/Collections/Generic/IList.ts" />
+/// <reference path="Code/Collections/Generic/KeyNotFoundException.ts" />
+/// <reference path="Code/Collections/Generic/KeyValuePair.ts" />
+/// <reference path="Code/Collections/Generic/List.ts" />
+/// <reference path="Code/Exceptions/ArgumentException.ts" />
+/// <reference path="Code/Exceptions/ArgumentNullException.ts" />
+/// <reference path="Code/Exceptions/ArgumentOutOfRangeException.ts" />
+/// <reference path="Code/Exceptions/Exception.ts" />
+/// <reference path="Code/Exceptions/FormatException.ts" />
+/// <reference path="Code/Exceptions/InvalidCastException.ts" />
+/// <reference path="Code/Exceptions/InvalidOperationException.ts" />
+/// <reference path="Code/Exceptions/NotImplementedException.ts" />
+/// <reference path="Code/Globalization/CultureInfo.ts" />
+/// <reference path="Code/Globalization/NumberStyles.ts" />
+/// <reference path="Code/Globalization/UnicodeCategory.ts" />
+/// <reference path="Code/Interfaces/ICloneable.ts" />
+/// <reference path="Code/Interfaces/IComparable.ts" />
+/// <reference path="Code/Interfaces/IConvertible.ts" />
+/// <reference path="Code/Interfaces/IDisposable.ts" />
+/// <reference path="Code/Interfaces/IEnumerable.ts" />
+/// <reference path="Code/Interfaces/IEnumerator.ts" />
+/// <reference path="Code/Interfaces/IEquatable.ts" />
+/// <reference path="Code/Interfaces/IFormatProvider.ts" />
+/// <reference path="Code/Interfaces/IFormattable.ts" />
+/// <reference path="Code/Runtime/Serialization/IFormatConverter.ts" />
+/// <reference path="Code/Runtime/Serialization/ISerializable.ts" />
+/// <reference path="Code/Runtime/Serialization/SerializationEntry.ts" />
+/// <reference path="Code/Runtime/Serialization/SerializationInfo.ts" />
+/// <reference path="Code/Runtime/Serialization/StreamingContext.ts" />
+/// <reference path="Code/Runtime/Serialization/StreamingContextStates.ts" />
+/// <reference path="Code/Text/StringBuilder.ts" />
+/// <reference path="Code/Text/StringBuilder2.ts" />

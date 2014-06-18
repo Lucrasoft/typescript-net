@@ -5,8 +5,8 @@ describe("Guid", () => {
     it("should parse correct", () => {
 
 
-        var g = System.Guid.Parse("{3F2504E0-4F89-11D3-9A0C-0305E82C3301}");
-        var b = g.ToByteArray();
+        var g = System.Guid.parse("{3F2504E0-4F89-11D3-9A0C-0305E82C3301}");
+        var b = g.toByteArray();
 
         expect(b[0]).toBe(3);
         expect(b[1]).toBe(15);
@@ -24,10 +24,10 @@ describe("Guid", () => {
 
         var g = new System.Guid(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        expect(g.ToString("N")).toBe("0000000000010002030405060708090a");
-        expect(g.ToString("D")).toBe("00000000-0001-0002-0304-05060708090a");
-        expect(g.ToString("B")).toBe("{00000000-0001-0002-0304-05060708090a}");
-        expect(g.ToString("P")).toBe("(00000000-0001-0002-0304-05060708090a)");
+        expect(g.toString("N")).toBe("0000000000010002030405060708090a");
+        expect(g.toString("D")).toBe("00000000-0001-0002-0304-05060708090a");
+        expect(g.toString("B")).toBe("{00000000-0001-0002-0304-05060708090a}");
+        expect(g.toString("P")).toBe("(00000000-0001-0002-0304-05060708090a)");
     });
 
  

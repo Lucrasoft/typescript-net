@@ -9,7 +9,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>0.9</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -78,10 +78,10 @@
     <TypeScriptCompile Include="Code\Random.ts" />
     <TypeScriptCompile Include="Code\EventArgs.ts" />
     <TypeScriptCompile Include="Code\EventHandler.ts" />
-    <TypeScriptCompile Include="Code\TimeSpan.ts" />
     <TypeScriptCompile Include="Code\Int64.ts" />
     <TypeScriptCompile Include="Code\Exceptions\OverflowException.ts" />
     <TypeScriptCompile Include="Code\Globalization\TimeSpanStyles.ts" />
+    <TypeScriptCompile Include="Code\Object.ts" />
     <Content Include="Compiled\System.Debug.js" />
     <Content Include="SpecRunner.html" />
     <TypeScriptCompile Include="Tests\StringBuilderSpec.ts" />

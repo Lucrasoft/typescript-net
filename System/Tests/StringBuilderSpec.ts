@@ -10,9 +10,9 @@ describe("StringBuilder", () => {
 
     it("Insert", () => {
         var sb = new System.Text.StringBuilder();
-        sb.Append("hello");
-        sb.Append("world");
-        sb.Insert(5, "-", 2);
+        sb.append("hello");
+        sb.append("world");
+        sb.insert(5, "-", 2);
         expect(sb.ToString()).toBe("hello--world");
     });
 
