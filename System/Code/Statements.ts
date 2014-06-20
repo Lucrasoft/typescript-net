@@ -7,6 +7,10 @@ module System {
 
     export class Statements {
 
+        constructor() {
+            
+        }
+
         //Simulates the ForEach statement
         static forEach<T>(collection: IEnumberable<T>, callback: System.Action<T>): void {
             

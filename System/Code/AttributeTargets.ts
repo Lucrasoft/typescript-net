@@ -19,4 +19,6 @@ module System {
         All = Assembly | Module | Class | Struct | Enum | Constructor |
         Method | Property | Field | Event | Interface | Parameter | Delegate | ReturnValue | GenericParameter
     }
+
+    System.Type.registerEnum(AttributeTargets, "System.AttributeTargets");
 }

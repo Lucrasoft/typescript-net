@@ -1,9 +1,8 @@
 /// <reference path="../Type.ts"/>
-/// <reference path="../IObject.ts"/>
 
 module System {
 
-    export class Exception implements Error, IObject {
+    export class Exception extends System.Object implements Error {
         private static type = System.Type.registerClass(Exception, "System.Exception", []);
 
         public get name(): string {
@@ -15,12 +14,12 @@ module System {
    
     
         constructor(message?: string, innerException?: Exception) {
+            super();
 
             this.err = new Error(message);
             if (message) {
                 this.message = message;
             }
-
         }
 
         //IObject

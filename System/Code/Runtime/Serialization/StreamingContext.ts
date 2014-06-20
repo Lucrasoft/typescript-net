@@ -1,5 +1,4 @@
 /// <reference path="StreamingContextStates.ts" />  
-/// <reference path="../../IObject.ts"/>
 /// <reference path="../../Type.ts"/>
 /// <reference path="../../Statements.ts"/>
 
@@ -7,14 +6,15 @@ module System.Runtime.Serialization {
 
 
 
-    export class StreamingContext implements IObject {
-        private static _type: Type = System.Type.registerClass(StreamingContext, "System.Runtime.Serialization.StreamingContext", []);
+    export class StreamingContext extends System.Object {
+        static _type: Type = System.Type.registerClass(StreamingContext, "System.Runtime.Serialization.StreamingContext", []);
 
         state: StreamingContextStates
 		additional: any;
 
 
         constructor(state: StreamingContextStates, additional: any = null) {
+            super();
             this.state = state;
             this.additional = additional;
         }

@@ -11,5 +11,7 @@ module System.Runtime.Serialization {
         Clone = 64,
         CrossAppDomain = 128,
         All = 255,
-    } 
+    }
+
+    System.Type.registerEnum(StreamingContextStates, "System.Runtime.Serialization.StreamingContextStates");
 }

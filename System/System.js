@@ -18,7 +18,6 @@
 /// <reference path="Code/Int16.ts" />
 /// <reference path="Code/Int32.ts" />
 /// <reference path="Code/IntBase.ts" />
-/// <reference path="Code/IObject.ts" />
 /// <reference path="Code/LinqStuff.ts" />
 /// <reference path="Code/OutArgument.ts" />
 /// <reference path="Code/Statements.ts" />

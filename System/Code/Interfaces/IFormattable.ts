@@ -10,4 +10,5 @@ module System {
 
     }
 
+    System.Type.registerInterface("System.IFormattable");
 }

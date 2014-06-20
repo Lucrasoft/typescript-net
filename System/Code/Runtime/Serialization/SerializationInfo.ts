@@ -1,5 +1,4 @@
-/// <reference path="../../Type.ts" />  
-/// <reference path="../../IObject.ts" />   
+/// <reference path="../../Type.ts" />   
 
 
 module System.Runtime.Serialization {

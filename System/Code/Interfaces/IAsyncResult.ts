@@ -7,5 +7,7 @@ module System {
         CompletedSynchronously: boolean;
         IsCompleted: boolean;
     }
+
+    System.Type.registerInterface("System.IAsyncResult");
 }
 	

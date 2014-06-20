@@ -7,5 +7,5 @@ module System {
         getEnumerator(): IEnumerator<T>;
     }
 
-
+    System.Type.registerInterface("System.IEnumerable");
 }

@@ -1,17 +1,18 @@
-/// <reference path="IObject.ts"/>
 /// <reference path="Type.ts"/>
 
 module System {
-    export class EventArgs implements IObject {
-        public static _type: Type = System.Type.registerClass(EventArgs, "System.EventArgs", []);
+    export class EventArgs extends System.Object {
+        static _type: Type = System.Type.registerClass(EventArgs, "System.EventArgs", []);
         
-        public static Empty: EventArgs = new EventArgs();
+        static Empty: EventArgs = new EventArgs();
 
-        constructor() { }
+        constructor() {
+            super();
+        }
         
 
         //IObject
-        public getType(): Type { return EventArgs._type; }
+        getType(): Type { return EventArgs._type; }
     }
 
 }

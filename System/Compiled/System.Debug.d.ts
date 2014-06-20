@@ -10,6 +10,7 @@ declare module System {
         public isClass: boolean;
         public isInterface: boolean;
         public isEnum: boolean;
+        constructor();
         static registerClass(_class: any, name: string, interfaces: string[]): Type;
         static registerInterface(name: string, parent?: string): void;
         static registerEnum(_enum: any, name: string): Type;
@@ -19,20 +20,15 @@ declare module System {
     }
 }
 declare module System {
-    interface IObject {
-        getType(): Type;
-    }
-}
-declare module System {
     class Object {
-        static _type: Type;
+        static _type: System.Type;
         constructor();
         public equals(obj: any): boolean;
         static equals(objA: any, objB: any): boolean;
         private memberwiseClone();
         private getInstance(t);
         public toString(): string;
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System {
@@ -47,30 +43,30 @@ declare module System {
     }
 }
 declare module System {
-    class Exception implements Error, IObject {
+    class Exception extends System.Object implements Error {
         private static type;
         public name : string;
         public message: string;
         private err;
         constructor(message?: string, innerException?: Exception);
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System {
-    class NotImplementedException extends Exception implements IObject {
-        private static _type;
-        constructor(message?: string, innerException?: Exception);
-        public getType(): Type;
+    class NotImplementedException extends System.Exception {
+        static _type: System.Type;
+        constructor(message?: string, innerException?: System.Exception);
+        public getType(): System.Type;
     }
 }
 declare module System {
-    class Attribute implements IObject {
-        private static type;
+    class Attribute extends System.Object {
+        static type: System.Type;
         constructor();
-        static getCustomAttribute(element: IObject, attributeType: Type): Attribute;
-        static isDefined(element: IObject, attributeType: Type, inherit: boolean): boolean;
+        static getCustomAttribute(element: System.Object, attributeType: System.Type): Attribute;
+        static isDefined(element: System.Object, attributeType: System.Type, inherit: boolean): boolean;
         static getCustomAttributes(): Attribute[];
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System {
@@ -94,14 +90,14 @@ declare module System {
     }
 }
 declare module System {
-    class AttributeUsageAttribute extends Attribute implements IObject {
-        private static _type;
+    class AttributeUsageAttribute extends System.Attribute {
+        static _type: System.Type;
         private valid_on;
         public Inherited: boolean;
         public AllowMultiple: boolean;
-        constructor(validOn: AttributeTargets);
-        public validOn : AttributeTargets;
-        public getType(): Type;
+        constructor(validOn: System.AttributeTargets);
+        public validOn : System.AttributeTargets;
+        public getType(): System.Type;
     }
 }
 declare module System {
@@ -110,7 +106,7 @@ declare module System {
     }
 }
 declare module System {
-    interface IEnumerator<T> extends IDisposable {
+    interface IEnumerator<T> extends System.IDisposable {
         current: T;
         moveNext(): boolean;
         reset(): void;
@@ -118,16 +114,17 @@ declare module System {
 }
 declare module System {
     interface IEnumberable<T> {
-        getEnumerator(): IEnumerator<T>;
+        getEnumerator(): System.IEnumerator<T>;
     }
 }
 declare module System {
     class Statements {
-        static forEach<T>(collection: IEnumberable<T>, callback: Action<T>): void;
-        static as<T>(object: any, TofT: Type): T;
+        constructor();
+        static forEach<T>(collection: System.IEnumberable<T>, callback: System.Action<T>): void;
+        static as<T>(object: any, TofT: System.Type): T;
         static Implements(object: any, Interface: string): void;
-        static typeOf(object: any): Type;
-        static is(object: any, type: Type): boolean;
+        static typeOf(object: any): System.Type;
+        static is(object: any, type: System.Type): boolean;
     }
 }
 declare module System {
@@ -141,12 +138,12 @@ declare module System {
 }
 declare module System {
     interface IFormatProvider {
-        getFormat(formatType: Type): IObject;
+        getFormat(formatType: System.Type): System.Object;
     }
 }
 declare module System {
     interface IFormattable {
-        toString(format: string, formatProvider: IFormatProvider): string;
+        toString(format: string, formatProvider: System.IFormatProvider): string;
     }
 }
 declare module System {
@@ -160,19 +157,19 @@ declare module System {
     }
 }
 declare module System {
-    class ArgumentException extends Exception implements IObject {
-        static _type: Type;
+    class ArgumentException extends System.Exception {
+        static _type: System.Type;
         public paramName: string;
-        constructor(message?: string, innerException?: Exception, paramName?: string);
+        constructor(message?: string, innerException?: System.Exception, paramName?: string);
         public toString(): string;
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System {
-    class ArgumentNullException extends ArgumentException implements IObject {
-        static _type: Type;
-        constructor(message?: string, innerException?: Exception, paramName?: string);
-        public getType(): Type;
+    class ArgumentNullException extends System.ArgumentException {
+        static _type: System.Type;
+        constructor(message?: string, innerException?: System.Exception, paramName?: string);
+        public getType(): System.Type;
     }
 }
 declare module System.Globalization {
@@ -197,28 +194,28 @@ declare module System.Globalization {
     }
 }
 declare module System {
-    class IntBase implements IFormattable, IComparable<IntBase>, IEquatable<IntBase>, IObject {
-        static _type: Type;
+    class IntBase extends System.Object implements System.IFormattable, System.IComparable<IntBase>, System.IEquatable<IntBase> {
+        static _type: System.Type;
         private value;
         public Value : number;
         constructor(value: number);
         public compareTo(value: any): number;
         public equals(obj: any): boolean;
         public getHashCode(): number;
-        static parse(s: string, style?: Globalization.NumberStyles, provider?: IFormatProvider): number;
-        static tryParse(s: string, result: OutArgument<number>, style?: Globalization.NumberStyles, provider?: IFormatProvider): boolean;
-        public ToString(format?: string, provider?: IFormatProvider): string;
-        public toType(targetType: Type, provider: IFormatProvider): void;
-        public getType(): Type;
+        static parse(s: string, style?: System.Globalization.NumberStyles, provider?: System.IFormatProvider): number;
+        static tryParse(s: string, result: System.OutArgument<number>, style?: System.Globalization.NumberStyles, provider?: System.IFormatProvider): boolean;
+        public ToString(format?: string, provider?: System.IFormatProvider): string;
+        public toType(targetType: System.Type, provider: System.IFormatProvider): void;
+        public getType(): System.Type;
     }
 }
 declare module System {
-    class Int32 extends IntBase implements IFormattable, IComparable<Int32>, IEquatable<Int32>, IObject {
-        static _type: Type;
+    class Int32 extends System.IntBase implements System.IFormattable, System.IComparable<Int32>, System.IEquatable<Int32> {
+        static _type: System.Type;
         static MaxValue: number;
         static MinValue: number;
         constructor(value: number);
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System.Runtime.Serialization {
@@ -235,16 +232,16 @@ declare module System.Runtime.Serialization {
     }
 }
 declare module System.Runtime.Serialization {
-    class StreamingContext implements IObject {
-        private static _type;
-        public state: StreamingContextStates;
+    class StreamingContext extends System.Object {
+        static _type: System.Type;
+        public state: Serialization.StreamingContextStates;
         public additional: any;
-        constructor(state: StreamingContextStates, additional?: any);
+        constructor(state: Serialization.StreamingContextStates, additional?: any);
         public Context : any;
-        public State : StreamingContextStates;
+        public State : Serialization.StreamingContextStates;
         public equals(obj: any): boolean;
         public getHashCode(): number;
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System.Runtime.Serialization {
@@ -256,12 +253,12 @@ declare module System.Runtime.Serialization {
 }
 declare module System.Runtime.Serialization {
     interface ISerializable {
-        getObjectData(info: SerializationInfo, context: StreamingContext): void;
+        getObjectData(info: Serialization.SerializationInfo, context: Serialization.StreamingContext): void;
     }
 }
 declare module System.Text {
-    class StringBuilder implements Runtime.Serialization.ISerializable, IObject {
-        private static _type;
+    class StringBuilder extends System.Object implements System.Runtime.Serialization.ISerializable {
+        static _type: System.Type;
         private _str;
         constructor(value?: string);
         public MaxCapacity : number;
@@ -276,18 +273,19 @@ declare module System.Text {
         public appendFormat(format: string, ...args: any[]): StringBuilder;
         private InsertInternal(index, value);
         public insert(index: number, value: string, count?: number): StringBuilder;
-        public getType(): Type;
-        public getObjectData(info: Runtime.Serialization.SerializationInfo, context: Runtime.Serialization.StreamingContext): void;
-        static ctor_Serializable(info: Runtime.Serialization.SerializationInfo, context: Runtime.Serialization.StreamingContext): StringBuilder;
+        public getType(): System.Type;
+        public getObjectData(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext): void;
+        static ctor_Serializable(info: System.Runtime.Serialization.SerializationInfo, context: System.Runtime.Serialization.StreamingContext): StringBuilder;
     }
 }
 declare module System {
-    class String implements IObject {
-        private static _type;
+    class String extends System.Object {
+        static _type: System.Type;
+        constructor();
         static empty : string;
         static format(value: string, ...replacements: any[]): string;
         static isNullOrEmpty(value: string): boolean;
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System {
@@ -314,10 +312,10 @@ declare module System {
 }
 declare module System {
     interface IConvertible {
-        getTypeCode(): TypeCode;
-        toNumber(provider: IFormatProvider): number;
-        toString(provider: IFormatProvider): string;
-        toBoolean(provider: IFormatProvider): boolean;
+        getTypeCode(): System.TypeCode;
+        toNumber(provider: System.IFormatProvider): number;
+        toString(provider: System.IFormatProvider): string;
+        toBoolean(provider: System.IFormatProvider): boolean;
     }
 }
 declare module System.Globalization {
@@ -355,24 +353,24 @@ declare module System.Globalization {
     }
 }
 declare module System {
-    class ArgumentOutOfRangeException extends ArgumentException implements IObject {
-        static _type: Type;
-        constructor(message?: string, innerException?: Exception, paramName?: string);
-        public getType(): Type;
+    class ArgumentOutOfRangeException extends System.ArgumentException {
+        static _type: System.Type;
+        constructor(message?: string, innerException?: System.Exception, paramName?: string);
+        public getType(): System.Type;
     }
 }
 declare module System {
-    class InvalidCastException extends Exception implements IObject {
-        private static _type;
-        constructor(message?: string, innerException?: Exception);
-        public getType(): Type;
+    class InvalidCastException extends System.Exception {
+        static _type: System.Type;
+        constructor(message?: string, innerException?: System.Exception);
+        public getType(): System.Type;
     }
 }
 declare module System {
-    class FormatException extends Exception implements IObject {
-        private static _type;
-        constructor(message?: string, innerException?: Exception);
-        public getType(): Type;
+    class FormatException extends System.Exception {
+        static _type: System.Type;
+        constructor(message?: string, innerException?: System.Exception);
+        public getType(): System.Type;
     }
 }
 declare module System.Globalization {
@@ -381,8 +379,8 @@ declare module System.Globalization {
     }
 }
 declare module System {
-    class Char extends Object implements IConvertible, IComparable<Char>, IEquatable<Char> {
-        static _type: Type;
+    class Char extends System.Object implements System.IConvertible, System.IComparable<Char>, System.IEquatable<Char> {
+        static _type: System.Type;
         static MaxValue: number;
         static MinValue: number;
         public value: number;
@@ -406,10 +404,10 @@ declare module System {
         static getNumericValue(c: string): number;
         static getNumericValue(c: string, index: number): number;
         static getNumericValue(c: Char): number;
-        static getUnicodeCategory(c: Char): Globalization.UnicodeCategory;
-        static getUnicodeCategory(c: string): Globalization.UnicodeCategory;
-        static getUnicodeCategory(c: string, index: number): Globalization.UnicodeCategory;
-        static getUnicodeCategory(c: number): Globalization.UnicodeCategory;
+        static getUnicodeCategory(c: Char): System.Globalization.UnicodeCategory;
+        static getUnicodeCategory(c: string): System.Globalization.UnicodeCategory;
+        static getUnicodeCategory(c: string, index: number): System.Globalization.UnicodeCategory;
+        static getUnicodeCategory(c: number): System.Globalization.UnicodeCategory;
         static isControl(c: Char): boolean;
         static isControl(c: string): boolean;
         static isControl(c: string, index: number): boolean;
@@ -467,21 +465,21 @@ declare module System {
         static isWhiteSpace(c: string, index: number): boolean;
         static isWhiteSpace(c: number): boolean;
         private static __internalCheckParameters(s, index);
-        static tryParse(s: string, result: OutArgument<Char>): boolean;
+        static tryParse(s: string, result: System.OutArgument<Char>): boolean;
         static parse(s: string): Char;
-        static toLower(c: Char, culture?: Globalization.CultureInfo): Char;
+        static toLower(c: Char, culture?: System.Globalization.CultureInfo): Char;
         static toLowerInvariant(c: Char): Char;
         static toLowerInvariant(c: string): Char;
         static toLowerInvariant(c: number): Char;
-        static toUpper(c: Char, culture?: Globalization.CultureInfo): Char;
+        static toUpper(c: Char, culture?: System.Globalization.CultureInfo): Char;
         static toUpperInvariant(c: Char): Char;
         static toUpperInvariant(c: string): Char;
         static toUpperInvariant(c: number): Char;
-        public toString(provider?: IFormatProvider): string;
+        public toString(provider?: System.IFormatProvider): string;
         static toString(c: Char): string;
-        public getTypeCode(): TypeCode;
-        public toNumber(provider: IFormatProvider): number;
-        public toBoolean(provider: IFormatProvider): boolean;
+        public getTypeCode(): System.TypeCode;
+        public toNumber(provider: System.IFormatProvider): number;
+        public toBoolean(provider: System.IFormatProvider): boolean;
     }
 }
 declare module System {
@@ -494,9 +492,9 @@ declare module System {
         static getBytes_Int16(value: number): Uint8Array;
         static getBytes_Int32(value: number): Uint8Array;
         static toBoolean(value: Uint8Array, startIndex: number): boolean;
-        static toChar(value: Uint8Array, startIndex: number): Char;
-        static toInt16(value: Uint8Array, startIndex: number): Int16;
-        static toInt32(value: Uint8Array, startIndex: number): Int32;
+        static toChar(value: Uint8Array, startIndex: number): System.Char;
+        static toInt16(value: Uint8Array, startIndex: number): System.Int16;
+        static toInt32(value: Uint8Array, startIndex: number): System.Int32;
         static toString(value: Uint8Array, startIndex: number, length: number): string;
         private static __internalCheckParam(value, startIndex, length);
     }
@@ -513,6 +511,7 @@ declare module System {
 }
 declare module System {
     class Environment {
+        constructor();
         static NewLine : string;
         static TickCount : number;
     }
@@ -537,8 +536,8 @@ declare module System {
     }
 }
 declare module System {
-    class Guid implements ICloneable, IObject {
-        static _type: Type;
+    class Guid extends System.Object implements System.ICloneable {
+        static _type: System.Type;
         private _a;
         private _b;
         private _c;
@@ -576,14 +575,14 @@ declare module System {
         static op_Inequality(a: Guid, b: Guid): boolean;
         static parse(input: string): Guid;
         static parseExact(input: string, format: string): Guid;
-        static tryParse(input: string, result: OutArgument<Guid>): boolean;
-        static tryParseExact(input: string, format: string, result: OutArgument<Guid>): boolean;
+        static tryParse(input: string, result: System.OutArgument<Guid>): boolean;
+        static tryParseExact(input: string, format: string, result: System.OutArgument<Guid>): boolean;
         static parseFormat(format: string): GuidFormat;
         private static CheckNull(o);
         private static CheckLength(o, l);
         private static CheckArray(o, l);
         public clone(): Guid;
-        public getType(): Type;
+        public getType(): System.Type;
     }
     enum GuidFormat {
         N = 0,
@@ -594,16 +593,16 @@ declare module System {
     }
 }
 declare module System {
-    class Int16 extends IntBase implements IFormattable, IComparable<Int16>, IEquatable<Int16>, IObject {
-        static _type: Type;
+    class Int16 extends System.IntBase implements System.IFormattable, System.IComparable<Int16>, System.IEquatable<Int16> {
+        static _type: System.Type;
         static MaxValue: number;
         static MinValue: number;
         constructor(value: number);
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System {
-    interface ICollection<T> extends IEnumberable<T> {
+    interface ICollection<T> extends System.IEnumberable<T> {
         count: number;
         isReadOnly: boolean;
         add(item: T): void;
@@ -614,23 +613,18 @@ declare module System {
     }
 }
 declare module System.Collections.Generic {
-    interface IList<T> extends ICollection<T> {
+    interface IList<T> extends System.ICollection<T> {
         indexer(index: number): T;
         indexOf(item: T): number;
         removeAt(index: number): void;
         insert(index: number, item: T): void;
     }
 }
-declare module Sample {
-    class MyClass extends System.Object {
+declare module System.Collections.Generic {
+    class KeyNotFoundException extends System.Exception {
         static _type: System.Type;
         constructor();
-    }
-}
-declare module System.Collections.Generic {
-    class KeyNotFoundException extends Exception implements IObject {
-        private static _type;
-        public getType(): Type;
+        public getType(): System.Type;
     }
 }
 declare module System.Collections.Generic {
@@ -644,8 +638,9 @@ declare module System.Collections.Generic {
     }
 }
 declare module System.Collections.Generic {
-    class List<T> implements IList<T>, IEnumberable<T>, IObject {
-        static _type: Type;
+    class List<T> extends System.Object implements Generic.IList<T>, System.IEnumberable<T> {
+        static _type: System.Type;
+        constructor();
         private list;
         public changecount: number;
         public count : number;
@@ -659,15 +654,15 @@ declare module System.Collections.Generic {
         public indexOf(item: T): number;
         public removeAt(index: number): void;
         public insert(index: number, item: T): void;
-        public getEnumerator(): IEnumerator<T>;
-        public getType(): Type;
+        public getEnumerator(): System.IEnumerator<T>;
+        public getType(): System.Type;
     }
 }
 declare module System {
-    class InvalidOperationException extends Exception implements IObject {
-        private static _type;
-        constructor(message?: string, innerException?: Exception);
-        public getType(): Type;
+    class InvalidOperationException extends System.Exception {
+        static _type: System.Type;
+        constructor(message?: string, innerException?: System.Exception);
+        public getType(): System.Type;
     }
 }
 declare module System.Runtime.Serialization {
@@ -677,12 +672,12 @@ declare module System.Runtime.Serialization {
 declare module System.Runtime.Serialization {
     class SerializationEntry {
         public name: string;
-        public objectType: Type;
+        public objectType: System.Type;
         public value: any;
         public Name : string;
-        public ObjectType : Type;
+        public ObjectType : System.Type;
         public Value : any;
-        constructor(name: string, type: Type, value: any);
+        constructor(name: string, type: System.Type, value: any);
     }
 }
 declare module System.Text {

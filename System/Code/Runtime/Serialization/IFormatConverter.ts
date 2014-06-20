@@ -6,7 +6,5 @@ module System.Runtime.Serialization {
 
     }
 
-
- 
-
+    System.Type.registerInterface("System.Runtime.Serialization.IFormatConverter");
 }

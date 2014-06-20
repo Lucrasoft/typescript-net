@@ -22,7 +22,6 @@
     <TypeScriptCompile Include="Code\Interfaces\IDisposable.ts" />
     <TypeScriptCompile Include="Code\Interfaces\ICloneable.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IComparable.ts" />
-    <TypeScriptCompile Include="Code\IObject.ts" />
     <TypeScriptCompile Include="Code\Type.ts" />
     <TypeScriptCompile Include="Code\Exceptions\Exception.ts" />
     <TypeScriptCompile Include="Code\LinqStuff.ts" />

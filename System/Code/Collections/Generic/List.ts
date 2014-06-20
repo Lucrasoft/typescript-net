@@ -1,12 +1,15 @@
-/// <reference path="../../IObject.ts"/>
 /// <reference path="../../Interfaces/IEnumerable.ts"/>
 /// <reference path="../../Interfaces/IEnumerator.ts"/>
 /// <reference path="IList.ts"/>
 
 module System.Collections.Generic {
 
-    export class List<T> implements IList<T>, IEnumberable<T>, IObject {
+    export class List<T> extends System.Object implements IList<T>, IEnumberable<T> {
         public static _type: Type = System.Type.registerClass(List, "System.Collections.Generic.List", [""]);
+
+        constructor() {
+            super();
+        }
 
         private list: T[] = [];
         public changecount: number = 0;

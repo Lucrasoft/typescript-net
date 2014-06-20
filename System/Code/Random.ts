@@ -1,5 +1,4 @@
 /// <reference path="Environment.ts" />
-/// <reference path="IObject.ts" />
 /// <reference path="Exceptions/ArgumentOutOfRangeException.ts"/>
 /// <reference path="Exceptions/ArgumentNullException.ts"/>
 /// <reference path="Byte.ts"/>
@@ -10,11 +9,11 @@ module System {
 
     //Wrapper around the built-in javascript random 
 
-    export class Random implements IObject {
-        private static _type: Type = System.Type.registerClass(Random, "System.Random", []);
+    export class Random extends System.Object {
+        static _type: Type = System.Type.registerClass(Random, "System.Random", []);
 
         constructor(Seed: number = Environment.TickCount) {
-
+            super();
         }
 
         private Sample(): number {
