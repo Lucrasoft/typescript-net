@@ -1,4 +1,4 @@
-/// <reference path="IObject.ts" />  
+/// <reference path="Object.ts" />  
 
 
 declare var JSString;
@@ -9,7 +9,7 @@ JSString = window["String"];
 module System {
 
 
-    export class Type {
+    export class Type extends System.Object {
 
         // *** STATIC 
 
@@ -50,6 +50,7 @@ module System {
             }
             Type._types.push(res);
         }
+
 
         static registerEnum(_enum: any, name: string) {
             var res = new Type();

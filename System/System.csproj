@@ -83,6 +83,7 @@
     <TypeScriptCompile Include="Code\Globalization\TimeSpanStyles.ts" />
     <TypeScriptCompile Include="Code\Object.ts" />
     <Content Include="Compiled\System.Debug.js" />
+    <TypeScriptCompile Include="Operators.ts" />
     <Content Include="SpecRunner.html" />
     <TypeScriptCompile Include="Tests\StringBuilderSpec.ts" />
     <TypeScriptCompile Include="Tests\GuidSpec.ts" />

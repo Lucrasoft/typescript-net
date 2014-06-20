@@ -1,7 +1,7 @@
 /// <reference path="../Code/LinqStuff.d.ts" />
 declare var JSString: any;
 declare module System {
-    class Type {
+    class Type extends Object {
         private static _types;
         private obj;
         private implementations;
@@ -124,10 +124,9 @@ declare module System {
 declare module System {
     class Statements {
         static forEach<T>(collection: IEnumberable<T>, callback: Action<T>): void;
-        static as<T>(object: any, TofT: Type): T;
+        static typeOf(object: Object): Type;
         static Implements(object: any, Interface: string): void;
-        static typeOf(object: any): Type;
-        static is(object: any, type: Type): boolean;
+        static is(object: any, type: Object): boolean;
     }
 }
 declare module System {
@@ -619,12 +618,6 @@ declare module System.Collections.Generic {
         indexOf(item: T): number;
         removeAt(index: number): void;
         insert(index: number, item: T): void;
-    }
-}
-declare module Sample {
-    class MyClass extends System.Object {
-        static _type: System.Type;
-        constructor();
     }
 }
 declare module System.Collections.Generic {

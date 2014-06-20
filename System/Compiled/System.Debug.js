@@ -1,10 +1,18 @@
-﻿/// <reference path="IObject.ts" />
+﻿/// <reference path="Object.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 JSString = window["String"];
 
 var System;
 (function (System) {
-    var Type = (function () {
+    var Type = (function (_super) {
+        __extends(Type, _super);
         function Type() {
+            _super.apply(this, arguments);
             this.implementations = [];
             this.isRuntimeType = false;
             this.isClass = false;
@@ -71,7 +79,7 @@ var System;
         };
         Type._types = Type.InitializeType();
         return Type;
-    })();
+    })(System.Object);
     System.Type = Type;
 })(System || (System = {}));
 /// <reference path="Type.ts" />
@@ -159,12 +167,6 @@ var System;
 /// <reference path="Exception.ts" />
 /// <reference path="../IObject.ts"/>
 /// <reference path="../Type.ts"/>
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var System;
 (function (System) {
     var NotImplementedException = (function (_super) {
@@ -282,24 +284,27 @@ var System;
             }
         };
 
-        Statements.as = function (object, TofT) {
-            var objType = Statements.typeOf(object);
-
-            return null;
-        };
-
-        //Simulates the "implements"
-        Statements.Implements = function (object, Interface) {
-            throw new System.NotImplementedException();
-        };
-
         Statements.typeOf = function (object) {
+            if (!object) {
+                throw new System.ArgumentNullException("Object");
+            }
+            return object.getType();
+        };
+
+        //Simulates the "implements" method
+        //Type checking is namebased.
+        Statements.Implements = function (object, Interface) {
+            //check if object has
+            if (!object) {
+                throw new System.ArgumentNullException("Object should not be null.");
+            }
+
             throw new System.NotImplementedException();
         };
 
         //Simulates the "is" statement of C#
         //Example in C# : if ( obj is Guid) { }
-        //Example in TS : if (Statements.is(obj,Guid.GetType())
+        //Example in TS : if (Statements.is(obj,Guid)
         Statements.is = function (object, type) {
             if (!object) {
                 return false;
@@ -311,7 +316,7 @@ var System;
             //TODO : name check is way too simple!
             //  1. overervering class
             //  2. interfaces
-            return (object.getType().name == type.name);
+            return (object.getType().name == type.getType().name);
         };
         return Statements;
     })();
@@ -2165,32 +2170,22 @@ var System;
     System.Int16 = Int16;
 })(System || (System = {}));
 /// <reference path="../../Interfaces/IEnumerable.ts"/>
+var System;
+(function (System) {
+    System.Type.registerInterface("System.Collections.Generic.ICollection", "System.IEnumberable");
+})(System || (System = {}));
 /// <reference path="../../Type.ts"/>
 /// <reference path="ICollection.ts"/>
 var System;
 (function (System) {
     (function (Collections) {
         (function (Generic) {
-            System.Type.registerInterface("System.Collections.Generic.IList", "");
+            System.Type.registerInterface("System.Collections.Generic.IList", "System.Collections.Generic.ICollection");
         })(Collections.Generic || (Collections.Generic = {}));
         var Generic = Collections.Generic;
     })(System.Collections || (System.Collections = {}));
     var Collections = System.Collections;
 })(System || (System = {}));
-
-var Sample;
-(function (Sample) {
-    var MyClass = (function (_super) {
-        __extends(MyClass, _super);
-        //optional
-        function MyClass() {
-            _super.call(this);
-        }
-        MyClass._type = System.Type.registerClass(MyClass, "Sample.MyClass", []);
-        return MyClass;
-    })(System.Object);
-    Sample.MyClass = MyClass;
-})(Sample || (Sample = {}));
 /// <reference path="../../Exceptions/Exception.ts"/>
 /// <reference path="../../IObject.ts"/>
 var System;

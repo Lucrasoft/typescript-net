@@ -16,26 +16,34 @@ module System {
             }
         }
 
-
-        static as<T>(object: any, TofT: Type): T {
-            var objType = Statements.typeOf(object);
-
-            return null;
+        static typeOf(object: System.Object): Type {
+            if (!object) {
+                throw new ArgumentNullException("Object");
+            }
+            return object.getType();
         }
 
-        //Simulates the "implements"
+   
+
+        //Simulates the "implements" method
+        //Type checking is namebased.
         static Implements(object: any, Interface: string) {
+
+            //check if object has 
+            if (!object) {
+                throw new ArgumentNullException("Object should not be null.");
+            }
+
+            
             throw new NotImplementedException();
         }
 
-        static typeOf(object: any): Type {
-            throw new NotImplementedException();
-        }
+      
 
         //Simulates the "is" statement of C# 
         //Example in C# : if ( obj is Guid) { }
-        //Example in TS : if (Statements.is(obj,Guid.GetType())
-        static is(object: any, type: Type): boolean {
+        //Example in TS : if (Statements.is(obj,Guid)
+        static is(object: any, type: System.Object): boolean {
             if (!object) {
                 return false;
             }
@@ -46,7 +54,7 @@ module System {
             //TODO : name check is way too simple!
             //  1. overervering class
             //  2. interfaces
-            return (object.getType().name == type.name);
+            return (object.getType().name == type.getType().name);
         }
 
      
