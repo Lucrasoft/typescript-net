@@ -28,4 +28,6 @@ module System.Globalization {
         AllowTrailingSign | AllowParentheses | AllowDecimalPoint |
         AllowThousands | AllowExponent | AllowCurrencySymbol),
     }
+
+    System.Type.registerEnum(NumberStyles, "System.Globalization.NumberStyles");
 }

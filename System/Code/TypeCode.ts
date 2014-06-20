@@ -21,10 +21,7 @@ module System {
         DateTime = 16,
         String = 18,
 
-     
-   
-
-
     }
 
+    System.Type.registerEnum(TypeCode, "System.TypeCode");
 }

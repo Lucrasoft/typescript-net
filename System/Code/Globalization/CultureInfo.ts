@@ -5,7 +5,7 @@ module System.Globalization {
 
 
         constructor() {
-            
+
         }
 
     }

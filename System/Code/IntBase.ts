@@ -1,5 +1,4 @@
-/// <reference path="IObject.ts" />  
-/// <reference path="Type.ts" />  
+  /// <reference path="Type.ts" />  
 /// <reference path="Statements.ts" />  
 /// <reference path="OutArgument.ts" /> 
 /// <reference path="Interfaces/IFormattable.ts" />  
@@ -15,7 +14,7 @@ module System {
 
 
     //TODO : IConvertible
-    export class IntBase implements IFormattable, IComparable<IntBase>, IEquatable<IntBase>, IObject {
+    export class IntBase extends System.Object implements IFormattable, IComparable<IntBase>, IEquatable<IntBase> {
 
         static _type: Type = System.Type.registerClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
 
@@ -27,6 +26,7 @@ module System {
         }
 
         constructor(value: number) {
+            super();
             this.value = value;
         }
 

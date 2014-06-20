@@ -5,4 +5,6 @@ module System {
         dispose() : void;
     }
 
+    System.Type.registerInterface("System.IDisposable");
+
 }

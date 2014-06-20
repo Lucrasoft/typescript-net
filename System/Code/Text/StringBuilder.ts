@@ -10,13 +10,14 @@ module System.Text {
 
     //Basic implementation
 
-    export class StringBuilder implements Runtime.Serialization.ISerializable, IObject {
-        private static _type: Type = System.Type.registerClass(StringBuilder, "System.Text.StringBuilder", ["System.Runtime.Serialization.ISerializable"]);
+    export class StringBuilder extends System.Object implements Runtime.Serialization.ISerializable {
+        static _type: Type = System.Type.registerClass(StringBuilder, "System.Text.StringBuilder", ["System.Runtime.Serialization.ISerializable"]);
 
         private _str: string;
 
 
         constructor(value?: string) {
+            super();
             if (!value) { value = ""; }
             this._str = value;
         }

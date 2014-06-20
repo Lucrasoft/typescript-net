@@ -1,11 +1,10 @@
 /// <reference path="ArgumentException.ts" />  
-/// <reference path="../IObject.ts" /> 
 /// <reference path="../Type.ts"/> 
 
 module System {
 
     
-    export class ArgumentOutOfRangeException extends ArgumentException implements IObject {
+    export class ArgumentOutOfRangeException extends ArgumentException {
 
         static _type: Type = System.Type.registerClass(ArgumentOutOfRangeException, "System.ArgumentOutOfRangeException", []);
 

@@ -1,12 +1,15 @@
-/// <reference path="IObject.ts"/>
 /// <reference path="Type.ts"/>
 
 module System {
 
     //just a start.. 
 
-    export class String implements IObject {
-        private static _type: Type = System.Type.registerClass(String, "System.String", []);
+    export class String extends System.Object {
+        static _type: Type = System.Type.registerClass(String, "System.String", []);
+
+        constructor() {
+            super();
+        }
 
 
         static get empty() : string {

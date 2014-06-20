@@ -35,4 +35,6 @@ module System {
         //ulong    ToUInt64(provider : IFormatProvider);
 
     }
+
+    System.Type.registerInterface("System.IConvertible");
 }

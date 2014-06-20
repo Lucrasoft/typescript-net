@@ -1,10 +1,8 @@
 //* Typescript Base Class Library
-//* Closing the gap between C# and Javascript 
+//* Closing the gap between C# and Javascript
 //*
 //* Authors : Lucas Vos
-//*         : Mono , Stackoverflow 
-
-
+//*         : Mono , Stackoverflow
 /// <reference path="Code/Object.ts" />
 /// <reference path="Code/Action.ts" />
 /// <reference path="Code/Attribute.ts" />
@@ -59,3 +57,4 @@
 /// <reference path="Code/Runtime/Serialization/StreamingContextStates.ts" />
 /// <reference path="Code/Text/StringBuilder.ts" />
 /// <reference path="Code/Text/StringBuilder2.ts" />
+//# sourceMappingURL=System.js.map

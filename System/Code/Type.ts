@@ -1,4 +1,3 @@
-/// <reference path="Object.ts" />  
 
 
 declare var JSString;
@@ -27,7 +26,9 @@ module System {
         public isInterface: boolean = false;
         public isEnum: boolean = false;
 
-
+        constructor() {
+            
+        }
 
         static registerClass(_class: any, name: string, interfaces: string[]): Type {
             var res = new Type();
@@ -76,7 +77,7 @@ module System {
             var str = typeof obj;
             if (str === "object") {
                 if ((<Object>obj).hasOwnProperty("GetType")) {
-                    return (<IObject>obj).getType().name;
+                    return (<Object>obj).getType().name;
                 }
             }
             return str;

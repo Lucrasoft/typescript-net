@@ -3,6 +3,10 @@ module System {
     //TODO : IObject
     export class Environment {
 
+        constructor() {
+            
+        }
+
 
         public static get NewLine(): string {
             return "\r\n";

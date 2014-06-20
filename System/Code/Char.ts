@@ -1,4 +1,3 @@
-/// <reference path="IObject.ts" />
 /// <reference path="Type.ts" />
 /// <reference path="String.ts"/>
 /// <reference path="Interfaces/IConvertible.ts" />

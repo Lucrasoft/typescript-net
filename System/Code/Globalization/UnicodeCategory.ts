@@ -33,4 +33,6 @@ module System.Globalization {
         OtherSymbol             = 28,
         OtherNotAssigned        = 29
     }
+
+    System.Type.registerEnum(UnicodeCategory, "System.Globalization.UnicodeCategory");
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/// <reference path="Object.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -6,6 +7,9 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 JSString = window["String"];
+=======
+﻿JSString = window["String"];
+>>>>>>> aff4ead65de633ed46cf9d7d9df3f413c865b4ad
 
 var System;
 (function (System) {
@@ -83,8 +87,6 @@ var System;
     System.Type = Type;
 })(System || (System = {}));
 /// <reference path="Type.ts" />
-/// <reference path="IObject.ts" />
-/// <reference path="Type.ts" />
 var System;
 (function (System) {
     var Object = (function () {
@@ -136,12 +138,20 @@ var System;
     System.Object = Object;
 })(System || (System = {}));
 /// <reference path="../Type.ts"/>
-/// <reference path="../IObject.ts"/>
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var System;
 (function (System) {
-    var Exception = (function () {
+    var Exception = (function (_super) {
+        __extends(Exception, _super);
         function Exception(message, innerException) {
+            _super.call(this);
             this.message = "";
+
             this.err = new Error(message);
             if (message) {
                 this.message = message;
@@ -161,11 +171,10 @@ var System;
         };
         Exception.type = System.Type.registerClass(Exception, "System.Exception", []);
         return Exception;
-    })();
+    })(System.Object);
     System.Exception = Exception;
 })(System || (System = {}));
 /// <reference path="Exception.ts" />
-/// <reference path="../IObject.ts"/>
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
@@ -184,12 +193,13 @@ var System;
     System.NotImplementedException = NotImplementedException;
 })(System || (System = {}));
 /// <reference path="Type.ts" />
-/// <reference path="IObject.ts" />
 /// <reference path="Exceptions/NotImplementedException.ts" />
 var System;
 (function (System) {
-    var Attribute = (function () {
+    var Attribute = (function (_super) {
+        __extends(Attribute, _super);
         function Attribute() {
+            _super.call(this);
         }
         //Static methods
         Attribute.getCustomAttribute = function (element, attributeType) {
@@ -210,7 +220,7 @@ var System;
         };
         Attribute.type = System.Type.registerClass(Attribute, "System.Attribute", []);
         return Attribute;
-    })();
+    })(System.Object);
     System.Attribute = Attribute;
 })(System || (System = {}));
 var System;
@@ -234,8 +244,9 @@ var System;
         AttributeTargets[AttributeTargets["All"] = AttributeTargets.Assembly | AttributeTargets.Module | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Event | AttributeTargets.Interface | AttributeTargets.Parameter | AttributeTargets.Delegate | AttributeTargets.ReturnValue | AttributeTargets.GenericParameter] = "All";
     })(System.AttributeTargets || (System.AttributeTargets = {}));
     var AttributeTargets = System.AttributeTargets;
+
+    System.Type.registerEnum(AttributeTargets, "System.AttributeTargets");
 })(System || (System = {}));
-/// <reference path="IObject.ts" />
 /// <reference path="Type.ts" />
 /// <reference path="Attribute.ts" />
 /// <reference path="AttributeTargets.ts" />
@@ -265,8 +276,20 @@ var System;
     })(System.Attribute);
     System.AttributeUsageAttribute = AttributeUsageAttribute;
 })(System || (System = {}));
+var System;
+(function (System) {
+    System.Type.registerInterface("System.IDisposable");
+})(System || (System = {}));
 /// <reference path="IDisposable.ts" />
+var System;
+(function (System) {
+    System.Type.registerInterface("System.IEnumerator", "System.IDisposable");
+})(System || (System = {}));
 /// <reference path="IEnumerator.ts" />
+var System;
+(function (System) {
+    System.Type.registerInterface("System.IEnumerable");
+})(System || (System = {}));
 /// <reference path="Action.ts" />
 /// <reference path="Exceptions/NotImplementedException.ts" />
 /// <reference path="Interfaces/IEnumerable.ts" />
@@ -334,14 +357,24 @@ var System;
     System.OutArgument = OutArgument;
 })(System || (System = {}));
 /// <reference path="../Type.ts" />
-/// <reference path="../IObject.ts" />
+var System;
+(function (System) {
+    System.Type.registerInterface("System.IFormatProvider");
+})(System || (System = {}));
 /// <reference path="IFormatProvider.ts" />
+var System;
+(function (System) {
+    System.Type.registerInterface("System.IFormattable");
+})(System || (System = {}));
+var System;
+(function (System) {
+    System.Type.registerInterface("System.IEquatable");
+})(System || (System = {}));
 var System;
 (function (System) {
     System.Type.registerInterface("System.IComparable");
 })(System || (System = {}));
 /// <reference path="Exception.ts" />
-/// <reference path="../IObject.ts"/>
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
@@ -367,7 +400,6 @@ var System;
     System.ArgumentException = ArgumentException;
 })(System || (System = {}));
 /// <reference path="ArgumentException.ts" />
-/// <reference path="../IObject.ts"/>
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
@@ -410,10 +442,11 @@ var System;
             NumberStyles[NumberStyles["Any"] = (NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowTrailingSign | NumberStyles.AllowParentheses | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands | NumberStyles.AllowExponent | NumberStyles.AllowCurrencySymbol)] = "Any";
         })(Globalization.NumberStyles || (Globalization.NumberStyles = {}));
         var NumberStyles = Globalization.NumberStyles;
+
+        System.Type.registerEnum(NumberStyles, "System.Globalization.NumberStyles");
     })(System.Globalization || (System.Globalization = {}));
     var Globalization = System.Globalization;
 })(System || (System = {}));
-/// <reference path="IObject.ts" />
 /// <reference path="Type.ts" />
 /// <reference path="Statements.ts" />
 /// <reference path="OutArgument.ts" />
@@ -427,8 +460,10 @@ var System;
 var System;
 (function (System) {
     //TODO : IConvertible
-    var IntBase = (function () {
+    var IntBase = (function (_super) {
+        __extends(IntBase, _super);
         function IntBase(value) {
+            _super.call(this);
             this.value = value;
         }
         Object.defineProperty(IntBase.prototype, "Value", {
@@ -507,13 +542,12 @@ var System;
         };
         IntBase._type = System.Type.registerClass(IntBase, "System.IntBase", ["System.IFormattable", "System.IComparable", "System.IEquatable"]);
         return IntBase;
-    })();
+    })(System.Object);
     System.IntBase = IntBase;
 })(System || (System = {}));
 /// <reference path="IntBase.ts" />
 /// <reference path="Interfaces/IFormattable.ts" />
 /// <reference path="Globalization/NumberStyles.ts" />
-/// <reference path="IObject.ts"/>
 /// <reference path="Interfaces/IComparable.ts"/>
 /// <reference path="Interfaces/IEquatable.ts"/>
 /// <reference path="Type.ts"/>
@@ -553,22 +587,25 @@ var System;
                 StreamingContextStates[StreamingContextStates["All"] = 255] = "All";
             })(Serialization.StreamingContextStates || (Serialization.StreamingContextStates = {}));
             var StreamingContextStates = Serialization.StreamingContextStates;
+
+            System.Type.registerEnum(StreamingContextStates, "System.Runtime.Serialization.StreamingContextStates");
         })(Runtime.Serialization || (Runtime.Serialization = {}));
         var Serialization = Runtime.Serialization;
     })(System.Runtime || (System.Runtime = {}));
     var Runtime = System.Runtime;
 })(System || (System = {}));
 /// <reference path="StreamingContextStates.ts" />
-/// <reference path="../../IObject.ts"/>
 /// <reference path="../../Type.ts"/>
 /// <reference path="../../Statements.ts"/>
 var System;
 (function (System) {
     (function (Runtime) {
         (function (Serialization) {
-            var StreamingContext = (function () {
+            var StreamingContext = (function (_super) {
+                __extends(StreamingContext, _super);
                 function StreamingContext(state, additional) {
                     if (typeof additional === "undefined") { additional = null; }
+                    _super.call(this);
                     this.state = state;
                     this.additional = additional;
                 }
@@ -605,7 +642,7 @@ var System;
                 };
                 StreamingContext._type = System.Type.registerClass(StreamingContext, "System.Runtime.Serialization.StreamingContext", []);
                 return StreamingContext;
-            })();
+            })(System.Object);
             Serialization.StreamingContext = StreamingContext;
         })(Runtime.Serialization || (Runtime.Serialization = {}));
         var Serialization = Runtime.Serialization;
@@ -613,7 +650,6 @@ var System;
     var Runtime = System.Runtime;
 })(System || (System = {}));
 /// <reference path="../../Type.ts" />
-/// <reference path="../../IObject.ts" />
 var System;
 (function (System) {
     (function (Runtime) {
@@ -640,6 +676,16 @@ var System;
 })(System || (System = {}));
 /// <reference path="StreamingContext.ts" />
 /// <reference path="SerializationInfo.ts"/>
+var System;
+(function (System) {
+    (function (Runtime) {
+        (function (Serialization) {
+            System.Type.registerInterface("System.Runtime.Serialization.ISerializable");
+        })(Runtime.Serialization || (Runtime.Serialization = {}));
+        var Serialization = Runtime.Serialization;
+    })(System.Runtime || (System.Runtime = {}));
+    var Runtime = System.Runtime;
+})(System || (System = {}));
 /// <reference path="../Type.ts" />
 /// <reference path="../Int32.ts" />
 /// <reference path="../Runtime/Serialization/ISerializable.ts" />
@@ -649,8 +695,10 @@ var System;
 (function (System) {
     (function (Text) {
         //Basic implementation
-        var StringBuilder = (function () {
+        var StringBuilder = (function (_super) {
+            __extends(StringBuilder, _super);
             function StringBuilder(value) {
+                _super.call(this);
                 if (!value) {
                     value = "";
                 }
@@ -789,18 +837,19 @@ var System;
             };
             StringBuilder._type = System.Type.registerClass(StringBuilder, "System.Text.StringBuilder", ["System.Runtime.Serialization.ISerializable"]);
             return StringBuilder;
-        })();
+        })(System.Object);
         Text.StringBuilder = StringBuilder;
     })(System.Text || (System.Text = {}));
     var Text = System.Text;
 })(System || (System = {}));
-/// <reference path="IObject.ts"/>
 /// <reference path="Type.ts"/>
 var System;
 (function (System) {
     //just a start..
-    var String = (function () {
+    var String = (function (_super) {
+        __extends(String, _super);
         function String() {
+            _super.call(this);
         }
         Object.defineProperty(String, "empty", {
             get: function () {
@@ -832,7 +881,7 @@ var System;
         };
         String._type = System.Type.registerClass(String, "System.String", []);
         return String;
-    })();
+    })(System.Object);
     System.String = String;
 })(System || (System = {}));
 var System;
@@ -858,10 +907,18 @@ var System;
         TypeCode[TypeCode["String"] = 18] = "String";
     })(System.TypeCode || (System.TypeCode = {}));
     var TypeCode = System.TypeCode;
+
+    System.Type.registerEnum(TypeCode, "System.TypeCode");
 })(System || (System = {}));
 /// <reference path="../TypeCode.ts" />
 /// <reference path="IFormatProvider.ts"/>
 /// <reference path="../TypeCode.ts"/>
+var System;
+(function (System) {
+    
+
+    System.Type.registerInterface("System.IConvertible");
+})(System || (System = {}));
 var System;
 (function (System) {
     (function (Globalization) {
@@ -898,11 +955,12 @@ var System;
             UnicodeCategory[UnicodeCategory["OtherNotAssigned"] = 29] = "OtherNotAssigned";
         })(Globalization.UnicodeCategory || (Globalization.UnicodeCategory = {}));
         var UnicodeCategory = Globalization.UnicodeCategory;
+
+        System.Type.registerEnum(UnicodeCategory, "System.Globalization.UnicodeCategory");
     })(System.Globalization || (System.Globalization = {}));
     var Globalization = System.Globalization;
 })(System || (System = {}));
 /// <reference path="ArgumentException.ts" />
-/// <reference path="../IObject.ts" />
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
@@ -921,7 +979,6 @@ var System;
     System.ArgumentOutOfRangeException = ArgumentOutOfRangeException;
 })(System || (System = {}));
 /// <reference path="Exception.ts" />
-/// <reference path="../IObject.ts" />
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
@@ -940,7 +997,6 @@ var System;
     System.InvalidCastException = InvalidCastException;
 })(System || (System = {}));
 /// <reference path="Exception.ts" />
-/// <reference path="../IObject.ts" />
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
@@ -970,7 +1026,6 @@ var System;
     })(System.Globalization || (System.Globalization = {}));
     var Globalization = System.Globalization;
 })(System || (System = {}));
-/// <reference path="IObject.ts" />
 /// <reference path="Type.ts" />
 /// <reference path="String.ts"/>
 /// <reference path="Interfaces/IConvertible.ts" />
@@ -1484,7 +1539,6 @@ var System;
 })(System || (System = {}));
 /// <reference path="BitConverter.ts" />
 /// <reference path="Interfaces/ICloneable.ts"/>
-/// <reference path="IObject.ts"/>
 /// <reference path="Type.ts"/>
 /// <reference path="String.ts"/>
 /// <reference path="Exceptions/FormatException.ts"/>
@@ -1495,12 +1549,15 @@ var System;
 /// <reference path="OutArgument.ts"/>
 var System;
 (function (System) {
-    var Guid = (function () {
+    var Guid = (function (_super) {
+        __extends(Guid, _super);
         function Guid() {
             var args = [];
             for (var _i = 0; _i < (arguments.length - 0); _i++) {
                 args[_i] = arguments[_i + 0];
             }
+            _super.call(this);
+
             //dispatch to correct 'constructor' overload
             if (args) {
                 //constructor(g: string);
@@ -1943,7 +2000,7 @@ var System;
 
         Guid.empty = Guid.construct_numbers(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         return Guid;
-    })();
+    })(System.Object);
     System.Guid = Guid;
 
     (function (GuidFormat) {
@@ -2146,7 +2203,6 @@ var System;
 /// <reference path="Interfaces/IComparable.ts"/>
 /// <reference path="Interfaces/IEquatable.ts"/>
 /// <reference path="Globalization/NumberStyles.ts" />
-/// <reference path="IObject.ts"/>
 /// <reference path="Type.ts"/>
 /// <reference path="IntBase.ts"/>
 var System;
@@ -2187,7 +2243,6 @@ var System;
     var Collections = System.Collections;
 })(System || (System = {}));
 /// <reference path="../../Exceptions/Exception.ts"/>
-/// <reference path="../../IObject.ts"/>
 var System;
 (function (System) {
     (function (Collections) {
@@ -2195,7 +2250,7 @@ var System;
             var KeyNotFoundException = (function (_super) {
                 __extends(KeyNotFoundException, _super);
                 function KeyNotFoundException() {
-                    _super.apply(this, arguments);
+                    _super.call(this);
                 }
                 //IObject
                 KeyNotFoundException.prototype.getType = function () {
@@ -2247,7 +2302,6 @@ var System;
     })(System.Collections || (System.Collections = {}));
     var Collections = System.Collections;
 })(System || (System = {}));
-/// <reference path="../../IObject.ts"/>
 /// <reference path="../../Interfaces/IEnumerable.ts"/>
 /// <reference path="../../Interfaces/IEnumerator.ts"/>
 /// <reference path="IList.ts"/>
@@ -2255,8 +2309,10 @@ var System;
 (function (System) {
     (function (Collections) {
         (function (Generic) {
-            var List = (function () {
+            var List = (function (_super) {
+                __extends(List, _super);
                 function List() {
+                    _super.call(this);
                     this.list = [];
                     this.changecount = 0;
                 }
@@ -2337,7 +2393,7 @@ var System;
                 };
                 List._type = System.Type.registerClass(List, "System.Collections.Generic.List", [""]);
                 return List;
-            })();
+            })(System.Object);
             Generic.List = List;
 
             var ListEnumerator = (function () {
@@ -2388,7 +2444,6 @@ var System;
     var Collections = System.Collections;
 })(System || (System = {}));
 /// <reference path="Exception.ts" />
-/// <reference path="../IObject.ts"/>
 /// <reference path="../Type.ts"/>
 var System;
 (function (System) {
@@ -2405,6 +2460,16 @@ var System;
         return InvalidOperationException;
     })(System.Exception);
     System.InvalidOperationException = InvalidOperationException;
+})(System || (System = {}));
+var System;
+(function (System) {
+    (function (Runtime) {
+        (function (Serialization) {
+            System.Type.registerInterface("System.Runtime.Serialization.IFormatConverter");
+        })(Runtime.Serialization || (Runtime.Serialization = {}));
+        var Serialization = Runtime.Serialization;
+    })(System.Runtime || (System.Runtime = {}));
+    var Runtime = System.Runtime;
 })(System || (System = {}));
 /// <reference path="../../Type.ts" />
 var System;
@@ -2451,63 +2516,3 @@ var System;
     var Runtime = System.Runtime;
 })(System || (System = {}));
 /// <reference path="../Int32.ts" />
-//* Typescript Base Class Library
-//* Closing the gap between C# and Javascript
-//*
-//* Authors : Lucas Vos
-//*         : Mono , Stackoverflow
-/// <reference path="Code/Object.ts" />
-/// <reference path="Code/Action.ts" />
-/// <reference path="Code/Attribute.ts" />
-/// <reference path="Code/AttributeTargets.ts" />
-/// <reference path="Code/AttributeUsageAttribute.ts" />
-/// <reference path="Code/BitConverter.ts" />
-/// <reference path="Code/Byte.ts" />
-/// <reference path="Code/Char.ts" />
-/// <reference path="Code/DateTime.ts" />
-/// <reference path="Code/Environment.ts" />
-/// <reference path="Code/Func.ts" />
-/// <reference path="Code/Guid.ts" />
-/// <reference path="Code/Int16.ts" />
-/// <reference path="Code/Int32.ts" />
-/// <reference path="Code/IntBase.ts" />
-/// <reference path="Code/IObject.ts" />
-/// <reference path="Code/LinqStuff.ts" />
-/// <reference path="Code/OutArgument.ts" />
-/// <reference path="Code/Statements.ts" />
-/// <reference path="Code/String.ts" />
-/// <reference path="Code/Type.ts" />
-/// <reference path="Code/TypeCode.ts" />
-/// <reference path="Code/Collections/Generic/ICollection.ts" />
-/// <reference path="Code/Collections/Generic/IList.ts" />
-/// <reference path="Code/Collections/Generic/KeyNotFoundException.ts" />
-/// <reference path="Code/Collections/Generic/KeyValuePair.ts" />
-/// <reference path="Code/Collections/Generic/List.ts" />
-/// <reference path="Code/Exceptions/ArgumentException.ts" />
-/// <reference path="Code/Exceptions/ArgumentNullException.ts" />
-/// <reference path="Code/Exceptions/ArgumentOutOfRangeException.ts" />
-/// <reference path="Code/Exceptions/Exception.ts" />
-/// <reference path="Code/Exceptions/FormatException.ts" />
-/// <reference path="Code/Exceptions/InvalidCastException.ts" />
-/// <reference path="Code/Exceptions/InvalidOperationException.ts" />
-/// <reference path="Code/Exceptions/NotImplementedException.ts" />
-/// <reference path="Code/Globalization/CultureInfo.ts" />
-/// <reference path="Code/Globalization/NumberStyles.ts" />
-/// <reference path="Code/Globalization/UnicodeCategory.ts" />
-/// <reference path="Code/Interfaces/ICloneable.ts" />
-/// <reference path="Code/Interfaces/IComparable.ts" />
-/// <reference path="Code/Interfaces/IConvertible.ts" />
-/// <reference path="Code/Interfaces/IDisposable.ts" />
-/// <reference path="Code/Interfaces/IEnumerable.ts" />
-/// <reference path="Code/Interfaces/IEnumerator.ts" />
-/// <reference path="Code/Interfaces/IEquatable.ts" />
-/// <reference path="Code/Interfaces/IFormatProvider.ts" />
-/// <reference path="Code/Interfaces/IFormattable.ts" />
-/// <reference path="Code/Runtime/Serialization/IFormatConverter.ts" />
-/// <reference path="Code/Runtime/Serialization/ISerializable.ts" />
-/// <reference path="Code/Runtime/Serialization/SerializationEntry.ts" />
-/// <reference path="Code/Runtime/Serialization/SerializationInfo.ts" />
-/// <reference path="Code/Runtime/Serialization/StreamingContext.ts" />
-/// <reference path="Code/Runtime/Serialization/StreamingContextStates.ts" />
-/// <reference path="Code/Text/StringBuilder.ts" />
-/// <reference path="Code/Text/StringBuilder2.ts" />

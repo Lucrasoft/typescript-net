@@ -1,11 +1,10 @@
 /// <reference path="ArgumentException.ts" />  
-/// <reference path="../IObject.ts"/>
 /// <reference path="../Type.ts"/>
 
 module System {
 
 
-    export class ArgumentNullException extends ArgumentException implements IObject {
+    export class ArgumentNullException extends ArgumentException {
 
         static _type: Type = System.Type.registerClass(ArgumentNullException, "System.ArgumentNullException", []);
 

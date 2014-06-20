@@ -1,6 +1,5 @@
 /// <reference path="BitConverter.ts" />  
 /// <reference path="Interfaces/ICloneable.ts"/>
-/// <reference path="IObject.ts"/>
 /// <reference path="Type.ts"/>
 /// <reference path="String.ts"/>
 /// <reference path="Exceptions/FormatException.ts"/>
@@ -12,8 +11,8 @@
 
 module System {
 
-    export class Guid implements ICloneable, IObject {
-        public static _type: Type = Type.registerClass(Guid, "System.Guid", ["System.ICloneable"]);
+    export class Guid extends System.Object implements ICloneable {
+        static _type: Type = Type.registerClass(Guid, "System.Guid", ["System.ICloneable"]);
 
 
         private _a: number; //_timeLow;                 int
@@ -36,6 +35,7 @@ module System {
         constructor(a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number);
 
         constructor(...args) {
+            super();
             //dispatch to correct 'constructor' overload
             if (args) {
 

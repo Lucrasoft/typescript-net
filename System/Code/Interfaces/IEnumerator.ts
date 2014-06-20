@@ -11,4 +11,5 @@ module System {
 
     }
 
+    System.Type.registerInterface("System.IEnumerator", "System.IDisposable");
 }

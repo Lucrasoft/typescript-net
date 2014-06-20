@@ -10,5 +10,5 @@ module System.Runtime.Serialization {
         getObjectData(info: SerializationInfo, context: StreamingContext ) : void
     }
 
-
+    System.Type.registerInterface("System.Runtime.Serialization.ISerializable");
 }
