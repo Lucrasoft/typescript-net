@@ -17,6 +17,13 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />
+    <TypeScriptCompile Include="Code\Globalization\CalendarWeekRule.ts" />
+    <TypeScriptCompile Include="Code\Globalization\CompareOptions.ts" />
+    <TypeScriptCompile Include="Code\Globalization\CultureTypes.ts" />
+    <TypeScriptCompile Include="Code\Globalization\DaylightTime.ts" />
+    <TypeScriptCompile Include="Code\Globalization\DigitShapes.ts" />
+    <TypeScriptCompile Include="Code\Globalization\GegorianCalendarTypes.ts" />
     <TypeScriptCompile Include="Code\Guid.ts" />
     <TypeScriptCompile Include="System.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IDisposable.ts" />

@@ -27,7 +27,7 @@ module System {
         public isEnum: boolean = false;
 
         constructor() {
-            
+            super();
         }
 
         static registerClass(_class: any, name: string, interfaces: string[]): Type {
