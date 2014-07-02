@@ -19,15 +19,15 @@ module System.Globalization {
             this.m_delta = delta;
         }
 
-        get Start(): DateTime {
+        get start(): DateTime {
             return this.m_start;
         }
 
-        get End(): DateTime {
+        get end(): DateTime {
             return this.m_end;
         }
 
-        get Delta(): TimeSpan {
+        get delta(): TimeSpan {
             return this.m_delta;
         }
 
