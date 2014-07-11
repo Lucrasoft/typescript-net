@@ -19,6 +19,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarWeekRule.ts" />
+    <TypeScriptCompile Include="Code\Globalization\CharUnicodeInfo.ts" />
     <TypeScriptCompile Include="Code\Globalization\CompareOptions.ts" />
     <TypeScriptCompile Include="Code\Globalization\CultureTypes.ts" />
     <TypeScriptCompile Include="Code\Globalization\DateTimeStyles.ts" />
@@ -27,7 +28,9 @@
     <TypeScriptCompile Include="Code\Globalization\GegorianCalendarTypes.ts" />
     <TypeScriptCompile Include="Code\Globalization\SortKey.ts" />
     <TypeScriptCompile Include="Code\Globalization\SortVersion.ts" />
+    <TypeScriptCompile Include="Code\Globalization\StringInfo.ts" />
     <TypeScriptCompile Include="Code\Globalization\TextElementEnumerator.ts" />
+    <TypeScriptCompile Include="Code\Globalization\TextInfo.ts" />
     <TypeScriptCompile Include="Code\Guid.ts" />
     <TypeScriptCompile Include="System.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IDisposable.ts" />

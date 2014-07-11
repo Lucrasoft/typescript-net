@@ -1,5 +1,6 @@
 ﻿/// <reference path="../Interfaces/IEnumerator.ts"/>
 /// <reference path="../Exceptions/InvalidOperationException.ts"/>
+/// <reference path="StringInfo.ts"/>
 
 module System.Globalization {
 
@@ -39,7 +40,7 @@ module System.Globalization {
             return (this.elementindex + this.startpos);
         }
 
-        get GetTextElement(): string {
+        get getTextElement(): string {
 
             if (this.element == null) {
                 throw new InvalidOperationException;
@@ -48,7 +49,7 @@ module System.Globalization {
             return (this.element);
         }
 
-        MoveNext(): boolean {
+        moveNext(): boolean {
 
             this.elementindex = this.index + 1;
 
@@ -65,7 +66,7 @@ module System.Globalization {
             }
         }
 
-        Reset() {
+        reset() {
             this.element = null;
             this.index = -1;
         }
