@@ -12,6 +12,8 @@ module System {
         copyTo(array: T[], arrayIndex: number): void;
         remove(item: T): boolean;
 
+        (item : string): T;
+
 
     }
 

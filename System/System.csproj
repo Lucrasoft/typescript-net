@@ -109,6 +109,8 @@
     <TypeScriptCompile Include="Code\Exceptions\IndexOutOfRangeException.ts" />
     <TypeScriptCompile Include="Code\IO\BinaryReader.ts" />
     <TypeScriptCompile Include="Code\IO\EndOfStreamException.ts" />
+    <TypeScriptCompile Include="Code\IO\FileOptions.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\ICustomFormatter.ts" />
     <Content Include="Code\Operators.ts" />
     <TypeScriptCompile Include="Code\TypedArray.ts" />
     <TypeScriptCompile Include="Code\Text\Encoder.ts" />
