@@ -25,6 +25,7 @@
     <TypeScriptCompile Include="Code\Globalization\DateTimeStyles.ts" />
     <TypeScriptCompile Include="Code\Globalization\DaylightTime.ts" />
     <TypeScriptCompile Include="Code\Globalization\DigitShapes.ts" />
+    <TypeScriptCompile Include="Code\Globalization\EastAsianLunisolarCalendar.ts" />
     <TypeScriptCompile Include="Code\Globalization\GegorianCalendarTypes.ts" />
     <TypeScriptCompile Include="Code\Globalization\SortKey.ts" />
     <TypeScriptCompile Include="Code\Globalization\SortVersion.ts" />
