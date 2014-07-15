@@ -81,18 +81,36 @@
     <TypeScriptCompile Include="Code\Exceptions\OverflowException.ts" />
     <TypeScriptCompile Include="Code\Globalization\TimeSpanStyles.ts" />
     <TypeScriptCompile Include="Code\Object.ts" />
+    <TypeScriptCompile Include="Code\IO\Stream.ts" />
+    <TypeScriptCompile Include="Code\IO\SeekOrigin.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\NotSupportedException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\SystemException.ts" />
+    <TypeScriptCompile Include="Code\IO\NullStream.ts" />
+    <TypeScriptCompile Include="Code\IO\MemoryStream.ts" />
+    <TypeScriptCompile Include="Code\IO\IOException.ts" />
+    <TypeScriptCompile Include="Code\Buffer.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\UnauthorizedAccessException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\ObjectDisposedException.ts" />
+    <TypeScriptCompile Include="Code\Array.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\IndexOutOfRangeException.ts" />
+    <TypeScriptCompile Include="Code\IO\BinaryReader.ts" />
+    <TypeScriptCompile Include="Code\IO\EndOfStreamException.ts" />
+    <Content Include="Code\Operators.ts" />
+    <TypeScriptCompile Include="Code\TypedArray.ts" />
+    <TypeScriptCompile Include="Code\Text\Encoder.ts" />
+    <TypeScriptCompile Include="Code\Text\Encoding.ts" />
+    <TypeScriptCompile Include="Code\Text\Decoder.ts" />
     <Content Include="Compiled\System.Debug.js" />
-    <TypeScriptCompile Include="Operators.ts" />
+    <Content Include="Docs\notes.txt" />
     <Content Include="SpecRunner.html" />
     <TypeScriptCompile Include="Tests\StringBuilderSpec.ts" />
     <TypeScriptCompile Include="Tests\GuidSpec.ts" />
     <TypeScriptCompile Include="Tests\TypeSpec.ts" />
-    <Content Include="Todo.txt" />
     <Content Include="TryOuts.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Docs\" />
+    <Folder Include="Code\Threading\" />
     <Folder Include="Lib\" />
   </ItemGroup>
   <ItemGroup>

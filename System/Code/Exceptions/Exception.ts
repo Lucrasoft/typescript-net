@@ -3,13 +3,14 @@
 module System {
 
     export class Exception extends System.Object implements Error {
-        private static type = System.Type.registerClass(Exception, "System.Exception", []);
+        static _type = System.Type.registerClass(Exception, "System.Exception", []);
 
         public get name(): string {
             return this.getType().name;
         }
 
         public message: string = "";
+        public HResult: number = 0;
         private err: Error;
    
     
@@ -23,7 +24,7 @@ module System {
         }
 
         //IObject
-        getType(): Type { return Exception.type; }
+        getType(): Type { return Exception._type; }
 
     }
 

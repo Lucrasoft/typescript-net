@@ -7,9 +7,7 @@ module System {
 
     export class Statements {
 
-        constructor() {
-            
-        }
+        constructor() { }
 
         //Simulates the ForEach statement
         static forEach<T>(collection: IEnumberable<T>, callback: System.Action<T>): void {
@@ -20,34 +18,47 @@ module System {
             }
         }
 
-        static typeOf(object: System.Object): Type {
+        static typeOf(object: any): Type {
             if (!object) {
                 throw new ArgumentNullException("Object");
             }
-            return object.getType();
-        }
-
-   
-
-        //Simulates the "implements" method
-        //Type checking is namebased.
-        static Implements(object: any, Interface: string) {
-
-            //check if object has 
-            if (!object) {
-                throw new ArgumentNullException("Object should not be null.");
+            if (!object._type) {
+                //Idea : 
+                throw new ArgumentException("object should be a typescript-net Class");
             }
 
-            
-            throw new NotImplementedException();
+            return object._type;
         }
 
-      
+
+        //Simulates the c# Using statement
+        static using(object: System.IDisposable, action: Function) {
+
+            try {
+            action();
+            }
+            finally {
+            object.dispose();
+            }
+
+        }
+
+        static lock<T>(object: any, action: Function) : T {
+            //for now : just execute the action.
+            return action();
+
+        }
+
 
         //Simulates the "is" statement of C# 
         //Example in C# : if ( obj is Guid) { }
-        //Example in TS : if (Statements.is(obj,Guid)
-        static is(object: any, type: System.Object): boolean {
+        //Example in TS : if (Statements.is(obj, Guid)
+
+        static is(object: any, interfaceName: string): boolean;
+        static is(object: any, Class: any): boolean;
+
+        static is(object: any, ClassInterface: any): boolean {
+
             if (!object) {
                 return false;
             }
@@ -55,10 +66,16 @@ module System {
                 return false;
             }
 
+            //if TypeClassInterface is a 
+
+            if (typeof ClassInterface == "string") {
+                //het gaat om een interface ?!
+            }
+
             //TODO : name check is way too simple!
             //  1. overervering class
             //  2. interfaces
-            return (object.getType().name == type.getType().name);
+         
         }
 
      

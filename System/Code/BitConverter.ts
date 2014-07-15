@@ -113,6 +113,15 @@ module System {
 
         }
 
+        static toSingle(value: Uint8Array, startIndex): number {
+            //use a DataView 
+            throw new NotImplementedException();
+        }
+
+        static toDouble(value: Uint8Array, startIndex): number {
+            //use a DataView
+            throw new NotImplementedException();
+        }
 
 
 
@@ -135,6 +144,8 @@ module System {
 
             return new System.Int32(res);
         }
+
+
 
         static toString(value: Uint8Array, startIndex: number, length: number): string {
             BitConverter.__internalCheckParam(value, startIndex, length);

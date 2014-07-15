@@ -1,4 +1,4 @@
-
+/// <reference path="Attribute.ts" />
 
 declare var JSString;
 JSString = window["String"];
@@ -27,7 +27,7 @@ module System {
         public isEnum: boolean = false;
 
         constructor() {
-            
+            super();
         }
 
         static registerClass(_class: any, name: string, interfaces: string[]): Type {
@@ -54,6 +54,7 @@ module System {
 
 
         static registerEnum(_enum: any, name: string) {
+
             var res = new Type();
             res.isEnum = true;
             res.name = name;
@@ -71,6 +72,11 @@ module System {
             return res;
         }
 
+        // TODO : just a mockup for the moment..
+        public static registerAttribute(_type: any, attrName, attribute: System.Attribute) {
+
+        }
+
 
         static getTypeName(obj: any): string {
             if (!obj) return "undefined";
@@ -83,12 +89,16 @@ module System {
             return str;
         }
 
+        
 
         private static InitializeType(): Type[] {
             var res: Type[] = [];
             res.push(Type.registerInternal(Number, typeof 0));
             res.push(Type.registerInternal(JSString, typeof ""));
             res.push(Type.registerInternal(Boolean, typeof true));
+            res.push(Type.registerInternal(Uint8Array, typeof Uint8Array));
+            res.push(Type.registerInternal(Uint16Array, typeof Uint16Array));
+            res.push(Type.registerInternal(Uint32Array, typeof Uint32Array));
             return res;
         }
 

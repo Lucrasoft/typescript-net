@@ -7,10 +7,21 @@ module System {
     export class String extends System.Object {
         static _type: Type = System.Type.registerClass(String, "System.String", []);
 
+
+
+
         constructor() {
             super();
         }
 
+        static fromCharArray(input: Char[], startIndex: number, length: number): string {
+            var result = "";
+            for (var i = startIndex; i < length; i++) {
+                result += <string>JSString.fromCharCode(input[i]);
+            }
+            
+            return result;
+        }
 
         static get empty() : string {
              return "";
@@ -36,7 +47,7 @@ module System {
 
 
         //IObject
-        getType(): Type { return String._type; }
+        //getType(): Type { return String._type; }
 
     }
 

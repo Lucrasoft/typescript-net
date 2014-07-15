@@ -1,4 +1,5 @@
-﻿
+﻿/// <reference path="Object.ts" />
+
 
 //ts, js has no built-in operators overloading 
 //idea is to 'define' the operators inside system.
@@ -12,6 +13,7 @@
 //TS :  var P: Point = so.Add<Point>( new Point(1,1), new Point(3,3));
 
 
+
 module System {
 
     export class Operators {
@@ -20,6 +22,8 @@ module System {
             //
             return null;
         }
+
+        
 
     }
 

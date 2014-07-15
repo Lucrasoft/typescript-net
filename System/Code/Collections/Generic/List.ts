@@ -4,7 +4,7 @@
 
 module System.Collections.Generic {
 
-    export class List<T> extends System.Object implements IList<T>, IEnumberable<T> {
+    export class List<T> extends System.Object implements IList<T>, System.IEnumberable<T> {
         public static _type: Type = System.Type.registerClass(List, "System.Collections.Generic.List", [""]);
 
         constructor() {

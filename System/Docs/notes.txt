@@ -1,0 +1,8 @@
+﻿
+
+byte[]  are converted to Uint8Array
+
+
+System.Array 
+- helper class 
+
