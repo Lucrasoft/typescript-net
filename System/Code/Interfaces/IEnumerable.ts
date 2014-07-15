@@ -3,7 +3,7 @@
 
 module System {
 
-    export interface IEnumberable<T> {
+    export interface IEnumerable<T> {
         getEnumerator(): IEnumerator<T>;
     }
 
