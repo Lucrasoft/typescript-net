@@ -17,6 +17,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Code\Collections\Generic\IReadOnlyCollection.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarWeekRule.ts" />
     <TypeScriptCompile Include="Code\Globalization\CharUnicodeInfo.ts" />
@@ -34,6 +35,8 @@
     <TypeScriptCompile Include="Code\Globalization\TextInfo.ts" />
     <TypeScriptCompile Include="Code\Guid.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IAppDomainSetup.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IApplicationDescription.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IHostContext.ts" />
     <TypeScriptCompile Include="System.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IDisposable.ts" />
     <TypeScriptCompile Include="Code\Interfaces\ICloneable.ts" />
