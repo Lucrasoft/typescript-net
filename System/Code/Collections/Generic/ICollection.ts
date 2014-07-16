@@ -1,6 +1,6 @@
 /// <reference path="../../Interfaces/IEnumerable.ts"/>
 
-module System {
+module System.Collections.Generic {
 
     export interface ICollection<T> extends IEnumberable<T> {
 

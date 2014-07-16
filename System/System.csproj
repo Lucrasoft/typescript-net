@@ -17,7 +17,12 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Code\Collections\Generic\IComparer.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\IDictionary.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\IEqualityComparer.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IReadOnlyCollection.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\IReadOnlyDictionary.ts" />
+    <TypeScriptCompile Include="Code\Collections\Generic\IReadOnlyList.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarWeekRule.ts" />
     <TypeScriptCompile Include="Code\Globalization\CharUnicodeInfo.ts" />

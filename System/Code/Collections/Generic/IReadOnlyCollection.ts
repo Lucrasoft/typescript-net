@@ -6,4 +6,6 @@ module System.Collections.Generic
     {
         count: number;
     }
+
+    System.Type.registerInterface("System.Collections.Generic.IReadOnlyCollection", "System.IEnumerable");
 }
