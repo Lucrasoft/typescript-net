@@ -31,6 +31,7 @@
     <TypeScriptCompile Include="Code\ConsoleSpecialKey.ts" />
     <TypeScriptCompile Include="Code\CrossAppDomainDelegate.ts" />
     <TypeScriptCompile Include="Code\EmptyArray.ts" />
+    <TypeScriptCompile Include="Code\EnvironmentVariableTarget.ts" />
     <TypeScriptCompile Include="Code\GCCollectionMode.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarWeekRule.ts" />
