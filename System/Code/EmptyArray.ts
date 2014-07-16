@@ -1,9 +1,9 @@
-﻿//todo
-
-module System
+﻿module System
 {
 	class EmptyArray<T>
 	{
-//		public static readonly T[]Value = new T[0];
-	}
+        static value: T[] = new T[0];
+    }
+
+    System.Type.registerClass(EmptyArray, "System.EmptyArray");
 }

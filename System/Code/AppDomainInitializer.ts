@@ -1,14 +1,13 @@
-﻿
-
-module System
+﻿module System
 {
     
-    export class Delegates
-    {
+    export interface AppDomainInitializer {
+         (args: string[]): void;
 
-        static AppDomainInitializer: (args: string[])=> void;
 
     }
+
+    System.Type.registerInterface("System.AppDomainInitializer");
 
 }
 
