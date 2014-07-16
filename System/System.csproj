@@ -17,12 +17,21 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Code\AppDomainInitializer.ts" />
+    <TypeScriptCompile Include="Code\Base64FormattingOptions.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IComparer.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IDictionary.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IEqualityComparer.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IReadOnlyCollection.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IReadOnlyDictionary.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IReadOnlyList.ts" />
+    <TypeScriptCompile Include="Code\Comparison.ts" />
+    <TypeScriptCompile Include="Code\ConsoleCancelEventHandler.ts" />
+    <TypeScriptCompile Include="Code\ConsoleModifiers.ts" />
+    <TypeScriptCompile Include="Code\ConsoleSpecialKey.ts" />
+    <TypeScriptCompile Include="Code\CrossAppDomainDelegate.ts" />
+    <TypeScriptCompile Include="Code\EmptyArray.ts" />
+    <TypeScriptCompile Include="Code\GCCollectionMode.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarWeekRule.ts" />
     <TypeScriptCompile Include="Code\Globalization\CharUnicodeInfo.ts" />
@@ -42,6 +51,14 @@
     <TypeScriptCompile Include="Code\Interfaces\IAppDomainSetup.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IApplicationDescription.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IHostContext.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IObservable.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IObserver.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IProgress.ts" />
+    <TypeScriptCompile Include="Code\Interfaces\IServiceProvider.ts" />
+    <TypeScriptCompile Include="Code\MidpointRounding.ts" />
+    <TypeScriptCompile Include="Code\Predicate.ts" />
+    <TypeScriptCompile Include="Code\StringSplitOptions.ts" />
+    <TypeScriptCompile Include="Code\Void.ts" />
     <TypeScriptCompile Include="System.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IDisposable.ts" />
     <TypeScriptCompile Include="Code\Interfaces\ICloneable.ts" />
