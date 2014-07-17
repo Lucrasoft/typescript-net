@@ -82,7 +82,7 @@ module System {
             if (!obj) return "undefined";
             var str = typeof obj;
             if (str === "object") {
-                if ((<Object>obj).hasOwnProperty("GetType")) {
+                if ((<Object>obj).hasOwnProperty("getType")) {
                     return (<Object>obj).getType().name;
                 }
             }
