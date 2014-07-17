@@ -21,7 +21,7 @@
     <TypeScriptCompile Include="Code\AssemblyLoadEventArgs.ts" />
     <TypeScriptCompile Include="Code\AssemblyLoadEventHandler.ts" />
     <TypeScriptCompile Include="Code\Base64FormattingOptions.ts" />
-    <TypeScriptCompile Include="Code\CLSCompliantAttribute.ts" />
+    <TypeScriptCompile Include="Code\Attributes\CLSCompliantAttribute.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IComparer.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IDictionary.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\IEqualityComparer.ts" />
@@ -66,7 +66,7 @@
     <TypeScriptCompile Include="Code\Guid.ts" />
     <TypeScriptCompile Include="Code\IndexOutOfRangeException.ts" />
     <TypeScriptCompile Include="Code\InsufficientExecutionStackException.ts" />
-    <TypeScriptCompile Include="Code\InsufficientMemoryException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\InsufficientMemoryException.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IAppDomainSetup.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IApplicationDescription.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IHostContext.ts" />
@@ -84,7 +84,7 @@
     <TypeScriptCompile Include="Code\MonoCQItem.ts" />
     <TypeScriptCompile Include="Code\MonoListItem.ts" />
     <TypeScriptCompile Include="Code\MTAThreadAttribute.ts" />
-    <TypeScriptCompile Include="Code\NonSerializedAttribute.ts" />
+    <TypeScriptCompile Include="Code\Attributes\NonSerializedAttribute.ts" />
     <TypeScriptCompile Include="Code\NotCancelableException.ts" />
     <TypeScriptCompile Include="Code\ParamArrayAttribute.ts" />
     <TypeScriptCompile Include="Code\PlatformID.ts" />
@@ -95,8 +95,7 @@
     <TypeScriptCompile Include="Code\STAThreadAttribute.ts" />
     <TypeScriptCompile Include="Code\StringComparison.ts" />
     <TypeScriptCompile Include="Code\StringSplitOptions.ts" />
-    <TypeScriptCompile Include="Code\SystemException.ts" />
-    <TypeScriptCompile Include="Code\TimeoutException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\TimeoutException.ts" />
     <TypeScriptCompile Include="Code\TimeZoneNotFoundException.ts" />
     <TypeScriptCompile Include="Code\TypeUnloadedException.ts" />
     <TypeScriptCompile Include="Code\UnhandledExceptionEventHandler.ts" />
@@ -121,7 +120,7 @@
     <TypeScriptCompile Include="Code\Collections\Generic\KeyNotFoundException.ts" />
     <TypeScriptCompile Include="Code\Collections\Generic\KeyValuePair.ts" />
     <TypeScriptCompile Include="Code\String.ts" />
-    <TypeScriptCompile Include="Code\Attribute.ts" />
+    <TypeScriptCompile Include="Code\Attributes\Attribute.ts" />
     <TypeScriptCompile Include="Code\Exceptions\NotImplementedException.ts" />
     <TypeScriptCompile Include="Code\AttributeTargets.ts" />
     <TypeScriptCompile Include="Code\Exceptions\InvalidOperationException.ts" />

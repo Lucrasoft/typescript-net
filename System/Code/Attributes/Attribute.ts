@@ -1,5 +1,5 @@
-/// <reference path="Type.ts" />  
-/// <reference path="Exceptions/NotImplementedException.ts" />  
+/// <reference path="../Type.ts" />  
+/// <reference path="../Exceptions/NotImplementedException.ts" />  
 
 
 module System {

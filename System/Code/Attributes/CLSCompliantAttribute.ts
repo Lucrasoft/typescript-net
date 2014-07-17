@@ -1,11 +1,13 @@
 ﻿///<reference path="Attribute.ts"/>
-//todo
+
 
 module System
 {
  
 	export class CLSCompliantAttribute extends Attribute
-	{
+    {
+        static _type: Type = System.Type.registerClass(CLSCompliantAttribute, "System.CLSCompliantAttribute");
+
 		is_compliant: boolean;
 
 		constructor(isCompliant: boolean)
@@ -19,6 +21,6 @@ module System
         }
     }
 
-    System.Type.registerClass(CLSCompliantAttribute, "System.CLSCompliantAttribute");
+  
 }
  
