@@ -1,9 +1,25 @@
 ## Project specific
+
+Corlib/Code/**/*.js
+Corlib/Code/**/*.js.map
+Corlib/Tests/**/*.js
+Corlib/Tests/**/*.js.map
+
 System/Code/**/*.js
 System/Code/**/*.js.map
-
 System/Tests/**/*.js
 System/Tests/**/*.js.map
+
+System.Drawing/Code/**/*.js
+System.Drawing/Code/**/*.js.map
+System.Drawing/Tests/**/*.js
+System.Drawing/Tests/**/*.js.map
+
+System.Numerics/Code/**/*.js
+System.Numerics/Code/**/*.js.map
+System.Numerics/Tests/**/*.js
+System.Numerics/Tests/**/*.js.map
+
 
 
 ## Ignore Visual Studio temporary files, build results, and
