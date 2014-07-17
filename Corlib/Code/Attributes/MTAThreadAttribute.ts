@@ -2,13 +2,13 @@
 
 module System
 {
-    //[AttributeUsage(AttributeTargets.Method)]
-	//[ComVisible(true)]
-	//public sealed class MTAThreadAttribute : Attribute
-	//{
-	//	// Constructors
-	//	public MTAThreadAttribute () : base()
-	//	{
-    //}
-	//}
+
+	export class MTAThreadAttribute extends Attribute
+    {
+        static _type: Type = System.Type.registerClass(MTAThreadAttribute, "System.MTAThreadAttribute", []);
+
+		// Constructors
+		constructor()
+		{ super(); }
+	}
 }

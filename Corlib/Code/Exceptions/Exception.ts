@@ -3,7 +3,7 @@
 module System {
 
     export class Exception extends System.Object implements Error {
-        static _type = System.Type.registerClass(Exception, "System.Exception", []);
+        static _type : Type = System.Type.registerClass(Exception, "System.Exception", []);
 
         public get name(): string {
             return this.getType().name;

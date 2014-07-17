@@ -46,6 +46,7 @@
     <TypeScriptCompile Include="Code\EnvironmentVariableTarget.ts" />
     <TypeScriptCompile Include="Code\Exceptions\ExecutionEngineException.ts" />
     <TypeScriptCompile Include="Code\Attributes\FlagsAttribute.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\OutOfMemoryException.ts" />
     <TypeScriptCompile Include="Code\GCCollectionMode.ts" />
     <TypeScriptCompile Include="Code\GCNotificationStatus.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />

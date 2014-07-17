@@ -5,26 +5,32 @@
 module System
 {
 	export class LoaderOptimizationAttribute extends Attribute
-	{
-        private lo: LoaderOptimization;
+    {
 
-		// Constructors
-        constructor(value: any) {
-            if (typeof value == byte) {
-                lo = value(LoaderOptimization);
-            }
-            else if (typeof value == LoaderOptimization) {
-                lo = value;
+        //static _type: Type = System.Type.registerClass(LoaderOptimizationAttribute, "System.LoaderOptimizationAttribute", []);
 
-            }
-        }
+
+        //export lo: LoaderOptimization;
+
+		//// Constructors
+        //constructor(value: any) {
+        //    if (typeof value == byte) {
+        //        lo = value(LoaderOptimization);
+        //    }
+        //    else if (typeof value == LoaderOptimization) {
+        //        lo = value;
+
+        //    }
+        //    super();
+        //}
 		
-		// Properties
-        get Value(): LoaderOptimization {
-			{return lo;}
-        }
+		//// Properties
+        //get Value(): LoaderOptimization {
+        //{ return lo; }
+            
+        //}
     }
 
-    //System.Type.registerClass(LoaderOptimizationAttribute, "System.LoaderOptimizationAttribute");
+    
 
 }

@@ -1,11 +1,12 @@
-/// <reference path="Type.ts" />
 /// <reference path="Attribute.ts" />
 /// <reference path="AttributeTargets.ts" />
+//todo is de klas registratie goed.
+
 
 module System {
 
     export class AttributeUsageAttribute extends Attribute {
-        static _type: Type = System.Type.registerClass(Attribute, "System.Attribute", []);
+        static _type: Type = System.Type.registerClass(AttributeUsageAttribute, "System.AttributeUsageAttribute", []);
 
 
         private valid_on: AttributeTargets;

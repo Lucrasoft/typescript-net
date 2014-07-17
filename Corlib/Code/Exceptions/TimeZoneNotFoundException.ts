@@ -1,20 +1,20 @@
-﻿//todo
+﻿///<reference path="Exception.ts"/>
 
 module System
 {
 
-	//export class TimeZoneNotFoundException : Exception
-	//{
-	//	public TimeZoneNotFoundException () : base()
-	//	{}
+	export class TimeZoneNotFoundException extends Exception
+	{
+        static _type: Type = System.Type.registerClass(TimeZoneNotFoundException, "System.TimeZoneNotFoundException", []);
 
-	//	public TimeZoneNotFoundException (string message) : base(message)
-	//	{}
+		constructor(message: string, innerException: Exception)
+	    {
+	        super(message, innerException);   
 
-	//	public TimeZoneNotFoundException (string message, Exception innerException) : base(message, innerException)
-	//	{ }
+    	}
 
-	//	protected TimeZoneNotFoundException (Runtime.Serialization.SerializationInfo info, Runtime.Serialization.StreamingContext context) : base(info, context)
-	//	{ }
-	//}
+        //todo:
+		//protected TimeZoneNotFoundException (Runtime.Serialization.SerializationInfo info, Runtime.Serialization.StreamingContext context) : base(info, context)
+		//{ }
+	}
 } 

@@ -1,23 +1,14 @@
 ﻿//todo
 
-module System {
+module System
+{
+	export class InsufficientExecutionStackException extends SystemException
+    {
 
-	//public sealed class InsufficientExecutionStackException : SystemException
-	//{
-	//	public InsufficientExecutionStackException ()
-	//	: base("Insufficient execution stack")
-	//	{
-	//	}
 
-	//	public InsufficientExecutionStackException (string message)
-	//	: base(message)
-	//	{
-	//	}
-
-	//	public InsufficientExecutionStackException (string message, Exception innerException)
-	//	: base(message, innerException)
-	//	{
-    //}
-	//}
-
+        public InsufficientExecutionStackException(message: string = "Insufficient execution stack", innerException?: Exception)
+        {
+            super(message, innerException);
+        }
+	}
 } 

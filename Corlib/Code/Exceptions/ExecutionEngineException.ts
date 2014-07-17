@@ -6,26 +6,20 @@ module System
 {
 
 	export class ExecutionEngineException extends SystemException
-	{
-	//	// Constructors
-	//	public ExecutionEngineException ()
-	//		: base(Locale.GetText("Internal error occurred.")) // Haha. Nice.
-	//	{
-	//	}
+    {
+        static _type: Type = System.Type.registerClass(ExecutionEngineException, "System.ExecutionEngineException", []);
 
-	//	public ExecutionEngineException (string message)
-	//		: base(message)
-	//	{
-	//	}
+		constructor(message: string = "Internal error occurred.", innerException?: Exception) {
 
-	//	public ExecutionEngineException (string message, Exception innerException)
-	//		: base(message, innerException)
-	//	{
-    //}
+		    super(message, innerException);
+
+		}
+      
+    }
 
 	//	internal ExecutionEngineException (SerializationInfo info, StreamingContext context) : base(info, context)
 	//	{
     //}
-	}
 }
+
  

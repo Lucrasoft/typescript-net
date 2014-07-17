@@ -14,11 +14,11 @@ module System {
 
 
 	export class FlagsAttribute extends Attribute {
-
+        static _type: Type = System.Type.registerClass(FlagsAttribute, "System.FlagsAttribute", []);
 		//No methods
 		
     }
 
-    System.Type.registerClass(FlagsAttribute, "System.FlagsAttribute");
+    
 
 }

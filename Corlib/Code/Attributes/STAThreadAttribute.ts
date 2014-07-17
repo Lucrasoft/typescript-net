@@ -1,15 +1,15 @@
-﻿//todo
+﻿///<reference path="Attribute.ts"/>
 
 module System
 {
-    //[AttributeUsage(AttributeTargets.Method)]
-	//[ComVisible(true)]
-	//public sealed class STAThreadAttribute : Attribute
-	//{
-	//	// Constructors
-	//	public STAThreadAttribute ()
-	//		: base()
-	//	{
-    //}
-	//}
+
+	export class STAThreadAttribute extends Attribute
+    {
+        static _type: Type = System.Type.registerClass(STAThreadAttribute, "System.STAThreadAttribute", []);
+
+		// Constructors
+		constructor () {
+		    super();
+		}
+	}
 } 

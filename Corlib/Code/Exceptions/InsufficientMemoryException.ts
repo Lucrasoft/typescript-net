@@ -1,22 +1,16 @@
-﻿///<reference path="Exception.ts"/>
+﻿///<reference path="OutOfMemoryException.ts"/>
 
 
-module System {
+module System
+{
+    export class InsufficientMemoryException extends OutOfMemoryException
+    {
 
-
-    export class InsufficientMemoryException extends OutOfMemoryException {
-
-        static _type: Type = System.Type.registerClass(InsufficientMemoryException, "System.OutOfMemoryException");
-
-
-        
-        constructor(message: string = "Insufficient memory", innerException?: Exception) {
-
+        static _type: Type = System.Type.registerClass(InsufficientMemoryException, "System.InsufficientMemoryException", []);
+    
+        constructor(message: string = "Insufficient memory", innerException?: Exception)
+        {
             super(message, innerException);
-          
         }
-
     }
-   
-
 }
