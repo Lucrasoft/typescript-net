@@ -44,9 +44,17 @@
     <TypeScriptCompile Include="Code\DomainManagerInitializationFlags.ts" />
     <TypeScriptCompile Include="Code\EmptyArray.ts" />
     <TypeScriptCompile Include="Code\EnvironmentVariableTarget.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\AccessViolationException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\DataMisalignedException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\DllNotFoundException.ts" />
     <TypeScriptCompile Include="Code\Exceptions\ExecutionEngineException.ts" />
     <TypeScriptCompile Include="Code\Attributes\FlagsAttribute.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\MulticastNotSupportedException.ts" />
     <TypeScriptCompile Include="Code\Exceptions\OutOfMemoryException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\StackOverflowException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\TypeAccessException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\TypeLoadException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\UnhandledExceptionEventArgs.ts" />
     <TypeScriptCompile Include="Code\GCCollectionMode.ts" />
     <TypeScriptCompile Include="Code\GCNotificationStatus.ts" />
     <TypeScriptCompile Include="Code\Globalization\CalendarAlgorithmType.ts" />
@@ -78,7 +86,7 @@
     <TypeScriptCompile Include="Code\Exceptions\InvalidTimeZoneException.ts" />
     <TypeScriptCompile Include="Code\LoaderOptimization.ts" />
     <TypeScriptCompile Include="Code\Attributes\LoaderOptimizationAttribute.ts" />
-    <TypeScriptCompile Include="Code\MemberAccessException.ts" />
+    <TypeScriptCompile Include="Code\Exceptions\MemberAccessException.ts" />
     <TypeScriptCompile Include="Code\MidpointRounding.ts" />
     <TypeScriptCompile Include="Code\MonoAsyncCall.ts" />
     <TypeScriptCompile Include="Code\MonoCQItem.ts" />
@@ -99,6 +107,7 @@
     <TypeScriptCompile Include="Code\Exceptions\TimeZoneNotFoundException.ts" />
     <TypeScriptCompile Include="Code\Exceptions\TypeUnloadedException.ts" />
     <TypeScriptCompile Include="Code\Exceptions\UnhandledExceptionEventHandler.ts" />
+    <TypeScriptCompile Include="Code\TermInfoNumbers.ts" />
     <TypeScriptCompile Include="Code\Void.ts" />
     <TypeScriptCompile Include="Corlib.ts" />
     <TypeScriptCompile Include="Code\Interfaces\IDisposable.ts" />
