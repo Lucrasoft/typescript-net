@@ -1,4 +1,5 @@
 ﻿///<reference path="Attribute.ts"/>
+//todo
 
 module System
 {
@@ -10,6 +11,7 @@ module System
 		constructor(isCompliant: boolean)
 		{
             this.is_compliant = isCompliant;
+		    
 		}
 
         get isCompliant(): boolean {

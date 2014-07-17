@@ -2,14 +2,11 @@
 
 module System
 {
-
-    export class Delegates2 {
-
-//        static Comparison<T>: (x: T, y: T) => int;
-//        public delegate int Comparison <T> (T x, T y);
-        
+    
+    export interface Comparison<T> {
+        (x: T, y: T): number;
     }
 
-
+    System.Type.registerInterface("System.Comparison");
 
 }

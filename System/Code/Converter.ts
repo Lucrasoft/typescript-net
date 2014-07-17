@@ -1,8 +1,9 @@
-﻿//todo
-
-module System
+﻿module System
 {
 
-   
-   // public delegate TOutput Converter<TInput, TOutput>(TInput input);
+    export interface Converter<TInput, TOutput> {
+        (input: TInput): TOutput;
+    }
+
+    System.Type.registerInterface("System.Converter");
 }
