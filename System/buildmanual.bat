@@ -14,3 +14,4 @@ cd tests
 dir *.ts / b > specs.lst
 echo ../Compiled/System.debug.d.ts >> specs.lst
 tsc -m commonjs -t ES5 --out specs.js @specs.lst
+cd ..
