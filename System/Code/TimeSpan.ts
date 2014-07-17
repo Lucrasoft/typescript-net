@@ -7,10 +7,9 @@
 /// <reference path="Interfaces\IFormattable.ts" />
 
 
-module System
-{
+module System {
 
-    export class TimeSpan implements IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable, IObject {
+    export class TimeSpan extends Type implements IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable  {
 
         private static _type: Type = System.Type.registerClass(TimeSpan, "System.TimeSpan", ["IComparable", "IEquatable", "IFormattable"]);
         //var comparer = new System.Collections.Generic.GenericComparer<TimeSpan>();
@@ -37,6 +36,7 @@ module System
 
 
         constructor(ticksHoursDays: number, minutesHours?: number, secondMinutes?: number, seconds?: number, milliseconds: number = 0) {
+            super();
             if (!minutesHours) {
                 //constructor(ticks: number);
                 this._ticks = ticksHoursDays;
@@ -174,7 +174,7 @@ module System
         compareTo(value: any): number {
             if (value == null) return 1;
 
-			if (!(Statements.is(value, TimeSpan._type))) {
+            if (!(Statements.is(value, TimeSpan._type))) {
                 throw new ArgumentException("Argument has to be a TimeSpan.", null, "value");
             }
 
@@ -262,7 +262,7 @@ module System
                 return false;
             }
 
-            var p = new Parser(s`, formatProvider);
+            var p = new Parser(s, formatProvider);
             return p.Execute(true, result);
         }
 
@@ -315,7 +315,7 @@ module System
                 return false;
 
             var p = new Parser(input, formatProvider);
-            p.Exact = true;
+            p.exact = true;
 
             formats.forEach((format: string) => {
 
@@ -323,32 +323,32 @@ module System
 
                 switch (format) {
                     case "g":
-                        p.AllMembersRequired = false;
-                        p.CultureSensitive = true;
-                        p.UseColonAsDaySeparator = true;
+                        p.allMembersRequired = false;
+                        p.cultureSensitive = true;
+                        p.useColonAsDaySeparator = true;
                         break;
                     case "G":
-                        p.AllMembersRequired = true;
-                        p.CultureSensitive = true;
-                        p.UseColonAsDaySeparator = true;
+                        p.allMembersRequired = true;
+                        p.cultureSensitive = true;
+                        p.useColonAsDaySeparator = true;
                         break;
                     case "c":
-                        p.AllMembersRequired = false;
-                        p.CultureSensitive = false;
-                        p.UseColonAsDaySeparator = false;
+                        p.allMembersRequired = false;
+                        p.cultureSensitive = false;
+                        p.useColonAsDaySeparator = false;
                         break;
                     default:
                         // Single letter formats other than the defined ones are not accepted.
                         if (format.length == 1)
                             return false;
                         // custom format
-                        if (p.ExecuteWithFormat(format, styles, true, result))
+                        if (p.executeWithFormat(format, styles, true, result))
                             return true;
                     //continue;
                 }
 
 
-                if (p.Execute(true, result))
+                if (p.execute(true, result))
                     return true;
             });
 
@@ -451,8 +451,8 @@ module System
             if (format.length < 2)
                 throw new FormatException("The format is not recognized.");
 
-       
-            
+
+
             var parser = new FormatParser(format);
             var element: FormatElement;
             var value: number;
@@ -466,32 +466,27 @@ module System
                 element = parser.GetNextElement();
                 switch (element.Type) {
                     case FormatElementType.Days:
-                        value = Math.abs(Days);
-                        sb.Append(value.ToString("D" + element.IntValue));
+                        value = Math.abs(this.Days);
                         break;
                     case FormatElementType.Hours:
-                        value = Math.abs(Hours);
-                        sb.Append(value.ToString("D" + element.IntValue));
+                        value = Math.abs(this.Hours);
                         break;
                     case FormatElementType.Minutes:
-                        value = Math.Abs(Minutes);
-                        sb.Append(value.ToString("D" + element.IntValue));
+                        value = Math.abs(this.Minutes);
                         break;
                     case FormatElementType.Seconds:
-                        value = Math.Abs(Seconds);
-                        sb.Append(value.ToString("D" + element.IntValue));
+                        value = Math.abs(this.Seconds);
                         break;
                     case FormatElementType.Ticks:
-                        value = Math.Abs(Milliseconds);
-                        sb.Append(value.ToString("D" + element.IntValue));
+                        value = Math.abs(this.Milliseconds);
                         break;
                     case FormatElementType.TicksUppercase:
-                        value = Math.Abs(Milliseconds);
+                        value = Math.abs(this.Milliseconds);
                         if (value > 0) {
-							int threshold = (int) Math.Pow(10, element.IntValue);
+                            var threshold: number = Math.pow(10, element.IntValue);
                             while (value >= threshold)
                                 value /= 10;
-                            sb.Append(value.ToString());
+                            sb.Append(value.toString());
                         }
                         break;
                     case FormatElementType.EscapedChar:
@@ -538,11 +533,11 @@ module System
         }
 
         public static op_Substraction(t1: TimeSpan, t2: TimeSpan): TimeSpan {
-            return t1.Subtract(t2);
+            return t1.subtract(t2);
         }
 
         public static op_UnaryNegation(t: TimeSpan): TimeSpan {
-            return t.Negate();
+            return t.negate();
         }
 
         public static op_UnaryPlus(t: TimeSpan): TimeSpan {
@@ -556,8 +551,7 @@ module System
         Overflow
     }
 
-     class Parser
-		{
+    class Parser {
         private _src: string;
         private _cur: number = 0;
         private _length: number;
@@ -568,363 +562,308 @@ module System
         parsed_numbers_count: number;
         parsed_days_separator: boolean;
 
-        public Exact: boolean; // no fallback, strict pattern.
-        public AllMembersRequired: boolean;
-        public CultureSensitive: boolean = true;
-        public UseColonAsDaySeparator: boolean = true;
+        public exact: boolean; // no fallback, strict pattern.
+        public allMembersRequired: boolean;
+        public cultureSensitive: boolean = true;
+        public useColonAsDaySeparator: boolean = true;
 
-        constructor(src: string) {
+        constructor(src: string, formatProvider?: IFormatProvider) {
             this._src = src;
-            this._length = _src.length;
-            this.number_format = GetNumberFormatInfo(null);
+            this._length = this._src.length;
+            this.number_format = this.getNumberFormatInfo(null);
 
-        }
-
-			// Reset state data, so we can execute another parse over the input.
-		reset()
-			{
-        this._cur = 0;
-        this.parse_error = ParseError.None;
-        parsed_ticks = parsed_days_separator = false;
-        parsed_numbers_count = 0;
-			}
-
-			public Parser (string src, IFormatProvider formatProvider) :
-				this(src)
-			{
-        number_format = GetNumberFormatInfo(formatProvider);
-    }
-
-			NumberFormatInfo GetNumberFormatInfo(IFormatProvider formatProvider)
-			{
-				NumberFormatInfo format = null;
-        if (formatProvider != null)
-            format = (NumberFormatInfo) formatProvider.GetFormat(typeof (NumberFormatInfo));
-        if (format == null)
-            format = Thread.CurrentThread.CurrentCulture.NumberFormat;
-
-        return format;
-			}
-			public get AtEnd() : boolean {
-
-        return this._cur >= _length;
-
-			}
-
-			// All "Parse" functions throw a FormatException on syntax error.
-			// Their return value is semantic value of the item parsed.
-
-			// Range checking is spread over three different places:
-			// 1) When parsing "int" values, an exception is thrown immediately
-			//    when the value parsed exceeds the maximum value for an int.
-			// 2) An explicit check is built in that checks for hours > 23 and
-			//    for minutes and seconds > 59.
-			// 3) Throwing an exceptions for a final TimeSpan value > MaxValue
-			//    or < MinValue is left to the TimeSpan constructor called.
-
-			// Parse zero or more whitespace chars.
-			private void ParseWhiteSpace()
-			{
-        while (!AtEnd && Char.IsWhiteSpace(_src, _cur)) {
-            _cur++;
-        }
-			}
-
-			// Parse optional sign character.
-			private bool ParseSign()
-			{
-				bool res = false;
-
-        if (!AtEnd && _src[_cur] == '-') {
-            res = true;
-            _cur++;
-        }
-
-        return res;
-			}
-
-
-			// Used for custom formats parsing, where we may need to declare how
-			// many digits we expect, as well as the maximum allowed.
-			private int ParseIntExact(int digit_count, int max_digit_count)
-			{
-				long res = 0;
-				int count = 0;
-
-        // We can have more than one preceding zero here.
-        while (!AtEnd && Char.IsDigit(_src, _cur)) {
-            res = res * 10 + _src[_cur] - '0';
-            if (res > Int32.MaxValue) {
-                SetParseError(ParseError.Format);
-                break;
+            if (formatProvider) {
+                this.number_format = this.getNumberFormatInfo(formatProvider);
             }
-            _cur++;
-            count++;
         }
 
-        // digit_count = 1 means we can use up to maximum count,
-        if (count == 0 || (digit_count > 1 && digit_count != count) ||
-            count > max_digit_count)
-            SetParseError(ParseError.Format);
+        private reset(): void {
+            this._cur = 0;
+            this.parse_error = ParseError.None;
+            this.parsed_ticks = this.parsed_days_separator = false;
+            this.parsed_numbers_count = 0;
+        }
 
-				return (int) res;
-			}
+        static getNumberFormatInfo(formatProvider: IFormatProvider): NumberFormatInfo {
 
-			// Parse simple int value
-			private int ParseInt(bool optional)
-			{
-        if (optional && AtEnd)
-            return 0;
+            var format: NumberFormatInfo = null;
+            if (formatProvider != null)
+                format = <NumberFormatInfo>formatProvider.getFormat(System.Statements.typeOf(NumberFormatInfo));
+            if (format == null)
+                format = Thread.CurrentThread.Currentculture.NumberFormat;
+        }
 
-				long res = 0;
-				int count = 0;
+        get atEnd(): boolean {
+            return this._cur >= this._length;
+        }
 
-        while (!AtEnd && Char.IsDigit(_src, _cur)) {
-            res = res * 10 + _src[_cur] - '0';
-            if (res > Int32.MaxValue) {
-                SetParseError(ParseError.Overflow);
-                break;
+        private parseWhiteSpace(): void {
+            while (!this.atEnd && Char.isWhiteSpace(this._src, this._cur)) {
+                this._cur++;
             }
-            _cur++;
-            count++;
         }
 
-        if (!optional && (count == 0))
-            SetParseError(ParseError.Format);
-        if (count > 0)
-            parsed_numbers_count++;
+        private parseSign(): boolean {
+            var res: boolean = false;
 
-				return (int) res;
-			}
+            if (!this.atEnd && this._src.charAt(this._cur) == '-') {
+                res = true;
+                this._cur++;
+            }
 
-			// This behaves pretty much like ParseOptDot, but we need to have it
-			// as a separated routine for both days and decimal separators.
-			private bool ParseOptDaysSeparator()
-			{
-        if (AtEnd)
-            return false;
-
-        if (_src[_cur] == '.') {
-            _cur++;
-            parsed_days_separator = true;
-            return true;
+            return res;
         }
-        return false;
-			}
 
-			// Just as ParseOptDot, but for decimal separator
-			private bool ParseOptDecimalSeparator()
-			{
-        if (AtEnd)
-            return false;
+        private parseIntExact(digit_count: number, max_digit_count: number): number {
+            var res: number = 0;
+            var count: number = 0;
 
-        // we may need to provide compatibility with old versions using '.'
-        // for culture insensitve and non exact formats.
-        if (!Exact || !CultureSensitive)
-            if (_src[_cur] == '.') {
-                _cur++;
+            while (!this.atEnd && Char.isDigit(this._src, this._cur)) {
+                res = (res * 10) + parseInt(this._src.charAt(this._cur));
+                if (res > Int32.MaxValue) {
+                    this.setParseError(ParseError.Format);
+                    break;
+                }
+                this._cur++;
+                count++;
+            }
+
+            if (count == 0 || (digit_count > 1 && digit_count != count) ||
+                    count > max_digit_count)
+                this.setParseError(ParseError.Format);
+
+            return <number>res;
+        }
+
+        private parseInt(optional: boolean): number {
+
+            if (optional && this.atEnd)
+                return 0;
+
+            var res: number = 0;
+            var count: number = 0;
+
+            while (!this.atEnd && Char.isDigit(this._src, this._cur)) {
+                res = (res * 10) + parseInt(this._src.charAt(this._cur));
+                if (res > Int32.MaxValue) {
+                    this.setParseError(ParseError.Overflow);
+                    break;
+                }
+
+                this._cur++;
+                count++;
+            }
+
+            if (!optional && (count == 0))
+                this.setParseError(ParseError.Format);
+
+            if (count > 0)
+                this.parsed_numbers_count++;
+
+            return <number>res;
+        }
+
+        private parseOptDaysSeparator(): boolean {
+            if (this.atEnd)
+                return false;
+
+            if (this._src.charAt(this._cur) == '.') {
+                this._cur++;
+                this.parsed_days_separator = true;
                 return true;
             }
 
-				string decimal_separator = number_format.NumberDecimalSeparator;
-        if (CultureSensitive && String.Compare(_src, _cur, decimal_separator, 0, decimal_separator.Length) == 0) {
-            _cur += decimal_separator.Length;
-            return true;
-        }
-
-        return false;
-			}
-
-			private bool ParseLiteral(string value)
-			{
-        if (!AtEnd && String.Compare(_src, _cur, value, 0, value.Length) == 0) {
-            _cur += value.Length;
-            return true;
-        }
-
-        return false;
-			}
-
-			private bool ParseChar(char c)
-			{
-        if (!AtEnd && _src[_cur] == c) {
-            _cur++;
-            return true;
-        }
-
-        return false;
-			}
-			// Parse optional dot
-			private bool ParseOptDot()
-			{
-        if (AtEnd)
             return false;
-
-        if (_src[_cur] == '.') {
-            _cur++;
-            return true;
-        }
-        return false;
-			}
-
-			private void ParseColon(bool optional)
-			{
-        if (!AtEnd) {
-            if (_src[_cur] == ':')
-                _cur++;
-            else if (!optional)
-                SetParseError(ParseError.Format);
-        }
-			}
-
-			// Parse [1..7] digits, representing fractional seconds (ticks)
-			// In 4.0 more than 7 digits will cause an OverflowException
-			private long ParseTicks()
-			{
-				long mag = 1000000;
-				long res = 0;
-				bool digitseen = false;
-
-        while (mag > 0 && !AtEnd && Char.IsDigit(_src, _cur)) {
-            res = res + (_src[_cur] - '0') * mag;
-            _cur++;
-            mag = mag / 10;
-            digitseen = true;
         }
 
-        if (!digitseen)
-            SetParseError(ParseError.Format);
-        else if (!AtEnd && Char.IsDigit(_src, _cur))
-            SetParseError(ParseError.Overflow);
+        private parseOptDecimalSeparator(): boolean {
+            if (this.atEnd)
+                return false;
 
-        parsed_ticks = true;
+            if (!this.exact || !this.cultureSensitive)
+                if (this._src.charAt(this._cur) == '.') {
+                    this._cur++;
+                    return true;    
+                }
 
-        return res;
-			}
-
-			// Used by custom formats parsing
-			// digits_count = 0 for digits up to max_digits_count (optional), and other value to
-			// force a precise number of digits.
-			private long ParseTicksExact(int digits_count, int max_digits_count)
-			{
-				long mag = 1000000;
-				long res = 0;
-				int count = 0;
-
-        while (mag > 0 && !AtEnd && Char.IsDigit(_src, _cur)) {
-            res = res + (_src[_cur] - '0') * mag;
-            _cur++;
-            count++;
-            mag = mag / 10;
-        }
-
-        if ((digits_count > 0 && count != digits_count) ||
-            count > max_digits_count)
-            SetParseError(ParseError.Format);
-
-        return res;
-    }
-
-    void SetParseError(ParseError error)
-			{
-        // We preserve the very first error.
-        if (parse_error != ParseError.None)
-            return;
-
-        parse_error = error;
-    }
-
-			bool CheckParseSuccess(bool tryParse)
-			bool CheckParseSuccess(int hours, int minutes, int seconds, bool tryParse)
-			{
-        // We always report the first error, but for 2.0 we need to give a higher
-        // precence to per-element overflow (as opposed to int32 overflow).
-        if (parse_error == ParseError.Overflow) {
-            if (parse_error == ParseError.Overflow || hours > 23 || minutes > 59 || seconds > 59) {
-                if (tryParse)
-                    return false;
-                throw new OverflowException(
-                    Locale.GetText("Invalid time data."));
+            var decimal_seperator: string = this.number_format.NumberDecimalSeperator;
+            if(this.cultureSensitive && String.compare(this._src, this._cur, decimal_seperator, 0, decimal_seperator.length) == 0{
+                this._cur += decimal_seperator.length;
+                return true;
             }
 
-            if (parse_error == ParseError.Format) {
+            return false;
+        }
+
+        private parseLiteral(value: string): boolean {
+            if (!this.atEnd && String.compare(this._src, this._cur, value, 0, value.length) == 0) {
+                this._cur += value.length;
+                return true;
+            }
+
+            return false;
+        }
+
+        private parseChar(c: string): boolean {
+            if (!this.atEnd && this._src.charAt(this._cur) == c) {
+                this._cur++;
+                return true;
+            }
+
+            return false;
+        }
+
+        private parseOptDot(): boolean {
+            if (this.atEnd)
+                return false;
+
+            if (this._src.charAt(this._cur) == '.') {
+                this._cur++;
+                return true;
+            }
+
+            return false;
+        }
+
+        private parseColon(optional: boolean): void {
+            if (!this.atEnd) {
+                if (this._src.charAt(this._cur) == ':')
+                    this._cur++;
+                else if (!optional)
+                    this.setParseError(ParseError.Format);
+            }
+        }
+
+        private parseTicks(): number {
+            var mag: number = 1000000;
+            var res: number = 0;
+            var digitseen: boolean = false;
+
+            while (mag > 0 && !this.atEnd && Char.isDigit(this._src, this._cur)) {
+                res = res + parseInt(this._src.charAt(this._cur)) * mag;
+                this._cur++;
+                mag = mag / 10;
+                digitseen = true;
+            }
+
+            if (!digitseen)
+                this.setParseError(ParseError.Format);
+
+            else if (!this.atEnd && Char.isDigit(this._src, this._cur))
+                this.setParseError(ParseError.Overflow);
+
+            this.parsed_ticks = true;
+
+            return res;
+        }
+
+        private parseTicksExact(digits_count: number, max_digits_count: number): number {
+            var mag: number = 1000000;
+            var res: number = 0;
+            var count: number = 0;
+
+            while(mag > 0 && !this.atEnd && Char.isDigit(this._src, this._cur)) {
+                res = res + parseInt(this._src.charAt(this._cur)) * mag;
+                this._cur++;
+                count++;
+                mag = mag / 10;
+            }
+
+            if ((digits_count > 0 && count != digits_count) || count > max_digits_count)
+                this.setParseError(ParseError.Format);
+
+            return res;
+        }
+
+        private setParseError(error: ParseError) {
+            if (this.parse_error != ParseError.None)
+                return;
+
+            this.parse_error = error;
+        }
+
+        private checkParseSuccess(tryParse: boolean){
+            if (this.parse_error == ParseError.Overflow) {
                 if (tryParse)
                     return false;
-                throw new FormatException(
-                    Locale.GetText("Invalid format for TimeSpan.Parse."));
+                throw new OverflowException(Locale.getText("Invalid time data."));
+            }
+
+            if (this.parse_error == ParseError.Format) {
+                if (tryParse)
+                    return false;
+                throw new FormatException(Locale.getText("Invalid format for TimeSpan Parse."));
             }
 
             return true;
-			}
+        }
 
-#if NET_4_0
-			// We are using a different parse approach in 4.0, due to some changes in the behaviour
-			// of the parse routines.
-			// The input string is documented as:
-			// 	Parse [ws][-][dd.]hh:mm:ss[.ff][ws]
-			//
-			// There are some special cases as part of 4.0, however:
-			// 1. ':' *can* be used as days separator, instead of '.', making valid the format 'dd:hh:mm:ss'
-			// 2. A input in the format 'hh:mm:ss' will end up assigned as 'dd.hh:mm' if the first int has a value
-			// exceeding the valid range for hours: 0-23.
-			// 3. The decimal separator can be retrieved from the current culture, as well as keeping support
-			// for the '.' value as part of keeping compatibility.
-			//
-			// So we take the approach to parse, if possible, 4 integers, and depending on both how many were
-			// actually parsed and what separators were read, assign the values to days/hours/minutes/seconds.
-			//
-			public Execute(tryParse : boolean, out TimeSpan result) : boolean
-			{
-				bool sign;
-				int value1, value2, value3, value4;
-				int days, hours, minutes, seconds;
-				long ticks = 0;
+        // We are using a different parse approach in 4.0, due to some changes in the behaviour
+        // of the parse routines.
+        // The input string is documented as:
+        // 	Parse [ws][-][dd.]hh:mm:ss[.ff][ws]
+        //
+        // There are some special cases as part of 4.0, however:
+        // 1. ':' *can* be used as days separator, instead of '.', making valid the format 'dd:hh:mm:ss'
+        // 2. A input in the format 'hh:mm:ss' will end up assigned as 'dd.hh:mm' if the first int has a value
+        // exceeding the valid range for hours: 0-23.
+        // 3. The decimal separator can be retrieved from the current culture, as well as keeping support
+        // for the '.' value as part of keeping compatibility.
+        //
+        // So we take the approach to parse, if possible, 4 integers, and depending on both how many were
+        // actually parsed and what separators were read, assign the values to days/hours/minutes/seconds.
+        //
+        execute(tryParse: boolean, result: TimeSpan) {
+            var sign: boolean;
+            var value1, value2, value3, value4: number;
+            var days, hours, minutes, seconds: number;
+            var ticks: number = 0;
 
             result = TimeSpan.Zero;
             value1 = value2 = value3 = value4 = 0;
             days = hours = minutes = seconds = 0;
 
-            Reset();
-
-            ParseWhiteSpace();
-            sign = ParseSign();
+            this.reset();
+            this.parseWhiteSpace();
+            sign = this.parseSign();
 
             // Parse 4 integers, making only the first one non-optional.
-            value1 = ParseInt(false);
-            if (!ParseOptDaysSeparator()) // Parse either day separator or colon
-                ParseColon(false);
-				int p = _cur;
-            value2 = ParseInt(true);
+            value1 = this.parseInt(false);
+            if (!this.parseOptDaysSeparator()) // Parse either day separator or colon
+                this.parseColon(false);
+            var p: number = this._cur;
+            value2 = this.parseInt(true);
             value3 = value4 = 0;
-            if (p < _cur) {
-                ParseColon(true);
-                value3 = ParseInt(true);
-                ParseColon(true);
-                value4 = ParseInt(true);
+            if (p < this._cur) {
+                this.parseColon(true);
+                value3 = this.parseInt(true);
+                this.parseColon(true);
+                value4 = this.parseInt(true);
             }
 
             // We know the precise separator for ticks, so there's no need to guess.
-            if (ParseOptDecimalSeparator())
-                ticks = ParseTicks();
+            if (this.parseOptDecimalSeparator())
+                ticks = this.parseTicks();
 
-            ParseWhiteSpace();
+            this.parseWhiteSpace();
 
-            if (!AtEnd)
-                SetParseError(ParseError.Format);
+            if (!this.atEnd)
+                this.setParseError(ParseError.Format);
 
-            if (Exact)
+            if (this.exact) {
                 // In Exact mode we cannot allow both ':' and '.' as day separator.
-                if (UseColonAsDaySeparator && parsed_days_separator ||
-                    AllMembersRequired && (parsed_numbers_count < 4 || !parsed_ticks))
-                    SetParseError(ParseError.Format);
+                if (this.useColonAsDaySeparator && this.parsed_days_separator ||
+                    this.allMembersRequired && (this.parsed_numbers_count < 4 || !this.parsed_ticks))
+                    this.setParseError(ParseError.Format);
+            }
 
-            switch (parsed_numbers_count) {
+            switch (this.parsed_numbers_count) {
                 case 1:
                     days = value1;
                     break;
                 case 2: // Two elements are valid only if they are *exactly* in the format: 'hh:mm'
-                    if (parsed_days_separator)
-                        SetParseError(ParseError.Format);
+                    if (this.parsed_days_separator)
+                        this.setParseError(ParseError.Format);
                     else {
                         hours = value1;
                         minutes = value2;
@@ -932,7 +871,7 @@ module System
                     break;
                 case 3: // Assign the first value to days if we parsed a day separator or the value
                     // is not in the valid range for hours.
-                    if (parsed_days_separator || value1 > 23) {
+                    if (this.parsed_days_separator || value1 > 23) {
                         days = value1;
                         hours = value2;
                         minutes = value3;
@@ -943,8 +882,8 @@ module System
                     }
                     break;
                 case 4: // We are either on 'dd.hh:mm:ss' or 'dd:hh:mm:ss'
-                    if (!UseColonAsDaySeparator && !parsed_days_separator)
-                        SetParseError(ParseError.Format);
+                    if (!this.useColonAsDaySeparator && !this.parsed_days_separator)
+                        this.setParseError(ParseError.Format);
                     else {
                         days = value1;
                         hours = value2;
@@ -955,385 +894,149 @@ module System
             }
 
             if (hours > 23 || minutes > 59 || seconds > 59)
-                SetParseError(ParseError.Overflow);
-
-            if (!CheckParseSuccess(tryParse))
+                this.setParseError(ParseError.Overflow);
+                
+            if (!this.checkParseSuccess(tryParse))
                 return false;
 
-				long t;
-            if (!TimeSpan.CalculateTicks(days, hours, minutes, seconds, 0, false, out t))
-                return false;
+            var t: number;
+            //TODO
+            //There is no public CalculateTicks yet.
+            //if (!TimeSpan.__internalCalculateTicks(days, hours, minutes, seconds, 0, false, t))
+            //    return false;
 
             try {
-                t = checked((sign) ? (-t - ticks) : (t + ticks));
-            } catch (OverflowException) {
+                t = ((sign) ? (-t - ticks) : (t + ticks));
+            } catch (e: OverflowException) {
                 if (tryParse)
                     return false;
-					throw;
+                throw e;
             }
 
             result = new TimeSpan(t);
             return true;
-			}
-#else
-			public bool Execute(bool tryParse, out TimeSpan result)
-			{
-				bool sign;
-				int days;
-				int hours = 0;
-				int minutes;
-				int seconds;
-				long ticks;
+        }
 
+        executeWithFormat(format: string, style: TimeSpanStyles, tryParse: boolean, result: TimeSpan) {
+            var days, hours, minutes, seconds, ticks: number;
+            var format_element: FormatElement;
+
+            days = hours = minutes = seconds = ticks = -1;
             result = TimeSpan.Zero;
+            this.reset();
 
-            // documented as...
-            // Parse [ws][-][dd.]hh:mm:ss[.ff][ws]
-            // ... but not entirely true as an lonely 
-            // integer will be parsed as a number of days
-            ParseWhiteSpace();
-            sign = ParseSign();
-            days = ParseInt(false);
-            if (ParseOptDot()) {
-                hours = ParseInt(true);
-            }
-            else if (!AtEnd) {
-                hours = days;
-                days = 0;
-            }
-            ParseColon(false);
-				int p = _cur;
-            minutes = ParseInt(true);
-            seconds = 0;
-            if (p < _cur) {
-                ParseColon(true);
-                seconds = ParseInt(true);
-            }
-
-            if (ParseOptDot()) {
-                ticks = ParseTicks();
-            }
-            else {
-                ticks = 0;
-            }
-            ParseWhiteSpace();
-
-            if (!AtEnd)
-                SetParseError(ParseError.Format);
-
-            if (!CheckParseSuccess(hours, minutes, seconds, tryParse))
-                return false;
-
-				long t;
-            if (!TimeSpan.CalculateTicks(days, hours, minutes, seconds, 0, false, out t))
-                return false;
-
-            try {
-                t = checked((sign) ? (-t - ticks) : (t + ticks));
-            } catch (OverflowException) {
-                if (tryParse)
-                    return false;
-					throw;
-            }
-
-            result = new TimeSpan(t);
-            return true;
-			}
-#endif
-
-#if NET_4_0
-			public bool ExecuteWithFormat(string format, TimeSpanStyles style, bool tryParse, out TimeSpan result)
-			{
-				int days, hours, minutes, seconds;
-				long ticks;
-				FormatElement format_element;
-
-            days = hours = minutes = seconds = -1;
-            ticks = -1;
-            result = TimeSpan.Zero;
-            Reset();
-
-				FormatParser format_parser = new FormatParser(format);
+            var format_parser: FormatParser = new FormatParser(format);
 
             for (; ;) {
-                // We need to continue even if AtEnd == true, since we could have
+                // We need to continue if atEnd == true, since we could have
                 // a optional second element.
-                if (parse_error != ParseError.None)
+                if (this.parse_error != ParseError.None)
                     break;
-                if (format_parser.AtEnd)
+                if (format_parser.atEnd)
                     break;
 
-                format_element = format_parser.GetNextElement();
-					switch (format_element.Type) {
+                format_element = format_parser.getNextElement();
+                switch (format_element.type) {
                     case FormatElementType.Days:
-                        if (days != -1)
-								goto case FormatElementType.Error;
-							days = ParseIntExact(format_element.IntValue, 8);
-							break;
-						case FormatElementType.Hours:
-							if (hours != -1)
-								goto case FormatElementType.Error;
-                hours = ParseIntExact(format_element.IntValue, 2);
-							break;
-						case FormatElementType.Minutes:
-							if (minutes != -1)
-								goto case FormatElementType.Error;
-                minutes = ParseIntExact(format_element.IntValue, 2);
-							break;
-						case FormatElementType.Seconds:
-							if (seconds != -1)
-								goto case FormatElementType.Error;
-                seconds = ParseIntExact(format_element.IntValue, 2);
-							break;
-						case FormatElementType.Ticks:
-							if (ticks != -1)
-								goto case FormatElementType.Error;
-                ticks = ParseTicksExact(format_element.IntValue,
-                    format_element.IntValue);
-							break;
-						case FormatElementType.TicksUppercase:
-							// Similar to Milliseconds, but optional and the
-							// number of F defines the max length, not the required one.
-							if (ticks != -1)
-								goto case FormatElementType.Error;
-                ticks = ParseTicksExact(0, format_element.IntValue);
-							break;
-						case FormatElementType.Literal:
-							if (!ParseLiteral(format_element.StringValue))
-                    SetParseError(ParseError.Format);
-							break;
-						case FormatElementType.EscapedChar:
-							if (!ParseChar(format_element.CharValue))
-                    SetParseError(ParseError.Format);
-							break;
-						case FormatElementType.Error:
-							SetParseError(ParseError.Format);
-                break;
+                    if (days != -1)
+                        this.setParseError(ParseError.Format);
+						days = this.parseIntExact(format_element.IntValue, 8);
+						break;
+					case FormatElementType.Hours:
+						if (hours != -1)
+                            this.setParseError(ParseError.Format);
+                        hours = this.parseIntExact(format_element.IntValue, 2);
+						break;
+					case FormatElementType.Minutes:
+						if (minutes != -1)
+                            this.setParseError(ParseError.Format);
+                            minutes = this.parseIntExact(format_element.IntValue, 2);
+						break;
+					case FormatElementType.Seconds:
+						if (seconds != -1)
+                            this.setParseError(ParseError.Format);
+                            seconds = this.parseIntExact(format_element.IntValue, 2);
+						break;
+					case FormatElementType.Ticks:
+						if (ticks != -1)
+                            this.setParseError(ParseError.Format);
+                            ticks = this.parseTicksExact(format_element.IntValue, format_element.IntValue);
+						break;
+					case FormatElementType.TicksUppercase:
+						// Similar to Milliseconds, but optional and the
+						// number of F defines the max length, not the required one.
+						if (ticks != -1)
+                            this.setParseError(ParseError.Format);
+                            ticks = this.parseTicksExact(0, format_element.IntValue);
+						break;
+					case FormatElementType.Literal:
+						if (!this.parseLiteral(format_element.StringValue))
+                            this.setParseError(ParseError.Format);
+						break;
+					case FormatElementType.EscapedChar:
+						if (!this.parseChar(format_element.CharValue))
+                            this.setParseError(ParseError.Format);
+						break;
+					case FormatElementType.Error:
+						this.setParseError(ParseError.Format);
+                        break;
+                }
             }
-        }
 
-        if (days == -1)
-            days = 0;
-        if (hours == -1)
-            hours = 0;
-        if (minutes == -1)
-            minutes = 0;
-        if (seconds == -1)
-            seconds = 0;
-        if (ticks == -1)
-            ticks = 0;
+            if (days == -1)
+                days = 0;
+            if (hours == -1)
+                hours = 0;
+            if (minutes == -1)
+                minutes = 0;
+            if (seconds == -1)
+                seconds = 0;
+            if (ticks == -1)
+                ticks = 0;
 
-        if (!AtEnd || !format_parser.AtEnd)
-            SetParseError(ParseError.Format);
-        if (hours > 23 || minutes > 59 || seconds > 59)
-            SetParseError(ParseError.Format);
+            if(!this.atEnd || !format_parser.AtEnd)
+					this.setParseError(ParseError.Format);
+            if (hours > 23 || minutes > 59 || seconds > 59)
+                this.setParseError(ParseError.Format);
 
-        if (!CheckParseSuccess(tryParse))
-            return false;
-
-				long t;
-        if (!TimeSpan.CalculateTicks(days, hours, minutes, seconds, 0, false, out t))
-            return false;
-
-        try {
-            t = checked((style == TimeSpanStyles.AssumeNegative) ? (-t - ticks) : (t + ticks));
-        } catch (OverflowException) {
-            if (tryParse)
+            if (!this.checkParseSuccess(tryParse))
                 return false;
-					throw;
+
+            var t: number;
+
+            // TODO
+            // Commented out since we don't have the public CalculateTicks() yet.
+            //if (!TimeSpan.CalculateTicks(days, hours, minutes, seconds, 0, false, out t))
+            //   return false;
+
+            try {
+                t = (style == TimeSpanStyles.AssumeNegative) ? (-t - ticks) : (t + ticks);
+            } catch (e: OverflowException) {
+                if (tryParse)
+                    return false;
+                throw e;
+            }
+
+            result = new TimeSpan(t);
+            return true;
         }
 
-        result = new TimeSpan(t);
-        return true;
-			}
-
-		enum FormatElementType {
-            Days,
-            Hours,
-            Minutes,
-            Seconds,
-            Ticks, // 'f'
-            TicksUppercase, // 'F'
-            Literal,
-            EscapedChar,
-            Error,
-            End
-        }
-
-		struct FormatElement
-		{
-			public FormatElement(FormatElementType type)
-			{
-        Type = type;
-        CharValue = (char) 0;
-        IntValue = 0;
-        StringValue = null;
-			}
-
-			public FormatElementType Type;
-			public char CharValue; // Used by EscapedChar
-			public string StringValue; // Used by Literal
-			public int IntValue; // Used by numerical elements.
-		}
-
-		class FormatParser 
-		{
-    int cur;
-			string format;
-
-			public FormatParser(string format)
-			{
-    this.format = format;
-			}
-
-			public bool AtEnd {
-				get {
-        return cur >= format.Length;
-    }
-			}
-
-			public FormatElement GetNextElement()
-			{
-				FormatElement element = new FormatElement();
-
-    if (AtEnd)
-        return new FormatElement(FormatElementType.End);
-
-				int count = 0;
-				switch (format[cur]) {
-        case 'd':
-            count = ParseChar('d');
-            if (count > 8)
-                return new FormatElement(FormatElementType.Error);
-            element.Type = FormatElementType.Days;
-            element.IntValue = count;
-            break;
-        case 'h':
-            count = ParseChar('h');
-            if (count > 2)
-                return new FormatElement(FormatElementType.Error);
-            element.Type = FormatElementType.Hours;
-            element.IntValue = count;
-            break;
-        case 'm':
-            count = ParseChar('m');
-            if (count > 2)
-                return new FormatElement(FormatElementType.Error);
-            element.Type = FormatElementType.Minutes;
-            element.IntValue = count;
-            break;
-        case 's':
-            count = ParseChar('s');
-            if (count > 2)
-                return new FormatElement(FormatElementType.Error);
-            element.Type = FormatElementType.Seconds;
-            element.IntValue = count;
-            break;
-        case 'f':
-            count = ParseChar('f');
-            if (count > 7)
-                return new FormatElement(FormatElementType.Error);
-            element.Type = FormatElementType.Ticks;
-            element.IntValue = count;
-            break;
-        case 'F':
-            count = ParseChar('F');
-            if (count > 7)
-                return new FormatElement(FormatElementType.Error);
-            element.Type = FormatElementType.TicksUppercase;
-            element.IntValue = count;
-            break;
-        case '%':
-            cur++;
-            if (AtEnd)
-                return new FormatElement(FormatElementType.Error);
-            if (format[cur] == 'd')
-							goto case 'd';
-						else if (format[cur] == 'h')
-							goto case 'h';
-						else if (format[cur] == 'm')
-							goto case 'm';
-						else if (format[cur] == 's')
-							goto case 's';
-						else if (format[cur] == 'f')
-							goto case 'f';
-						else if (format[cur] == 'F')
-							goto case 'F';
-
-						return new FormatElement(FormatElementType.Error);
-					case '\'':
-						string literal = ParseLiteral();
-    if (literal == null)
-        return new FormatElement(FormatElementType.Error);
-    element.Type = FormatElementType.Literal;
-    element.StringValue = literal;
-						break;
-					case '\\':
-						char escaped_char = ParseEscapedChar();
-						if ((int)escaped_char == 0)
-							return new FormatElement(FormatElementType.Error);
-    element.Type = FormatElementType.EscapedChar;
-    element.CharValue = escaped_char;
-						break;
-					default:
-    return new FormatElement(FormatElementType.Error);
-}
-
-				return element;
-			}
-
-			int ParseChar(char c)
-			{
-				int count = 0;
-
-    while (!AtEnd && format[cur] == c) {
-        cur++;
-        count++;
     }
 
-    return count;
-}
-
-			char ParseEscapedChar()
-			{
-    if (AtEnd || format[cur] != '\\')
-					return (char) 0;
-
-    cur++;
-    if (AtEnd)
-					return (char) 0;
-
-    return format[cur++];
-}
-
-			string ParseLiteral()
-			{
-				int start;
-				int count = 0;
-
-    if (AtEnd || format[cur] != '\'')
-        return null;
-
-    start = ++cur;
-    while (!AtEnd && format[cur] != '\'') {
-        cur++;
-        count++;
+    enum FormatElementType {
+        Days,
+        Hours,
+        Minutes,
+        Seconds,
+        Ticks, // 'f'
+        TicksUppercase, // 'F'
+        Literal,
+        EscapedChar,
+        Error,
+        End
     }
 
-    if (!AtEnd && format[cur] == '\'') {
-        cur++;
-        return format.Substring(start, count);
-    }
-
-    return null;
-			}
-		}
-#endif
-
-	}
-}
 }
 
 
-		// Class Parser implements parser for TimeSpan.Parse
-	   
+	
