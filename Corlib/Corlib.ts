@@ -7,9 +7,9 @@
 
 /// <reference path="Code/Object.ts" />
 /// <reference path="Code/Action.ts" />
-/// <reference path="Code/Attribute.ts" />
-/// <reference path="Code/AttributeTargets.ts" />
-/// <reference path="Code/AttributeUsageAttribute.ts" />
+/// <reference path="Code/Attributes/Attribute.ts" />
+/// <reference path="Code/Attributes/AttributeTargets.ts" />
+/// <reference path="Code/Attributes/AttributeUsageAttribute.ts" />
 /// <reference path="Code/BitConverter.ts" />
 /// <reference path="Code/Byte.ts" />
 /// <reference path="Code/Char.ts" />

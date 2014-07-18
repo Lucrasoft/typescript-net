@@ -5,7 +5,7 @@
 module System {
 
     export class OverflowException extends Exception{
-        static _type = System.Type.registerClass(FormatException, "System.OverflowException", []);
+        static _type = System.Type.registerClass(OverflowException, "System.OverflowException", []);
 
 
         constructor(message?: string, innerException?: System.Exception) {

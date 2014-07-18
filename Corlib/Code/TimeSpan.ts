@@ -4,6 +4,7 @@
 /// <reference path="Exceptions\ArgumentException.ts" />
 /// <reference path="Interfaces\IComparable.ts" />
 /// <reference path="Interfaces\IEquatable.ts" />
+/// <reference path="Globalization\TimeSpanStyles.ts"/>
 /// <reference path="Interfaces\IFormattable.ts" />
 
 
@@ -263,7 +264,7 @@ module System {
             }
 
             var p = new Parser(s, formatProvider);
-            return p.Execute(true, result);
+            return p.execute(true, result);
         }
 
 
@@ -687,7 +688,7 @@ module System {
                 }
 
             var decimal_seperator: string = this.number_format.NumberDecimalSeperator;
-            if(this.cultureSensitive && String.compare(this._src, this._cur, decimal_seperator, 0, decimal_seperator.length) == 0{
+            if(this.cultureSensitive && String.compare(this._src, this._cur, decimal_seperator, 0, decimal_seperator.length) == 0){
                 this._cur += decimal_seperator.length;
                 return true;
             }
@@ -1010,7 +1011,7 @@ module System {
             //   return false;
 
             try {
-                t = (style == TimeSpanStyles.AssumeNegative) ? (-t - ticks) : (t + ticks);
+                t = (style == System.Globalization.TimeSpanStyles.AssumeNegative) ? (-t - ticks) : (t + ticks);
             } catch (e: OverflowException) {
                 if (tryParse)
                     return false;

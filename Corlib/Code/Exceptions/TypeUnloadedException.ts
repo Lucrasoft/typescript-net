@@ -1,26 +1,25 @@
 ﻿module System
 {
-	export class TypeUnloadedException extends SystemException
-	{
-		// Constructors
-		public constr ()
-			: base(Locale.GetText("Cannot access an unloaded class."))
-		{
-		}
+    export class TypeUnloadedException extends SystemException {
 
-		public TypeUnloadedException (string message)
-			: base(message)
-		{
+        // Constructors
+        constructor(message: string, innerException?: Exception);
+        constructor(info: SerializationInfo, context: StreamingContext);
+        constructor(stringOrSerializationInfoParameter?: any, exceptionOrStreamingContextParameter?: any) {
+            if (!stringOrSerializationInfoParameter && !exceptionOrStreamingContextParameter) {
+                super(Locale.GetText("Cannot access an unloaded class."));
+            } else {
+                if (typeof stringOrSerializationInfoParameter == "string") {
+                    if (!exceptionOrStreamingContextParameter) {
+                        super(stringOrSerializationInfoParameter);
+                    } else {
+                        super(stringOrSerializationInfoParameter, exceptionOrStreamingContextParameter);
+                    }
+                } else {
+                    super(stringOrSerializationInfoParameter, exceptionOrStreamingContextParameter);
+                }
+            }
+
+        }
     }
-
-		protected TypeUnloadedException (SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
-		}
-
-		public TypeUnloadedException (string message, Exception innerException)
-			:base(message, innerException)
-		{
-    }
-	}
 }
