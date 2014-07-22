@@ -7,6 +7,7 @@
 /// <reference path="Globalization\TimeSpanStyles.ts"/>
 /// <reference path="Interfaces\IFormattable.ts" />
 
+//todo
 
 module System {
 
@@ -273,6 +274,7 @@ module System {
         public static ParseExact(input: string, format: string, formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles): TimeSpan;
         public static ParseExact(input: string, format: string[], formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles): TimeSpan;
 
+
         public static ParseExact(input: string, format: any, formatProvider: IFormatProvider, styles?: System.Globalization.TimeSpanStyles): TimeSpan {
 
             if (styles == null) {
@@ -286,21 +288,20 @@ module System {
             if (format == null)
                 throw new System.ArgumentNullException("format");
 
+
             var formats;
             if (typeof format == "string") {
                 formats = [format];
 
             }
 
+
             var outresult = new System.OutArgument<TimeSpan>(TimeSpan.MinValue);
             if (!TimeSpan.tryParseExact(input, format, formatProvider, styles, outresult))
                 throw new System.FormatException("Invalid format.");
 
             return outresult.value;
-
         }
-
-
 
         static tryParseExact(input: string, format: string, formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
         static tryParseExact(input: string, format: string[], formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
@@ -310,7 +311,7 @@ module System {
             if (styles == null) {
                 styles = System.Globalization.TimeSpanStyles.None;
             }
-
+   
             result.value = TimeSpan.Zero;
 
             var formats: string[];

@@ -1,4 +1,6 @@
-﻿module System.Globalization {
+﻿//todo
+
+module System.Globalization {
 
      export interface Data {
         ansi: number;
@@ -17,7 +19,6 @@
         private customCultureName: string;
         private m_nDataItem: number;
         private m_useUserOvveride: boolean;
-
         private m_win32langID: number;
 
         data: Data;
