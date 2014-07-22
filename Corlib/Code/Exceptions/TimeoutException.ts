@@ -12,14 +12,9 @@ module System
 
         constructor(message: string = "The operation has timed -out.", innerException?: Exception ) {
             super(message, innerException);
-            HResult = Result;
+            this.HResult = this.Result;
         }
 
-		
-        //TODO :
-		//protected TimeoutException (SerializationInfo info, StreamingContext context)
-		//	: base (info, context)
-		//{
-		//}
+
 	}
 }

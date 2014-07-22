@@ -20,6 +20,9 @@ module System
             super(message, inner);
 
         }
+
+
+
 		// Constructors
 		//public TypeLoadException ()
 		//	: base(Locale.GetText("A type load exception has occurred."))

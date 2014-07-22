@@ -1,28 +1,16 @@
-﻿//todo
+﻿///<reference path="SystemException.ts"/>
+
 
 module System
 {
 
-	//export class InvalidProgramException extends SystemException
-	//{
-	//	// Constructors
-	//	public InvalidProgramException ()
-	//		: base(Locale.GetText("Metadata is invalid."))
-	//	{
-	//	}
+	export class InvalidProgramException extends SystemException
+	{
+        static _type: Type = System.Type.registerClass(InvalidProgramException, "System.InvalidProgramException", []);
 
-	//	public InvalidProgramException (string message)
-	//		: base(message)
-	//	{
-	//	}
+        constructor(message: string = "Metadata is invalid.", inner?: Exception) {
+            super(message, inner);
 
-	//	public InvalidProgramException (string message, Exception inner)
-	//		: base(message, inner)
-	//	{
-    //}
-
-	//	internal InvalidProgramException (SerializationInfo info, StreamingContext context) : base(info, context)
-	//	{
-    //}
-	//}
+        }
+	}
 } 

@@ -5,7 +5,10 @@ module System
 {
 	
 	export class AssemblyLoadEventArgs extends EventArgs
-	{
+    {
+        static _type: Type = System.Type.registerClass(AssemblyLoadEventArgs, "System.AssemblyLoadEventArgs", []);
+
+
 		private m_loadedAssembly: Assembly;
 
         public AssemblyLoadEventArgs(loadedAssembly: Assembly)

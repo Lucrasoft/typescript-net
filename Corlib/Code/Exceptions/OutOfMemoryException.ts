@@ -1,5 +1,5 @@
 ﻿///<reference path="SystemException.ts"/>
-//todo
+
 
 module System {
     export class OutOfMemoryException extends SystemException
@@ -14,13 +14,8 @@ module System {
 		// Constructors
 		constructor(message: string = "Out of memory.", innerException?: Exception) {
 		    super(message, innerException);
-            this.HResult = Result;
-            //Can Result be     0x8007000E;
+            this.HResult = this.Result;
+            
 		}
-        
-	//	protected OutOfMemoryException (SerializationInfo info, StreamingContext context)
-	//		: base(info, context)
-	//	{
-    //}
 	}
 }

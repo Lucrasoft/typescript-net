@@ -12,9 +12,5 @@ module System
 	        super(message, innerException);   
 
     	}
-
-        //todo:
-		//protected TimeZoneNotFoundException (Runtime.Serialization.SerializationInfo info, Runtime.Serialization.StreamingContext context) : base(info, context)
-		//{ }
 	}
 } 
