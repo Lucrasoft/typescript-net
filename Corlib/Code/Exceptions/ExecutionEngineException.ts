@@ -1,5 +1,4 @@
 ﻿///<reference path="SystemException.ts"/>
-//todo
 
 
 module System
@@ -17,9 +16,7 @@ module System
       
     }
 
-	//	internal ExecutionEngineException (SerializationInfo info, StreamingContext context) : base(info, context)
-	//	{
-    //}
+
 }
 
  

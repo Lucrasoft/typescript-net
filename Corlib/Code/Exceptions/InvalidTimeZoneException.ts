@@ -1,21 +1,17 @@
-﻿//todo
+﻿///<reference path="Exception.ts"/>
 
-module System
-{
+module System {
 
-	//export class InvalidTimeZoneException : Exception
-	//{
-	//	InvalidTimeZoneException () : base ()
-	//	{}
+    export class InvalidTimeZoneException extends Exception {
 
-	//	InvalidTimeZoneException (string message) : base (message)
-	//	{}
+        static _type: Type = System.Type.registerClass(InvalidTimeZoneException, "System.InvalidTimeZoneException", []);
 
-	//	InvalidTimeZoneException (string message, Exception innerException) : base (message, innerException)
-	//	{}
+        constructor(message?: string, innerException?: Exception) {
+            super(message, innerException);
 
-	//	private InvalidTimeZoneException (Runtime.Serialization.SerializationInfo info, Runtime.Serialization.StreamingContext context) : base (info, context)
-	//	{}
-	//}
+        }
+
+    }
+
 }
  
