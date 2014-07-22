@@ -7,6 +7,6 @@
 		SafeUnescaped,
     }
 
-    System.Type.registerEnum(UriFormat, "System.UriFormat");
+//    System.Type.registerEnum(UriFormat, "System.UriFormat");
 }
  

@@ -1,4 +1,6 @@
-/// <reference path="Attribute.ts" />
+// /// <reference path="Attribute.ts" />
+
+//todo
 
 declare var JSString;
 JSString = window["String"];

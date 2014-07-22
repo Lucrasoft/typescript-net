@@ -1,9 +1,11 @@
-﻿module System
+﻿//todo
+
+module System
 {
 	class EmptyArray<T>
 	{
-        static value: T[] = new T[0];
+//        static value: T[] = new T[0];
     }
 
-    System.Type.registerClass(EmptyArray, "System.EmptyArray");
+//    System.Type.registerClass(EmptyArray, "System.EmptyArray");
 }

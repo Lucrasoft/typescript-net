@@ -4,7 +4,7 @@ module System
 {
 	export class TimeoutException extends SystemException
     {
-        static _type: Type = System.Type.registerClass(TimeoutException, "System.TimeoutException");
+        static _type: Type = System.Type.registerClass(TimeoutException, "System.TimeoutException", []);
 
 		 Result : number = 0x80131505;
 

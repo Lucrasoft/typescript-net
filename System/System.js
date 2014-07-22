@@ -3,6 +3,7 @@
 //*
 //* Authors : Lucas Vos
 //*         : Mono , Stackoverflow
-/// <reference path="../Corlib/Compiled/Corlib.Debug.d.ts" />
+//todo
+// /// <reference path="../Corlib/Compiled/Corlib.Debug.d.ts" />
 /// <reference path="Code/UriFormat.ts" />
 //# sourceMappingURL=System.js.map

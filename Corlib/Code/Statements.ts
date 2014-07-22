@@ -2,6 +2,7 @@
 /// <reference path="Exceptions/NotImplementedException.ts" />
 /// <reference path="Interfaces/IEnumerable.ts" />  
 /// <reference path="Type.ts"/>
+//todo
 
 module System {
 
@@ -10,13 +11,13 @@ module System {
         constructor() { }
 
         //Simulates the ForEach statement
-        static forEach<T>(collection: IEnumberable<T>, callback: System.Action<T>): void {
+        //static forEach<T>(collection: IEnumberable<T>, callback: System.Action<T>): void {
             
-            var enumerator = collection.getEnumerator();
-            while (enumerator.moveNext()) {
-                callback(enumerator.current);
-            }
-        }
+        //    var enumerator = collection.getEnumerator();
+        //    while (enumerator.moveNext()) {
+        //        callback(enumerator.current);
+        //    }
+        //}
 
         static typeOf(object: any): Type {
             if (!object) {
