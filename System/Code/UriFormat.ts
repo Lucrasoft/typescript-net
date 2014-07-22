@@ -1,4 +1,6 @@
-﻿module System {
+﻿
+
+module System {
     
 	export enum UriFormat {
 
@@ -7,6 +9,8 @@
 		SafeUnescaped,
     }
 
-//    System.Type.registerEnum(UriFormat, "System.UriFormat");
+    System.Type.registerEnum(UriFormat, "System.UriFormat");
+
+    
 }
  
