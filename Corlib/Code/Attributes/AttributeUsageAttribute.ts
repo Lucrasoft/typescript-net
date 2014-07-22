@@ -1,6 +1,5 @@
 /// <reference path="Attribute.ts" />
 /// <reference path="AttributeTargets.ts" />
-//todo is de klas registratie goed.
 
 
 module System {

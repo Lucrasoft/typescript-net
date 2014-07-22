@@ -1,8 +1,10 @@
-﻿module System {
+﻿//todo
+
+module System {
 
     export interface AssemblyLoadEventHandler {
 
-        (sender: object, args: AssemblyLoadEventArgs): void;
+//        (sender: object, args: AssemblyLoadEventArgs): void;
 
     }
 

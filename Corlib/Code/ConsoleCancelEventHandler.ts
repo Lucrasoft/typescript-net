@@ -1,8 +1,10 @@
-﻿module System 
+﻿//todo
+
+module System 
 {
 
     export interface ConsoleCancelEventHandler {
-        (sender: object, e: ConsoleCancelEventArgs ): void;
+//        (sender: object, e: ConsoleCancelEventArgs ): void;
     
     }
 

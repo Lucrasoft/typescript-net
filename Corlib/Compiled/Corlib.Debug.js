@@ -1,4 +1,4 @@
-﻿/// <reference path="Attribute.ts" />
+﻿// /// <reference path="Attribute.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -148,7 +148,6 @@ var System;
         function Exception(message, innerException) {
             _super.call(this);
             this.message = "";
-            this.HResult = 0;
 
             this.err = new Error(message);
             if (message) {
@@ -158,6 +157,13 @@ var System;
         Object.defineProperty(Exception.prototype, "name", {
             get: function () {
                 return this.getType().name;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(Exception.prototype, "HResult", {
+            set: function (value) {
             },
             enumerable: true,
             configurable: true
@@ -190,6 +196,89 @@ var System;
     })(System.Exception);
     System.NotImplementedException = NotImplementedException;
 })(System || (System = {}));
+/// <reference path="../Type.ts" />
+/// <reference path="../Exceptions/NotImplementedException.ts" />
+var System;
+(function (System) {
+    var Attribute = (function (_super) {
+        __extends(Attribute, _super);
+        function Attribute() {
+            _super.call(this);
+        }
+        //Static methods
+        Attribute.getCustomAttribute = function (element, attributeType) {
+            throw new System.NotImplementedException();
+        };
+
+        Attribute.isDefined = function (element, attributeType, inherit) {
+            throw new System.NotImplementedException();
+        };
+
+        Attribute.getCustomAttributes = function () {
+            throw new System.NotImplementedException();
+        };
+
+        //IObject
+        Attribute.prototype.getType = function () {
+            return Attribute.type;
+        };
+        Attribute.type = System.Type.registerClass(Attribute, "System.Attribute", []);
+        return Attribute;
+    })(System.Object);
+    System.Attribute = Attribute;
+})(System || (System = {}));
+var System;
+(function (System) {
+    (function (AttributeTargets) {
+        AttributeTargets[AttributeTargets["Assembly"] = 0x00000001] = "Assembly";
+        AttributeTargets[AttributeTargets["Module"] = 0x00000002] = "Module";
+        AttributeTargets[AttributeTargets["Class"] = 0x00000004] = "Class";
+        AttributeTargets[AttributeTargets["Struct"] = 0x00000008] = "Struct";
+        AttributeTargets[AttributeTargets["Enum"] = 0x00000010] = "Enum";
+        AttributeTargets[AttributeTargets["Constructor"] = 0x00000020] = "Constructor";
+        AttributeTargets[AttributeTargets["Method"] = 0x00000040] = "Method";
+        AttributeTargets[AttributeTargets["Property"] = 0x00000080] = "Property";
+        AttributeTargets[AttributeTargets["Field"] = 0x00000100] = "Field";
+        AttributeTargets[AttributeTargets["Event"] = 0x00000200] = "Event";
+        AttributeTargets[AttributeTargets["Interface"] = 0x00000400] = "Interface";
+        AttributeTargets[AttributeTargets["Parameter"] = 0x00000800] = "Parameter";
+        AttributeTargets[AttributeTargets["Delegate"] = 0x00001000] = "Delegate";
+        AttributeTargets[AttributeTargets["ReturnValue"] = 0x00002000] = "ReturnValue";
+        AttributeTargets[AttributeTargets["GenericParameter"] = 0x00004000] = "GenericParameter";
+        AttributeTargets[AttributeTargets["All"] = AttributeTargets.Assembly | AttributeTargets.Module | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Event | AttributeTargets.Interface | AttributeTargets.Parameter | AttributeTargets.Delegate | AttributeTargets.ReturnValue | AttributeTargets.GenericParameter] = "All";
+    })(System.AttributeTargets || (System.AttributeTargets = {}));
+    var AttributeTargets = System.AttributeTargets;
+
+    System.Type.registerEnum(AttributeTargets, "System.AttributeTargets");
+})(System || (System = {}));
+/// <reference path="Attribute.ts" />
+/// <reference path="AttributeTargets.ts" />
+var System;
+(function (System) {
+    var AttributeUsageAttribute = (function (_super) {
+        __extends(AttributeUsageAttribute, _super);
+        function AttributeUsageAttribute(validOn) {
+            _super.call(this);
+            this.Inherited = true;
+            this.valid_on = validOn;
+        }
+        Object.defineProperty(AttributeUsageAttribute.prototype, "validOn", {
+            get: function () {
+                return this.valid_on;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        //IObject
+        AttributeUsageAttribute.prototype.getType = function () {
+            return AttributeUsageAttribute._type;
+        };
+        AttributeUsageAttribute._type = System.Type.registerClass(AttributeUsageAttribute, "System.AttributeUsageAttribute", []);
+        return AttributeUsageAttribute;
+    })(System.Attribute);
+    System.AttributeUsageAttribute = AttributeUsageAttribute;
+})(System || (System = {}));
 var System;
 (function (System) {
     System.Type.registerInterface("System.IDisposable");
@@ -208,19 +297,19 @@ var System;
 /// <reference path="Exceptions/NotImplementedException.ts" />
 /// <reference path="Interfaces/IEnumerable.ts" />
 /// <reference path="Type.ts"/>
+//todo
 var System;
 (function (System) {
     var Statements = (function () {
         function Statements() {
         }
         //Simulates the ForEach statement
-        Statements.forEach = function (collection, callback) {
-            var enumerator = collection.getEnumerator();
-            while (enumerator.moveNext()) {
-                callback(enumerator.current);
-            }
-        };
-
+        //static forEach<T>(collection: IEnumberable<T>, callback: System.Action<T>): void {
+        //    var enumerator = collection.getEnumerator();
+        //    while (enumerator.moveNext()) {
+        //        callback(enumerator.current);
+        //    }
+        //}
         Statements.typeOf = function (object) {
             if (!object) {
                 throw new System.ArgumentNullException("Object");
@@ -1434,6 +1523,7 @@ var System;
     var DateTime = (function () {
         function DateTime() {
         }
+        DateTime._type = System.Type.registerClass(DateTime, "System.DateTime", []);
         return DateTime;
     })();
     System.DateTime = DateTime;
@@ -2159,10 +2249,21 @@ var System;
     System.Int16 = Int16;
 })(System || (System = {}));
 /// <reference path="../../Interfaces/IEnumerable.ts"/>
+//todo
 var System;
 (function (System) {
     (function (Collections) {
         (function (Generic) {
+            //export interface ICollection<T> extends IEnumberable<T> {
+            //    count: number;
+            //    isReadOnly: boolean;
+            //    add(item: T): void;
+            //    clear(): void;
+            //    contains(item: T): boolean;
+            //    copyTo(array: T[], arrayIndex: number): void;
+            //    remove(item: T): boolean;
+            //    (item : string): T;
+            //}
             System.Type.registerInterface("System.Collections.Generic.ICollection", "System.IEnumberable");
         })(Collections.Generic || (Collections.Generic = {}));
         var Generic = Collections.Generic;
@@ -2171,10 +2272,17 @@ var System;
 })(System || (System = {}));
 /// <reference path="../../Type.ts"/>
 /// <reference path="ICollection.ts"/>
+//todo
 var System;
 (function (System) {
     (function (Collections) {
         (function (Generic) {
+            //export interface IList<T> extends ICollection<T> {
+            //    indexer(index: number): T;
+            //    indexOf(item: T): number;
+            //    removeAt(index: number): void;
+            //    insert(index: number, item: T): void;
+            //}
             System.Type.registerInterface("System.Collections.Generic.IList", "System.Collections.Generic.ICollection");
         })(Collections.Generic || (Collections.Generic = {}));
         var Generic = Collections.Generic;
@@ -2244,144 +2352,7 @@ var System;
 /// <reference path="../../Interfaces/IEnumerable.ts"/>
 /// <reference path="../../Interfaces/IEnumerator.ts"/>
 /// <reference path="IList.ts"/>
-var System;
-(function (System) {
-    (function (Collections) {
-        (function (Generic) {
-            var List = (function (_super) {
-                __extends(List, _super);
-                function List() {
-                    _super.call(this);
-                    this.list = [];
-                    this.changecount = 0;
-                }
-                Object.defineProperty(List.prototype, "count", {
-                    get: function () {
-                        return this.list.length;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-
-                Object.defineProperty(List.prototype, "isReadOnly", {
-                    get: function () {
-                        return false;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-
-                List.prototype.add = function (item) {
-                    this.changecount++;
-                    this.list.push(item);
-                };
-
-                List.prototype.clear = function () {
-                    this.changecount++;
-                    this.list = [];
-                };
-
-                List.prototype.contains = function (item) {
-                    return (this.list.indexOf(item) > -1);
-                };
-
-                List.prototype.copyTo = function (array, arrayIndex) {
-                    for (var i = 0; i < this.list.length; i++) {
-                        array[i + arrayIndex] = this.list[i];
-                    }
-                };
-
-                List.prototype.remove = function (item) {
-                    this.changecount++;
-                    var index = this.indexOf(item);
-                    if (index >= 0) {
-                        this.list.splice(index);
-                        return true;
-                    }
-                    return false;
-                };
-
-                List.prototype.indexer = function (index) {
-                    return this.list[index];
-                };
-
-                List.prototype.indexOf = function (item) {
-                    return this.list.indexOf(item);
-                };
-
-                List.prototype.removeAt = function (index) {
-                    if (index >= this.list.length) {
-                        throw new System.ArgumentOutOfRangeException("", null, "index");
-                    }
-                    this.changecount++;
-                    this.list.splice(index);
-                };
-
-                List.prototype.insert = function (index, item) {
-                    this.changecount++;
-                    this.list.splice(2, 0, item);
-                };
-
-                List.prototype.getEnumerator = function () {
-                    return new ListEnumerator(this);
-                };
-
-                //IObject
-                List.prototype.getType = function () {
-                    return List._type;
-                };
-                List._type = System.Type.registerClass(List, "System.Collections.Generic.List", [""]);
-                return List;
-            })(System.Object);
-            Generic.List = List;
-
-            var ListEnumerator = (function () {
-                function ListEnumerator(list) {
-                    this.interalList = list;
-                    this.lastchangecount = this.interalList.changecount;
-                }
-                ListEnumerator.prototype.checkChangeCount = function () {
-                    if (this.lastchangecount != this.interalList.changecount) {
-                        throw new System.InvalidOperationException("List changed during enumeration");
-                    }
-                };
-
-                Object.defineProperty(ListEnumerator.prototype, "current", {
-                    get: function () {
-                        return this._current;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-
-                ListEnumerator.prototype.moveNext = function () {
-                    if (this.index < this.interalList.count) {
-                        this.current = this.interalList.indexer(this.index);
-                        this.index++;
-                        return true;
-                    }
-
-                    this.checkChangeCount();
-
-                    this.index = this.interalList.count + 1;
-                    this.current = null;
-                    return false;
-                };
-
-                ListEnumerator.prototype.reset = function () {
-                    this.index = -1;
-                };
-
-                ListEnumerator.prototype.dispose = function () {
-                    this.interalList = null;
-                };
-                return ListEnumerator;
-            })();
-        })(Collections.Generic || (Collections.Generic = {}));
-        var Generic = Collections.Generic;
-    })(System.Collections || (System.Collections = {}));
-    var Collections = System.Collections;
-})(System || (System = {}));
+//todo
 /// <reference path="Exception.ts" />
 /// <reference path="../Type.ts"/>
 var System;
@@ -2463,9 +2434,9 @@ var System;
 //*         : Mono , Stackoverflow
 /// <reference path="Code/Object.ts" />
 /// <reference path="Code/Action.ts" />
-/// <reference path="Code/Attribute.ts" />
-/// <reference path="Code/AttributeTargets.ts" />
-/// <reference path="Code/AttributeUsageAttribute.ts" />
+/// <reference path="Code/Attributes/Attribute.ts" />
+/// <reference path="Code/Attributes/AttributeTargets.ts" />
+/// <reference path="Code/Attributes/AttributeUsageAttribute.ts" />
 /// <reference path="Code/BitConverter.ts" />
 /// <reference path="Code/Byte.ts" />
 /// <reference path="Code/Char.ts" />

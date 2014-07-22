@@ -6,9 +6,9 @@
 
 
 
+/// <reference path="../Corlib/Compiled/Corlib.d.ts" />
 
-
-/// <reference path="../Corlib/Compiled/Corlib.Debug.d.ts" />
-
-
+/// <reference path="Code/UriFormat.ts" />
+/// <reference path="Code/UriFormat.ts" />
+/// <reference path="Code/UriFormat.ts" />
 /// <reference path="Code/UriFormat.ts" />

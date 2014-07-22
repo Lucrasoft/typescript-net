@@ -12,11 +12,5 @@ module System
 
             super(message, inner);
         }
-
-
-        //todo
-		//internal MulticastNotSupportedException (SerializationInfo info, StreamingContext context) : base(info, context)
-		//{
-		//}
 	}
 }

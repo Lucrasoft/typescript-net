@@ -15,14 +15,7 @@ module  System
             super(message, innerException);
         }
 
-		// Constructors
+		
 
-        //todo          (Was al zo in de c#)
-		/*
-		protected DataMisalignedException (SerializationInfo info, StreamingContext context)
-			: base (info, context)
-		{
-		}
-		*/
 	}
 }

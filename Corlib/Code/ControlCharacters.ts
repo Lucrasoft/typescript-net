@@ -20,6 +20,6 @@
         EOL2: number = 16;
 	}
 
-    System.Type.registerClass(ControlCharacters, "System.ControlCharacters");
+    System.Type.registerClass(ControlCharacters, "System.ControlCharacters", []);
 
 } 

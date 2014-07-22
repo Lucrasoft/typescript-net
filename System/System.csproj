@@ -17,6 +17,30 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Code\AndroidPlatform.ts" />
+    <TypeScriptCompile Include="Code\DefaultUriParser.ts" />
+    <TypeScriptCompile Include="Code\FileStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\FtpStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\GenericUriParser.ts" />
+    <TypeScriptCompile Include="Code\GenericUriParserOptions.ts" />
+    <TypeScriptCompile Include="Code\GopherStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\HttpStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\IUriData.ts" />
+    <TypeScriptCompile Include="Code\LdapStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\NetPipeStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\NetTcpStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\NewsStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\Platform.ts" />
+    <TypeScriptCompile Include="Code\SRDescriptionAttribute.ts" />
+    <TypeScriptCompile Include="Code\UriComponents.ts" />
+    <TypeScriptCompile Include="Code\UriData.ts" />
+    <TypeScriptCompile Include="Code\UriElements.ts" />
+    <TypeScriptCompile Include="Code\UriFormatException.ts" />
+    <TypeScriptCompile Include="Code\UriHostNameType.ts" />
+    <TypeScriptCompile Include="Code\UriIdnScope.ts" />
+    <TypeScriptCompile Include="Code\UriKind.ts" />
+    <TypeScriptCompile Include="Code\UriParser.ts" />
+    <TypeScriptCompile Include="Code\UriPartial.ts" />
     <TypeScriptCompile Include="System.ts" />
     <TypeScriptCompile Include="Code\UriFormat.ts" />
     <Content Include="SpecRunner.html" />

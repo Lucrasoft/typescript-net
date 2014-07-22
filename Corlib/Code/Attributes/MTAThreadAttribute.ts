@@ -1,4 +1,4 @@
-﻿//todo
+﻿///<reference path="Attribute.ts"/>
 
 module System
 {

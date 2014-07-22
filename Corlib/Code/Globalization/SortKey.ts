@@ -1,5 +1,6 @@
 ﻿/// <reference path="../Object.ts"/>
 /// <reference path="../Exceptions/ArgumentNullException.ts"/>
+//todo
 
 module System.Globalization {
 
@@ -78,9 +79,9 @@ module System.Globalization {
             return false;
         }
 
-        getHashCode(): number {
-            return this.str.getHashCode();
-        }
+        //getHashCode(): number {
+        //    return this.str.getHashCode();
+        //}
 
         toString(): string {
             return ("SortKey - " + this.lcid + ", " + this.options + ", " + this.str);

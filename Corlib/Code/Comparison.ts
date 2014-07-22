@@ -1,6 +1,4 @@
-﻿//todo
-
-module System
+﻿module System
 {
     
     export interface Comparison<T> {

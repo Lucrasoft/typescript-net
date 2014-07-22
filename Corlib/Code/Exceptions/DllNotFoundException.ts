@@ -11,15 +11,9 @@ module System
 
         constructor(message: string = "DLL not found.", inner?: Exception) {
             super(message, inner);
-            HResult = Result;
+            this.HResult = this.Result;
         }
-		// Constructors
-		
-        //todo
-		//protected DllNotFoundException (SerializationInfo info, StreamingContext context)
-		//	: base(info, context)
-		//{
-		//}
+
 
 
 	}

@@ -1,4 +1,6 @@
-﻿module System {
+﻿
+
+module System {
     
 	export enum UriFormat {
 
@@ -8,5 +10,7 @@
     }
 
     System.Type.registerEnum(UriFormat, "System.UriFormat");
+
+    
 }
  

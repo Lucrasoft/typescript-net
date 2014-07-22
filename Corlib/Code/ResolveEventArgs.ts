@@ -1,40 +1,42 @@
-﻿module System
+﻿//todo
+
+module System
 {
 
-	export class ResolveEventArgs extends  EventArgs
-	{
-		private m_Name: string;
+	//export class ResolveEventArgs extends  EventArgs
+	//{
+	//	private m_Name: string;
 
-        private m_Requesting: Assembly;
-
-
-        public ResolveEventArgs(name: string)
-		{
-        m_Name = name;
-		}
+    //    private m_Requesting: Assembly;
 
 
-        public ResolveEventArgs(name: string, requestingAssembly: Assembly) {
-        this.m_Name = name;
-        this.m_Requesting = requestingAssembly;
-		}
+    //    public ResolveEventArgs(name: string)
+	//	{
+    //    m_Name = name;
+	//	}
 
 
-		get Name(): string {
-			 {
-            return m_Name;
-        }
-		}
+    //    public ResolveEventArgs(name: string, requestingAssembly: Assembly) {
+    //    this.m_Name = name;
+    //    this.m_Requesting = requestingAssembly;
+	//	}
 
 
-        get RequestingAssembly(): Assembly {
-			 {
-            return m_Requesting;
-        }
-		}
+	//	get Name(): string {
+	//		 {
+    //        return m_Name;
+    //    }
+	//	}
 
-    }
 
-    System.Type.registerClass(ResolveEventArgs, "System.ResolveEventArgs");
+    //    get RequestingAssembly(): Assembly {
+	//		 {
+    //        return m_Requesting;
+    //    }
+	//	}
+
+    //}
+
+    //System.Type.registerClass(ResolveEventArgs, "System.ResolveEventArgs");
 
 } 

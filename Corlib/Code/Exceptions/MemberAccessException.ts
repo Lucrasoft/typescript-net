@@ -15,16 +15,9 @@ module System
 
         constructor(message: string = "Cannot access a class member.", inner?: Exception) {
             super(message, inner);
-            HResult = Result;
+            this.HResult = this.Result;
 
         }
-
-        //todo
-		//protected MemberAccessException (SerializationInfo info, StreamingContext context)
-		//	: base (info, context)
-		//{
-		//}
-		
 
 	}
 }
