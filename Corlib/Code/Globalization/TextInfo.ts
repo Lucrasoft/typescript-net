@@ -20,6 +20,6 @@
 
         private m_win32langID: number;
 
-        var data: Data;
+        data: Data;
     }
 }

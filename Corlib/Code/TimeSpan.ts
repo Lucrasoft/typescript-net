@@ -103,7 +103,7 @@ module System {
             }
 
             if (overflow) {
-                if (throwExc) throw new ArgumentOutOfRangeException("The timespan is too big or too small.");
+                if (throwExc) throw new System.ArgumentOutOfRangeException("The timespan is too big or too small.");
                 return false;
             }
 
@@ -160,7 +160,7 @@ module System {
                 return new TimeSpan(this._ticks + ts.Ticks);
             }
             catch (e) {
-                throw new OverflowException("Resulting timespan is too big.");
+                throw new System.OverflowException("Resulting timespan is too big.");
             }
         }
 
@@ -175,8 +175,8 @@ module System {
         compareTo(value: any): number {
             if (value == null) return 1;
 
-            if (!(Statements.is(value, TimeSpan._type))) {
-                throw new ArgumentException("Argument has to be a TimeSpan.", null, "value");
+            if (!(System.Statements.is(value, TimeSpan._type))) {
+                throw new System.ArgumentException("Argument has to be a TimeSpan.", null, "value");
             }
 
             return TimeSpan.compare(this, <TimeSpan>value);
@@ -184,7 +184,7 @@ module System {
 
 
         equals(obj: any): boolean {
-            if (!(Statements.is(obj, TimeSpan._type))) return false;
+            if (!(System.Statements.is(obj, TimeSpan._type))) return false;
 
             return this._ticks == (<TimeSpan>obj)._ticks;
         }
@@ -220,9 +220,9 @@ module System {
         private static FromMultiplied(value: number, tickMultiplicator: number): TimeSpan {
 
             if (isNaN(value))
-                throw new ArgumentException("Value cannot be NaN.", null, "value");
+                throw new System.ArgumentException("Value cannot be NaN.", null, "value");
             if (!isFinite(value) || (value < TimeSpan.MinValue.Ticks) || (value > TimeSpan.MaxValue.Ticks))
-                throw new OverflowException("Outside range [MinValue,MaxValue]");
+                throw new System.OverflowException("Outside range [MinValue,MaxValue]");
 
             value = (value * (tickMultiplicator / TimeSpan.TicksPerMillisecond));
             var val = Math.round(value);
@@ -240,13 +240,13 @@ module System {
 
         negate(): TimeSpan {
             if (this._ticks == TimeSpan.MinValue._ticks)
-                throw new OverflowException("This TimeSpan value is MinValue and cannot be negated.");
+                throw new System.OverflowException("This TimeSpan value is MinValue and cannot be negated.");
             return new TimeSpan(-this._ticks);
         }
 
         static parse(input: string, formatProvider?: IFormatProvider): TimeSpan {
             if (input == null) {
-                throw new ArgumentNullException("s");
+                throw new System.ArgumentNullException("s");
             }
 
             result: TimeSpan;
@@ -273,14 +273,18 @@ module System {
         public static ParseExact(input: string, format: string, formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles): TimeSpan;
         public static ParseExact(input: string, format: string[], formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles): TimeSpan;
 
-        public static ParseExact(input: string, format: any, formatProvider: IFormatProvider, styles?: System.Globalization.TimeSpanStyles = System.Globalization.TimeSpanStyles.None): TimeSpan {
+        public static ParseExact(input: string, format: any, formatProvider: IFormatProvider, styles?: System.Globalization.TimeSpanStyles): TimeSpan {
+
+            if (styles == null) {
+                styles = System.Globalization.TimeSpanStyles.None;
+            }
 
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new System.ArgumentNullException("input");
 
 
             if (format == null)
-                throw new ArgumentNullException("format");
+                throw new System.ArgumentNullException("format");
 
             var formats;
             if (typeof format == "string") {
@@ -289,8 +293,8 @@ module System {
             }
 
             var outresult = new System.OutArgument<TimeSpan>(TimeSpan.MinValue);
-            if (!TimeSpan.tryParseExact(input, formats, formatProvider, styles, outresult))
-                throw new FormatException("Invalid format.");
+            if (!TimeSpan.tryParseExact(input, format, formatProvider, styles, outresult))
+                throw new System.FormatException("Invalid format.");
 
             return outresult.value;
 
@@ -301,7 +305,11 @@ module System {
         static tryParseExact(input: string, format: string, formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
         static tryParseExact(input: string, format: string[], formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>): boolean;
 
-        static tryParseExact(input: string, format: any, formatProvider: IFormatProvider, styles?: System.Globalization.TimeSpanStyles = System.Globalization.TimeSpanStyles.None, result: System.OutArgument<TimeSpan>) {
+        static tryParseExact(input: string, format: any, formatProvider: IFormatProvider, styles: System.Globalization.TimeSpanStyles, result: System.OutArgument<TimeSpan>) {
+
+            if (styles == null) {
+                styles = System.Globalization.TimeSpanStyles.None;
+            }
 
             result.value = TimeSpan.Zero;
 
@@ -450,7 +458,7 @@ module System {
         private ToStringCustom(format: string): string {
             // Single char formats are not accepted.
             if (format.length < 2)
-                throw new FormatException("The format is not recognized.");
+                throw new System.FormatException("The format is not recognized.");
 
 
 
@@ -461,27 +469,27 @@ module System {
             var sb = new StringBuilder(format.length + 1);
 
             for (; ;) {
-                if (parser.AtEnd)
+                if (parser.atEnd)
                     break;
 
-                element = parser.GetNextElement();
+                element = parser.getNextElement();
                 switch (element.Type) {
-                    case FormatElementType.Days:
+                    case System.FormatElementType.Days:
                         value = Math.abs(this.Days);
                         break;
-                    case FormatElementType.Hours:
+                    case System.FormatElementType.Hours:
                         value = Math.abs(this.Hours);
                         break;
-                    case FormatElementType.Minutes:
+                    case System.FormatElementType.Minutes:
                         value = Math.abs(this.Minutes);
                         break;
-                    case FormatElementType.Seconds:
+                    case System.FormatElementType.Seconds:
                         value = Math.abs(this.Seconds);
                         break;
-                    case FormatElementType.Ticks:
+                    case System.FormatElementType.Ticks:
                         value = Math.abs(this.Milliseconds);
                         break;
-                    case FormatElementType.TicksUppercase:
+                    case System.FormatElementType.TicksUppercase:
                         value = Math.abs(this.Milliseconds);
                         if (value > 0) {
                             var threshold: number = Math.pow(10, element.IntValue);
@@ -490,14 +498,14 @@ module System {
                             sb.Append(value.toString());
                         }
                         break;
-                    case FormatElementType.EscapedChar:
+                    case System.FormatElementType.EscapedChar:
                         sb.Append(element.CharValue);
                         break;
-                    case FormatElementType.Literal:
+                    case System.FormatElementType.Literal:
                         sb.Append(element.StringValue);
                         break;
                     default:
-                        throw new FormatException("The format is not recognized.");
+                        throw new System.FormatException("The format is not recognized.");
                 }
             }
 
@@ -546,7 +554,7 @@ module System {
         }
     }
 
-    enum ParseError {
+    export enum ParseError {
         None,
         Format,
         Overflow
@@ -580,7 +588,7 @@ module System {
 
         private reset(): void {
             this._cur = 0;
-            this.parse_error = ParseError.None;
+            this.parse_error = System.ParseError.None;
             this.parsed_ticks = this.parsed_days_separator = false;
             this.parsed_numbers_count = 0;
         }
@@ -619,10 +627,10 @@ module System {
             var res: number = 0;
             var count: number = 0;
 
-            while (!this.atEnd && Char.isDigit(this._src, this._cur)) {
+            while (!this.atEnd && System.Char.isDigit(this._src, this._cur)) {
                 res = (res * 10) + parseInt(this._src.charAt(this._cur));
-                if (res > Int32.MaxValue) {
-                    this.setParseError(ParseError.Format);
+                if (res > System.Int32.MaxValue) {
+                    this.setParseError(System.ParseError.Format);
                     break;
                 }
                 this._cur++;
@@ -631,7 +639,7 @@ module System {
 
             if (count == 0 || (digit_count > 1 && digit_count != count) ||
                     count > max_digit_count)
-                this.setParseError(ParseError.Format);
+                this.setParseError(System.ParseError.Format);
 
             return <number>res;
         }
@@ -644,10 +652,10 @@ module System {
             var res: number = 0;
             var count: number = 0;
 
-            while (!this.atEnd && Char.isDigit(this._src, this._cur)) {
+            while (!this.atEnd && System.Char.isDigit(this._src, this._cur)) {
                 res = (res * 10) + parseInt(this._src.charAt(this._cur));
-                if (res > Int32.MaxValue) {
-                    this.setParseError(ParseError.Overflow);
+                if (res > System.Int32.MaxValue) {
+                    this.setParseError(System.ParseError.Overflow);
                     break;
                 }
 
@@ -656,7 +664,7 @@ module System {
             }
 
             if (!optional && (count == 0))
-                this.setParseError(ParseError.Format);
+                this.setParseError(System.ParseError.Format);
 
             if (count > 0)
                 this.parsed_numbers_count++;
@@ -764,36 +772,36 @@ module System {
             var count: number = 0;
 
             while(mag > 0 && !this.atEnd && Char.isDigit(this._src, this._cur)) {
-                res = res + parseInt(this._src.charAt(this._cur)) * mag;
+                res = res + this.parseInt(this._src.charAt(this._cur)) * mag;
                 this._cur++;
                 count++;
                 mag = mag / 10;
             }
 
             if ((digits_count > 0 && count != digits_count) || count > max_digits_count)
-                this.setParseError(ParseError.Format);
+                this.setParseError(System.ParseError.Format);
 
             return res;
         }
 
         private setParseError(error: ParseError) {
-            if (this.parse_error != ParseError.None)
+            if (this.parse_error != System.ParseError.None)
                 return;
 
             this.parse_error = error;
         }
 
         private checkParseSuccess(tryParse: boolean){
-            if (this.parse_error == ParseError.Overflow) {
+            if (this.parse_error == System.ParseError.Overflow) {
                 if (tryParse)
                     return false;
-                throw new OverflowException(Locale.getText("Invalid time data."));
+                throw new System.OverflowException(Locale.getText("Invalid time data."));
             }
 
-            if (this.parse_error == ParseError.Format) {
+            if (this.parse_error == System.ParseError.Format) {
                 if (tryParse)
                     return false;
-                throw new FormatException(Locale.getText("Invalid format for TimeSpan Parse."));
+                throw new System.FormatException(Locale.getText("Invalid format for TimeSpan Parse."));
             }
 
             return true;
@@ -849,13 +857,13 @@ module System {
             this.parseWhiteSpace();
 
             if (!this.atEnd)
-                this.setParseError(ParseError.Format);
+                this.setParseError(System.ParseError.Format);
 
             if (this.exact) {
                 // In Exact mode we cannot allow both ':' and '.' as day separator.
                 if (this.useColonAsDaySeparator && this.parsed_days_separator ||
                     this.allMembersRequired && (this.parsed_numbers_count < 4 || !this.parsed_ticks))
-                    this.setParseError(ParseError.Format);
+                    this.setParseError(System.ParseError.Format);
             }
 
             switch (this.parsed_numbers_count) {
@@ -864,7 +872,7 @@ module System {
                     break;
                 case 2: // Two elements are valid only if they are *exactly* in the format: 'hh:mm'
                     if (this.parsed_days_separator)
-                        this.setParseError(ParseError.Format);
+                        this.setParseError(System.ParseError.Format);
                     else {
                         hours = value1;
                         minutes = value2;
@@ -884,7 +892,7 @@ module System {
                     break;
                 case 4: // We are either on 'dd.hh:mm:ss' or 'dd:hh:mm:ss'
                     if (!this.useColonAsDaySeparator && !this.parsed_days_separator)
-                        this.setParseError(ParseError.Format);
+                        this.setParseError(System.ParseError.Format);
                     else {
                         days = value1;
                         hours = value2;
@@ -895,7 +903,7 @@ module System {
             }
 
             if (hours > 23 || minutes > 59 || seconds > 59)
-                this.setParseError(ParseError.Overflow);
+                this.setParseError(System.ParseError.Overflow);
                 
             if (!this.checkParseSuccess(tryParse))
                 return false;
@@ -908,7 +916,7 @@ module System {
 
             try {
                 t = ((sign) ? (-t - ticks) : (t + ticks));
-            } catch (e: OverflowException) {
+            } catch (e) {
                 if (tryParse)
                     return false;
                 throw e;
@@ -918,7 +926,7 @@ module System {
             return true;
         }
 
-        executeWithFormat(format: string, style: TimeSpanStyles, tryParse: boolean, result: TimeSpan) {
+        executeWithFormat(format: string, style: System.Globalization.TimeSpanStyles, tryParse: boolean, result: TimeSpan) {
             var days, hours, minutes, seconds, ticks: number;
             var format_element: FormatElement;
 
@@ -937,49 +945,49 @@ module System {
                     break;
 
                 format_element = format_parser.getNextElement();
-                switch (format_element.type) {
-                    case FormatElementType.Days:
+                switch (format_element.Type) {
+                    case System.FormatElementType.Days:
                     if (days != -1)
-                        this.setParseError(ParseError.Format);
+                        this.setParseError(System.ParseError.Format);
 						days = this.parseIntExact(format_element.IntValue, 8);
 						break;
-					case FormatElementType.Hours:
+                    case System.FormatElementType.Hours:
 						if (hours != -1)
-                            this.setParseError(ParseError.Format);
+                            this.setParseError(System.ParseError.Format);
                         hours = this.parseIntExact(format_element.IntValue, 2);
 						break;
-					case FormatElementType.Minutes:
+                    case System.FormatElementType.Minutes:
 						if (minutes != -1)
-                            this.setParseError(ParseError.Format);
+                            this.setParseError(System.ParseError.Format);
                             minutes = this.parseIntExact(format_element.IntValue, 2);
 						break;
-					case FormatElementType.Seconds:
+                    case System.FormatElementType.Seconds:
 						if (seconds != -1)
-                            this.setParseError(ParseError.Format);
+                            this.setParseError(System.ParseError.Format);
                             seconds = this.parseIntExact(format_element.IntValue, 2);
 						break;
-					case FormatElementType.Ticks:
+                    case System.FormatElementType.Ticks:
 						if (ticks != -1)
-                            this.setParseError(ParseError.Format);
+                            this.setParseError(System.ParseError.Format);
                             ticks = this.parseTicksExact(format_element.IntValue, format_element.IntValue);
 						break;
-					case FormatElementType.TicksUppercase:
+                    case System.FormatElementType.TicksUppercase:
 						// Similar to Milliseconds, but optional and the
 						// number of F defines the max length, not the required one.
 						if (ticks != -1)
-                            this.setParseError(ParseError.Format);
+                            this.setParseError(System.ParseError.Format);
                             ticks = this.parseTicksExact(0, format_element.IntValue);
 						break;
-					case FormatElementType.Literal:
+                    case System.FormatElementType.Literal:
 						if (!this.parseLiteral(format_element.StringValue))
-                            this.setParseError(ParseError.Format);
+                            this.setParseError(System.ParseError.Format);
 						break;
-					case FormatElementType.EscapedChar:
-						if (!this.parseChar(format_element.CharValue))
-                            this.setParseError(ParseError.Format);
+                    case System.FormatElementType.EscapedChar:
+						if (!this.parseChar(format_element.CharValue.toString()))
+                            this.setParseError(System.ParseError.Format);
 						break;
-					case FormatElementType.Error:
-						this.setParseError(ParseError.Format);
+                    case System.FormatElementType.Error:
+						this.setParseError(System.ParseError.Format);
                         break;
                 }
             }
@@ -995,7 +1003,7 @@ module System {
             if (ticks == -1)
                 ticks = 0;
 
-            if(!this.atEnd || !format_parser.AtEnd)
+            if(!this.atEnd || !format_parser.atEnd)
 					this.setParseError(ParseError.Format);
             if (hours > 23 || minutes > 59 || seconds > 59)
                 this.setParseError(ParseError.Format);
@@ -1012,7 +1020,7 @@ module System {
 
             try {
                 t = (style == System.Globalization.TimeSpanStyles.AssumeNegative) ? (-t - ticks) : (t + ticks);
-            } catch (e: OverflowException) {
+            } catch (e) {
                 if (tryParse)
                     return false;
                 throw e;
@@ -1024,7 +1032,7 @@ module System {
 
     }
 
-    enum FormatElementType {
+    export enum FormatElementType {
         Days,
         Hours,
         Minutes,
@@ -1037,6 +1045,196 @@ module System {
         End
     }
 
+    class FormatElement{
+        Type: FormatElementType;
+        CharValue: Char;
+        StringValue: string;
+        IntValue: number;
+
+        constructor(type?: FormatElementType) {
+            this.Type = type;
+            this.CharValue = new System.Char(0);
+            this.StringValue = null;
+            this.IntValue = 0;
+        }
+    }
+
+    class FormatParser {
+
+        cur: number;
+        format: string;
+
+        constructor(format: string) {
+            this.format = format;
+        }
+
+        get atEnd(): boolean {
+            return this.cur >= this.format.length;
+        }
+
+        public getNextElement(): FormatElement {
+            var element: FormatElement = new FormatElement;
+
+            if (this.atEnd)
+                return new FormatElement(System.FormatElementType.End);
+
+            var count: number = 0;
+            switch (this.format.charAt(this.cur)) {
+                case 'd':
+                    count = this.parseChar(new System.Char('d'));
+                    if (count > 8)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.Days;
+                    element.IntValue = count;
+                    break;
+                case 'h':
+                    count = this.parseChar(new System.Char('h'));
+                    if (count > 2)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.Hours;
+                    element.IntValue = count;
+                    break;
+                case 'm':
+                    count = this.parseChar(new System.Char('m'));
+                    if (count > 2)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.Minutes;
+                    element.IntValue = count;
+                    break;
+                case 's':
+                    count = this.parseChar(new System.Char('s'));
+                    if (count > 2)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.Seconds;
+                    element.IntValue = count;
+                    break;
+                case 'f':
+                    count = this.parseChar(new System.Char('f'));
+                    if (count > 7)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.Ticks;
+                    element.IntValue = count;
+                    break;
+                case 'F':
+                    count = this.parseChar(new System.Char('F'));
+                    if (count > 7)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.TicksUppercase;
+                    element.IntValue = count;
+                    break;
+                case '%':
+                    this.cur++;
+                    if (this.atEnd)
+                        return new FormatElement(System.FormatElementType.Error);
+                    if (this.format.charAt(this.cur) == 'd') {
+
+                        count = this.parseChar(new System.Char('d'));
+                        if (count > 8)
+                            return new FormatElement(System.FormatElementType.Error);
+                        element.Type = System.FormatElementType.Days;
+                        element.IntValue = count;
+                        break;
+                    } else if (this.format.charAt(this.cur) == 'h') {
+                        count = this.parseChar(new System.Char('h'));
+                        if (count > 2)
+                            return new FormatElement(System.FormatElementType.Error);
+                        element.Type = System.FormatElementType.Hours;
+                        element.IntValue = count;
+                        break;
+                    } else if (this.format.charAt(this.cur) == 'm') {
+                        count = this.parseChar(new System.Char('m'));
+                        if (count > 2)
+                            return new FormatElement(System.FormatElementType.Error);
+                        element.Type = System.FormatElementType.Minutes;
+                        element.IntValue = count;
+                        break;
+                    } else if (this.format.charAt(this.cur) == 's') {
+                        count = this.parseChar(new System.Char('s'));
+                        if (count > 2)
+                            return new FormatElement(System.FormatElementType.Error);
+                        element.Type = System.FormatElementType.Seconds;
+                        element.IntValue = count;
+                        break;
+                    } else if (this.format.charAt(this.cur) == 'f') {
+                        count = this.parseChar(new System.Char('f'));
+                        if (count > 7)
+                            return new FormatElement(System.FormatElementType.Error);
+                        element.Type = System.FormatElementType.Ticks;
+                        element.IntValue = count;
+                        break;
+                    } else if (this.format.charAt(this.cur) == 'F') {
+                        count = this.parseChar(new System.Char('F'));
+                        if (count > 7)
+                            return new FormatElement(System.FormatElementType.Error);
+                        element.Type = System.FormatElementType.TicksUppercase;
+                        element.IntValue = count;
+                        break;
+                    }
+
+                    return new FormatElement(System.FormatElementType.Error);
+                case '\'':
+                    var literal: string = this.parseLiteral();
+                    if (literal == null)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.Literal;
+                    element.StringValue = literal;
+                    break;
+                case '\\':
+                    var escaped_char: Char = this.parseEscapedChar();
+                    if (escaped_char.value == 0)
+                        return new FormatElement(System.FormatElementType.Error);
+                    element.Type = System.FormatElementType.EscapedChar;
+                    element.CharValue = escaped_char;
+                    break;
+                default:
+                    return new FormatElement(System.FormatElementType.Error);
+            }
+
+            return element;
+        }
+
+        private parseChar(c: Char): number {
+            var count: number = 0;
+            while (!this.atEnd && this.format.charAt(this.cur) == c.toString()) {
+                this.cur++;
+                count++;
+            }
+
+            return count;
+        }
+
+        private parseEscapedChar(): Char {
+            if (this.atEnd || this.format.charAt(this.cur) != '\\')
+                return new System.Char(0);
+
+            this.cur++;
+            if (this.atEnd)
+                return new System.Char(0);
+
+            return new System.Char(this.format.charAt(this.cur++));
+        }
+
+        private parseLiteral(): string {
+            var start: number;
+            var count: number = 0;
+            
+            if(this.atEnd || this.format.charAt(this.cur) != '\'')
+                return null;
+
+            start = ++this.cur;
+            while (!this.atEnd && this.format.charAt(this.cur) != '\'') {
+                this.cur++;
+                count++;
+            }
+
+            if (!this.atEnd && this.format.charAt(this.cur) == '\'') {
+                this.cur++;
+                return this.format.substring(start, count);
+            }
+
+            return null;
+        }
+    }
 }
 
 

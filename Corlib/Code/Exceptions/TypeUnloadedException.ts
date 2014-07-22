@@ -6,8 +6,9 @@
         constructor(message: string, innerException?: Exception);
         constructor(info: SerializationInfo, context: StreamingContext);
         constructor(stringOrSerializationInfoParameter?: any, exceptionOrStreamingContextParameter?: any) {
-            if (!stringOrSerializationInfoParameter && !exceptionOrStreamingContextParameter) {
-                super(Locale.GetText("Cannot access an unloaded class."));
+            if (!stringOrSerializationInfoParameter) {
+                if(!exceptionOrStreamingContextParameter)
+                    super(Locale.GetText("Cannot access an unloaded class."));
             } else {
                 if (typeof stringOrSerializationInfoParameter == "string") {
                     if (!exceptionOrStreamingContextParameter) {
