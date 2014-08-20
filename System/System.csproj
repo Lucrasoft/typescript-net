@@ -32,6 +32,8 @@
     <TypeScriptCompile Include="Code\NewsStyleUriParser.ts" />
     <TypeScriptCompile Include="Code\Platform.ts" />
     <TypeScriptCompile Include="Code\SRDescriptionAttribute.ts" />
+    <TypeScriptCompile Include="Code\Uri.ts" />
+    <TypeScriptCompile Include="Code\UriBuilder.ts" />
     <TypeScriptCompile Include="Code\UriComponents.ts" />
     <TypeScriptCompile Include="Code\UriData.ts" />
     <TypeScriptCompile Include="Code\UriElements.ts" />
@@ -39,8 +41,10 @@
     <TypeScriptCompile Include="Code\UriHostNameType.ts" />
     <TypeScriptCompile Include="Code\UriIdnScope.ts" />
     <TypeScriptCompile Include="Code\UriKind.ts" />
+    <TypeScriptCompile Include="Code\UriParseComponents.ts" />
     <TypeScriptCompile Include="Code\UriParser.ts" />
     <TypeScriptCompile Include="Code\UriPartial.ts" />
+    <TypeScriptCompile Include="Code\UriTypeConverter.ts" />
     <TypeScriptCompile Include="System.ts" />
     <TypeScriptCompile Include="Code\UriFormat.ts" />
     <Content Include="SpecRunner.html" />
