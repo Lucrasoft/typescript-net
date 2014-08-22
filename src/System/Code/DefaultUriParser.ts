@@ -2,7 +2,9 @@
 
 	class DefaultUriParser extends UriParser {
 
-		public DefaultUriParser(scheme?: string)
+        static _type: Type = System.Type.registerClass(DefaultUriParser, "System.DefaultUriParser", []);
+
+		constructor(scheme?: string)
         {
             if (scheme !== null) {
                 this.scheme_name = scheme;
