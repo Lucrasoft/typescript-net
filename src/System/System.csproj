@@ -50,6 +50,9 @@
     <TypeScriptCompile Include="Code\IO\WindowsWatcher.ts" />
     <TypeScriptCompile Include="Code\IUriData.ts" />
     <TypeScriptCompile Include="Code\LdapStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\Net.Cache\HttpRequestCachePolicy.ts" />
+    <TypeScriptCompile Include="Code\Net.Cache\RequestCacheLevel.ts" />
+    <TypeScriptCompile Include="Code\Net.Cache\RequestCachePolicy.ts" />
     <TypeScriptCompile Include="Code\NetPipeStyleUriParser.ts" />
     <TypeScriptCompile Include="Code\NetTcpStyleUriParser.ts" />
     <TypeScriptCompile Include="Code\Net\AuthenticationSchemes.ts" />
