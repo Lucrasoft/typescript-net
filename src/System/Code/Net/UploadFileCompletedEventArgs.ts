@@ -3,7 +3,7 @@
 	//export class UploadFileCompletedEventArgs extends AsyncCompletedEventArgs
 	//{
 	//	internal UploadFileCompletedEventArgs ( result,
-	//		Exception error, bool cancelled, object userState)
+	//		Exception error, bool cancelled, Object userState)
 	//		: base(error, cancelled, userState)
 	//	{
     //    this.result = result;

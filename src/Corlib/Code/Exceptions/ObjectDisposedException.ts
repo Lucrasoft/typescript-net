@@ -8,7 +8,7 @@ module System
         static _type = System.Type.registerClass(ObjectDisposedException, "System.ObjectDisposedException", []);
 
 
-        constructor(message?: string, innerException?: System.Exception, object?:string ) {
+        constructor(message?: string, innerException?: System.Exception, Object?:string ) {
             super(message, innerException);
         }
 

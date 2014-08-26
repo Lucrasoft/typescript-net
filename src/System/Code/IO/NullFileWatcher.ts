@@ -18,15 +18,15 @@ module System.IO
 			// does nothing
 		}
 
-        public static GetInstance(out IFileWatcher watcher): boolean
+        public static GetInstance(watcher: IFileWatcher): boolean
 		{
-        if (instance != null) {
-            watcher = instance;
+            if (instance != null) {
+                watcher = this.instance;
+                return true;
+            }
+
+            instance = watcher = new NullFileWatcher();
             return true;
         }
-
-        instance = watcher = new NullFileWatcher();
-        return true;
-    }
 	}
 } 

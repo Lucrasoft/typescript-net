@@ -1,7 +1,7 @@
 ﻿module System.Net
 {
     export interface UploadDataCompletedEventHandler{
-        (sender: object, e: UploadDataCompletedEventArgs): void;
+        (sender: Object, e: UploadDataCompletedEventArgs): void;
 
     }
 

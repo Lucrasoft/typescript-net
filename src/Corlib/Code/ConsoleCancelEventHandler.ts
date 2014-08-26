@@ -4,7 +4,7 @@ module System
 {
 
     export interface ConsoleCancelEventHandler {
-//        (sender: object, e: ConsoleCancelEventArgs ): void;
+//        (sender: Object, e: ConsoleCancelEventArgs ): void;
     
     }
 

@@ -1,5 +1,7 @@
-﻿module System.Net {
-	public class HttpListenerBasicIdentity extends GenericIdentity {
+﻿/// <reference path="../../../corlib/code/security/principal/genericidentity.ts" />
+
+module System.Net {
+	export class HttpListenerBasicIdentity extends GenericIdentity {
 
         static _type: Type = System.Type.registerClass(HttpListenerBasicIdentity, "System.Net.HttpListenerBasicIdentity", []);
 
@@ -11,8 +13,8 @@
             this.password = password;
 		}
 
-		public virtual string Password {
-			get { return password; }
+		public get Password(): string {
+			 return password; 
         }
 	}
 }

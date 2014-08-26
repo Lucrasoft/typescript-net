@@ -29,7 +29,7 @@ module System {
         //sbyte    ToSByte(provider : IFormatProvider);
         //float    ToSingle(provider : IFormatProvider);
         //string   ToString(provider : IFormatProvider);
-        //object   ToType(conversionType: Type, provider : IFormatProvider);
+        //Object   ToType(conversionType: Type, provider : IFormatProvider);
         //ushort   ToUInt16(provider : IFormatProvider);
         //uint     ToUInt32(provider : IFormatProvider);
         //ulong    ToUInt64(provider : IFormatProvider);

@@ -27,12 +27,12 @@ module System.Net
             return null;
 		}
 
-		public AuthenticationType: string { 
-			get { return "NTLM"; }
+        public get AuthenticationType(): string { 
+			  return "NTLM"; 
 		}
 
-		public CanPreAuthenticate: boolean { 
-			get { return false; }
+        public get CanPreAuthenticate(): boolean { 
+			  return false; 
     }
 	}
 }

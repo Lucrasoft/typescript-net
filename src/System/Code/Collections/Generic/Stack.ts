@@ -123,7 +123,7 @@
 //			get { return false; }
 //    }
 		
-//		object ICollection.SyncRoot {
+//		Object ICollection.SyncRoot {
 //			get { return this; }
 //    }
 
@@ -208,7 +208,7 @@
 //            idx = NOT_STARTED;
 //        }
 			
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get { return Current; }
 //        }
 			

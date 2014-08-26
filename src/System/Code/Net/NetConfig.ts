@@ -11,7 +11,7 @@ module System.Net
 	//	{
 	//	}
 
-	//	object ICloneable.Clone()
+	//	Object ICloneable.Clone()
 	//	{
 	//		return MemberwiseClone();
 	//	}

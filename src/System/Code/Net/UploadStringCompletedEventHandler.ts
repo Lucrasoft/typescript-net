@@ -1,7 +1,7 @@
 ﻿module System.Net
 {
     export interface UploadStringCompletedEventHandler{
-        (sender: object, e: UploadStringCompletedEventArgs): void;
+        (sender: Object, e: UploadStringCompletedEventArgs): void;
     }
 
     System.Type.registerInterface("System.Net.UploadStringCompletedEventHandler");

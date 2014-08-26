@@ -5,6 +5,9 @@ module System.Runtime.Serialization {
     //IObject necessary?
 
     export class SerializationEntry {
+
+        static _type: Type = System.Type.registerClass(SerializationEntry, "System.Runtime.Serialization.SerializationEntry", []);
+
         name: string;
         objectType: Type;
         value: any;
@@ -24,7 +27,7 @@ module System.Runtime.Serialization {
 
         constructor(name: string, type: Type, value: any) {
             this.name = name;
-            this.objectType = type;
+            this.ObjectType = type;
             this.value = value;
         }
 

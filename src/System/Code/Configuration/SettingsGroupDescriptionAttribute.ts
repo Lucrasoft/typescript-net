@@ -1,4 +1,6 @@
-﻿module System.Configuration
+﻿/// <reference path="../../../corlib/code/attributes/attribute.ts" />
+
+module System.Configuration
 {
 	export class SettingsGroupDescriptionAttribute extends Attribute
 	{
@@ -6,11 +8,11 @@
 
 		public SettingsGroupDescriptionAttribute( description: string)
 		{
-            desc = description;
+            this.desc = description;
 		}
 
-		public Description: string {
-			get { return desc; }
+        public get Description(): string {
+			  return this.desc;
     }
 	}
 }

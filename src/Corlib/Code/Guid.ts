@@ -75,7 +75,7 @@ module System {
                     this._k = args[10];
                 }
 
-                //TODO check for object type.
+                //TODO check for Object type.
                 if (typeof args[0] == "Array") {
                     var b = <Uint8Array><any>args;
                     Guid.CheckArray(b, 16);

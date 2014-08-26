@@ -63,7 +63,7 @@
 //		}
 
 //#if SECURITY_DEP
-//		internal static bool TrustEvaluateSsl(MSX.X509CertificateCollection collection, object sender, X509Certificate2 certificate, X509Chain chain, SslPolicyErrors errors)
+//		internal static bool TrustEvaluateSsl(MSX.X509CertificateCollection collection, Object sender, X509Certificate2 certificate, X509Chain chain, SslPolicyErrors errors)
 //		{
 //    var certsRawData = new List<byte[]>(collection.Count);
 //    foreach(MSX.X509Certificate cert in collection)

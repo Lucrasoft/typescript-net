@@ -1,4 +1,8 @@
-﻿module System.Net {
+﻿/// <reference path="../../../corlib/code/security/ipermission.ts" />
+
+
+
+module System.Net {
 
 	export class DnsPermissionAttribute extends CodeAccessSecurityAttribute {
 
@@ -10,13 +14,17 @@
 		}
 
 		// Methods
-
-		public override IPermission CreatePermission()
+       
+        //todo this was:
+        //public override IPermission CreatePermission ()
+		public CreatePermission()
 		{
-        return new DnsPermission(
+            return new DnsPermission(
             this.Unrestricted ?
             PermissionState.Unrestricted :
             PermissionState.None);
-    }
+        }
 	}
+    
+    
 }

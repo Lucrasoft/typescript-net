@@ -372,7 +372,7 @@ module System.IO {
         //            Flush();
         //            return TaskConstants.Finished;
         //        } catch (Exception ex) {
-        //            return Task<object>.FromException(ex);
+        //            return Task<Object>.FromException(ex);
         //        }
         //		}
 
@@ -422,7 +422,7 @@ module System.IO {
         //            Write(buffer, offset, count);
         //            return TaskConstants.Finished;
         //        } catch (Exception ex) {
-        //            return Task<object>.FromException(ex);
+        //            return Task<Object>.FromException(ex);
         //        }
         //		}
         //#endif

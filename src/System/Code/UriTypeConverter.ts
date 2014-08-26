@@ -38,7 +38,7 @@ module System {
 //        return CanConvert(destinationType);
 //		}
 
-//		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+//		public override Object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
 //		{
 //        if (value == null) {
 //#if NET_2_1
@@ -72,7 +72,7 @@ module System {
 //			return base.ConvertFrom(context, culture, value);
 //		}
 
-//		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+//		public override Object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, Object value, Type destinationType)
 //		{
 //        if (!CanConvertTo(context, destinationType))
 //            throw new NotSupportedException(Locale.GetText("Cannot convert to destination type."));
@@ -86,7 +86,7 @@ module System {
 //#if !NET_2_1
 //				if (destinationType == typeof (InstanceDescriptor)) {
 //					ConstructorInfo ci = typeof (Uri).GetConstructor(new Type[2] { typeof (string), typeof (UriKind) });
-//                    return new InstanceDescriptor(ci, new object []{ uri.ToString(), uri.IsAbsoluteUri ? UriKind.Absolute : UriKind.Relative });
+//                    return new InstanceDescriptor(ci, new Object []{ uri.ToString(), uri.IsAbsoluteUri ? UriKind.Absolute : UriKind.Relative });
 //				}
 //#else
 //				throw new NotSupportedException(Locale.GetText("Cannot convert to destination type."));
@@ -101,7 +101,7 @@ module System {
 //		}
 
 //#if !NET_2_1
-//		public override bool IsValid(ITypeDescriptorContext context, object value)
+//		public override bool IsValid(ITypeDescriptorContext context, Object value)
 //		{
 //        if (value == null)
 //            return false;

@@ -2,15 +2,16 @@
 
 module System.Configuration
 {
-	public class SettingsContext extends Hashtable
-	{
+    export class SettingsContext extends Hashtable {
 
         current: ApplicationSettingsBase;
 
-        CurrentSettings: ApplicationSettingsBase {
-			get { return current; }
-			set { current = value; }
+        get CurrentSettings(): ApplicationSettingsBase {
+			 return current;
         }
-	}
 
+        set CurrentSettings(value: ApplicationSettingsBase){
+            current = value;
+        }
+    }
 }

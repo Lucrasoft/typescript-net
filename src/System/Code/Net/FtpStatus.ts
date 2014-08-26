@@ -11,12 +11,14 @@
         this.statusDescription = statusDescription;
     }
 
-		public StatusCode: FtpStatusCode {
-			get { return statusCode; }
+		
+        
+        public get StatusCode(): FtpStatusCode {
+			 return this.statusCode; 
 		}
 
-		public StatusDescription: string {
-			get { return statusDescription; }
+		public get StatusDescription(): string {
+			 return this.statusDescription;
 		}
 	}
 }

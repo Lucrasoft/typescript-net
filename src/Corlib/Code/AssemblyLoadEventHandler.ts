@@ -4,7 +4,7 @@ module System {
 
     export interface AssemblyLoadEventHandler {
 
-//        (sender: object, args: AssemblyLoadEventArgs): void;
+//        (sender: Object, args: AssemblyLoadEventArgs): void;
 
     }
 

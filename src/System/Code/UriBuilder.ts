@@ -218,7 +218,7 @@ module System
 
 //		// Methods
 
-//		public override bool Equals(object rparam) 
+//		public override bool Equals(Object rparam) 
 //		{
 //    return (rparam == null) ? false : this.Uri.Equals(rparam.ToString());
 //		}

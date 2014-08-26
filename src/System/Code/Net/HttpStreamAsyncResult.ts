@@ -1,8 +1,11 @@
-﻿//todo ref that
+﻿/// <reference path="../../../corlib/code/interfaces/iasyncresult.ts" />
 
 module System.Net {
-	class HttpStreamAsyncResult extends IAsyncResult {
-        locker: object;
+    class HttpStreamAsyncResult extends IAsyncResult {
+
+        static _type: Type = System.Type.registerClass(HttpStreamAsyncResult, "System.Net.HttpStreamAsyncResult", ["System.IAsyncResult"]);
+
+        locker: Object;
         handle: ManualResetEvent;
 		completed: boolean;
 
@@ -10,7 +13,7 @@ module System.Net {
         Offset: number;
         Count: number;
         Callback: AsyncCallback;
-		State: object;
+		State: Object;
 		SynchRead: number;
         Error: Exception;
 
@@ -20,9 +23,9 @@ module System.Net {
             Complete();
 		}
 
-        public void Complete()
+        public Complete(): void
         {
-            lock(locker) {
+            {
                 if (completed)
                     return;
 
@@ -32,34 +35,32 @@ module System.Net {
 
                 if (Callback != null)
                     Callback.BeginInvoke(this, null, null);
-        }
+            }
 		}
 
-		public object AsyncState {
-			get { return State; }
+        public get AsyncState(): Object  {
+			  return this.State; 
 		}
 
-		public AsyncWaitHandle: WaitHandle {
-			get {
-            lock(locker) {
+        public get AsyncWaitHandle(): WaitHandle {
+            {
                 if (handle == null)
                     handle = new ManualResetEvent(completed);
             }
 
-            return handle;
-        }
+            return handle;   
 		}
 
-		public CompletedSynchronously; boolean {
-			get { return (SynchRead == Count); }
+        public get CompletedSynchronously(): boolean {
+			  return (SynchRead == Count); 
 		}
 
-		public IsCompleted: boolean {
-			get {
-            lock(locker) {
+		public get IsCompleted(): boolean {
+			 
+            {
                 return completed;
             }
+        
         }
-    }
 	}
 }

@@ -1,18 +1,20 @@
-﻿//todo ref
+﻿/// <reference path="../../../corlib/code/attributes/attribute.ts" />
+
 
 module System.Configuration
 {
 	export class SettingsDescriptionAttribute extends Attribute
-	{
+    {
+        static _type: Type = System.Type.registerClass(SettingsDescriptionAttribute, "System.Configuration.SettingsDescriptionAttribute", []);
 		desc: string;
 
 		public SettingsDescriptionAttribute(description: string)
 		{
-            desc = description;
+            this.desc = description;
 		}
 
-		public Description: string {
-			get { return desc; }
+        public get Description(): string {
+			  return this.desc; 
         }
 	}
 }

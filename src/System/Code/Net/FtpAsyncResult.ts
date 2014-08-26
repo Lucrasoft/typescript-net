@@ -1,123 +1,107 @@
-﻿namespace System.Net 
+﻿/// <reference path="../../../corlib/code/interfaces/iasyncresult.ts" />
+
+module System.Net 
 {
-	class FtpAsyncResult : IAsyncResult
-	{
-		FtpWebResponse response;
-		ManualResetEvent waitHandle;
-		Exception exception;
-		AsyncCallback callback;
-		Stream stream;
-		object state;
-		bool completed;
-		bool synch;
-		object locker = new object();
+	class FtpAsyncResult extends IAsyncResult
+    {
+        static _type: Type = System.Type.registerClass(FtpAsyncResult, "System.Net.FtpAsyncResult", ["System.IAsyncResult"]);
 
-		public FtpAsyncResult(AsyncCallback callback, object state)
+        response: FtpWebResponse;
+        waitHandle: ManualResetEvent;
+        exception: Exception;
+        callback: AsyncCallback;
+        stream: Stream;
+        state: Object;
+		completed: boolean;
+		synch: boolean;
+		locker: Object = new Object();
+
+        public FtpAsyncResult(callback: AsyncCallback, state: Object)
 		{
-        this.callback = callback;
-        this.state = state;
+            this.callback = callback;
+            this.state = state;
 		}
 
-		public object AsyncState {
-			get {
-            return state;
+        public get AsyncState(): Object {
+            return this.state;
         }
+
+        public get AsyncWaitHandle(): WaitHandle {
+                if (this.waitHandle == null)
+                    this.waitHandle = new ManualResetEvent(false);
+            return this.waitHandle;
+        
 		}
 
-		public WaitHandle AsyncWaitHandle {
-			get {
-            lock(locker) {
-                if (waitHandle == null)
-                    waitHandle = new ManualResetEvent(false);
-            }
-
-            return waitHandle;
-        }
+		public get CompletedSynchronously(): boolean {			
+            return this.synch;
 		}
 
-		public bool CompletedSynchronously {
-			get {
-            return synch;
-        }
-		}
-
-		public bool IsCompleted {
-			get {
-            lock(locker) {
-                return completed;
-            }
-        }
-    }
-
-		internal bool GotException {
-			get {
-            return exception != null;
-        }
-    }
-
-		internal Exception Exception {
-			get {
-            return exception;
-        }
-    }
-
-		internal FtpWebResponse Response {
-			get {
-            return response;
-        }
-			set {
-            response = value;
-        }
-    }
-
-		internal Stream Stream {
-			get {
-            return stream;
+        public get IsCompleted(): boolean {
+                return this.completed;
         }
 
-			set { stream = value; }
-    }
+		get GotException(): boolean {
+            return this.exception != null;
+        }
 
-		internal void WaitUntilComplete()
+        get Exception(): Exception{
+            return this.exception; 
+        }
+
+        get Response(): FtpWebResponse {
+            return this.response;
+        }
+        set Response(value: FtpWebResponse) {
+            this.response = value;
+        }
+
+
+        get Stream(): Stream {
+            return this.stream;
+        }
+        set Stream(value: Stream ){
+			  this.stream = value; 
+        }
+
+		WaitUntilComplete(): void
 		{
-        if (IsCompleted)
-            return;
+            if (IsCompleted)
+                return;
 
-        AsyncWaitHandle.WaitOne();
-    }
-
-		internal bool WaitUntilComplete(int timeout, bool exitContext)
-		{
-        if (IsCompleted)
-            return true;
-
-        return AsyncWaitHandle.WaitOne(timeout, exitContext);
-    }
-
-		internal void SetCompleted(bool synch, Exception exc, FtpWebResponse response)
-		{
-        this.synch = synch;
-        this.exception = exc;
-        this.response = response;
-        lock(locker) {
-            completed = true;
-            if (waitHandle != null)
-                waitHandle.Set();
+            this.AsyncWaitHandle.WaitOne();
         }
-        DoCallback();
-    }
 
-		internal void SetCompleted(bool synch, FtpWebResponse response)
+		WaitUntilComplete(timeout: number,exitContext: boolean): boolean
 		{
-        SetCompleted(synch, null, response);
-    }
+            if (IsCompleted)
+                return true;
 
-		internal void SetCompleted(bool synch, Exception exc)
+            return AsyncWaitHandle.WaitOne(timeout, exitContext);
+        }
+
+        SetCompleted(synch: bool, exc: Exception, response: FtpWebResponse): void
+		{
+            this.synch = synch;
+            this.exception = exc;
+            this.response = response;
+                completed = true;
+                if (waitHandle != null)
+                    this.waitHandle.Set();
+            DoCallback();
+        }
+
+        SetCompleted(synch: boolean, response: FtpWebResponse ): void
+		{
+            SetCompleted(synch, null, response);
+        }
+
+        SetCompleted(synch: boolean, exc: Exception): void
 		{
         SetCompleted(synch, exc, null);
     }
 
-		internal void DoCallback()
+		DoCallback(): void
 		{
         if (callback != null)
             try {
@@ -125,22 +109,21 @@
             }
             catch (Exception) {
             }
-    }
+        }
 
 		// Cleanup resources
-		internal void Reset()
+		Reset(): void
 		{
-        exception = null;
-        synch = false;
-        response = null;
-        state = null;
+        this.exception = null;
+        this.synch = false;
+        this.response = null;
+        this.state = null;
 
-        lock(locker) {
+        
             completed = false;
             if (waitHandle != null)
                 waitHandle.Reset();
-        }
-    }
-		
+        
+        }	
 	}
 }

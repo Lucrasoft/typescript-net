@@ -3,7 +3,7 @@
 module System.IO {
 
     export interface ErrorEventHandler{
-        (sender: object, e: ErrorEventArgs): void;
+        (sender: Object, e: ErrorEventArgs): void;
     }
 
     System.Type.registerInterface("System.IO.ErrorEventHandler");

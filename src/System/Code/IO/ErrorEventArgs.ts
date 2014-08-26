@@ -1,28 +1,23 @@
-﻿module System.IO {
-	public class ErrorEventArgs : EventArgs {
+﻿/// <reference path="../../../corlib/code/eventargs.ts" />
 
-//		#region Fields
+module System.IO {
+	export class ErrorEventArgs extends EventArgs {
+
+        static _type: Type = System.Type.registerClass(ErrorEventArgs, "System.IO.ErrorEventArgs", []);
 
         exception: Exception;
 
-//		#endregion // Fields
+        constructor(exception: Exception) 
+		{
+            this.exception = exception;
+		}
 
-//		#region Constructors
+        
 
-        //ErrorEventArgs(exception: Exception) 
-		//{
-        //    this.exception = exception;
-		//}
+		public GetException(): Exception
+		{
+            return this.exception;
+		}
 
-		//#endregion // Constructors
-
-		//#region Methods
-
-		//public virtual Exception GetException()
-		//{
-        //return exception;
-		//}
-
-//		#endregion // Methods
 	}
 } 

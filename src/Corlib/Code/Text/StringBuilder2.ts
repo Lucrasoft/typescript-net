@@ -138,7 +138,7 @@ module System.Text {
 //            // If we only have a half-full buffer we return a new string.
 //            if (this._length < (this._str.length >> 1) || (this._str.length > string.LOS_limit && this._length <= string.LOS_limit)) {
 //                // use String.SubstringUnchecked instead of String.Substring
-//                // as the former is guaranteed to create a new string object
+//                // as the former is guaranteed to create a new string Object
 //                this._cached_str = this._str.SubstringUnchecked(0, this._length);
 //                return this._cached_str;
 //            }
@@ -155,7 +155,7 @@ module System.Text {
 //                throw new ArgumentOutOfRangeException();
 
 //            // use String.SubstringUnchecked instead of String.Substring
-//            // as the former is guaranteed to create a new string object
+//            // as the former is guaranteed to create a new string Object
 //            if (startIndex == 0 && length == this._length)
 //                return this.toString();
 //            else
@@ -175,7 +175,7 @@ module System.Text {
 //        }
 
 //        public Equals(sb: StringBuilder): boolean {
-//			if (((object)sb) == null)
+//			if (((Object)sb) == null)
 //				return false;
 
 //            if (_length == sb.Length && _str == sb._str)
@@ -217,7 +217,7 @@ module System.Text {
 //            var substr: string = this._str.Substring(startIndex, count);
 //            var replace: string = substr.Replace(oldValue, newValue);
 //			// return early if no oldValue was found
-//			if ((object) replace == (object) substr)
+//			if ((Object) replace == (Object) substr)
 //				return this;
 
 //            this.InternalEnsureCapacity(replace.Length + (_length - count));
@@ -338,7 +338,7 @@ module System.Text {
 
 //		private  InternalEnsureCapacity(size :number) : void
 //		{
-//        if (size > _str.Length || (object) _cached_str == (object) _str) {
+//        if (size > _str.Length || (Object) _cached_str == (Object) _str) {
 //				int capacity = _str.Length;
 
 //        // Try double buffer, if that doesn't work, set the length as capacity
@@ -347,7 +347,7 @@ module System.Text {
 //					// The first time a string is appended, we just set _cached_str
 //					// and _str to it. This allows us to do some optimizations.
 //					// Below, we take this into account.
-//					if ((object) _cached_str == (object) _str && capacity < constDefaultCapacity)
+//					if ((Object) _cached_str == (Object) _str && capacity < constDefaultCapacity)
 //						capacity = constDefaultCapacity;
 
 //            capacity = capacity << 1;

@@ -4,7 +4,7 @@ module System
 {
 
     export interface UnhandledExceptionEventHandler {
-//        (sender: object, e: UnhandledExceptionEventArgs): void;
+//        (sender: Object, e: UnhandledExceptionEventArgs): void;
     }
 
 }

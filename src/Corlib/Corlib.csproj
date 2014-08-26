@@ -101,6 +101,11 @@
     <TypeScriptCompile Include="Code\ResolveEventHandler.ts" />
     <TypeScriptCompile Include="Code\RuntimeArgumentHandle.ts" />
     <TypeScriptCompile Include="Code\Attributes\STAThreadAttribute.ts" />
+    <TypeScriptCompile Include="Code\Security\IPermission.ts" />
+    <TypeScriptCompile Include="Code\Security\ISecurityEncodable.ts" />
+    <TypeScriptCompile Include="Code\Security\Principal\GenericIdentity.ts" />
+    <TypeScriptCompile Include="Code\Security\Principal\IIdentity.ts" />
+    <TypeScriptCompile Include="Code\Security\SecurityElement.ts" />
     <TypeScriptCompile Include="Code\StringComparison.ts" />
     <TypeScriptCompile Include="Code\StringSplitOptions.ts" />
     <TypeScriptCompile Include="Code\Exceptions\TimeoutException.ts" />

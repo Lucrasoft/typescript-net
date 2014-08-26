@@ -7,12 +7,12 @@ module System {
 //    [StructLayout(LayoutKind.Sequential)]
 //	internal class MonoAsyncCall {
 //		#region Sync with the unmanaged ASyncCall structure
-//		object     msg;
+//		Object     msg;
 //		IntPtr     cb_method;
-//		object     cb_target;
-//		object     state;
-//		object     res;
-//		object     out_args;
+//		Object     cb_target;
+//		Object     state;
+//		Object     res;
+//		Object     out_args;
 //		#endregion
 //	}
 

@@ -19,32 +19,32 @@ module System {
         //    }
         //}
 
-        static typeOf(object: any): Type {
-            if (!object) {
+        static typeOf(Object: any): Type {
+            if (!Object) {
                 throw new ArgumentNullException("Object");
             }
-            if (!object._type) {
+            if (!Object._type) {
                 //Idea : 
-                throw new ArgumentException("object should be a typescript-net Class");
+                throw new ArgumentException("Object should be a typescript-net Class");
             }
 
-            return object._type;
+            return Object._type;
         }
 
 
         //Simulates the c# Using statement
-        static using(object: System.IDisposable, action: Function) {
+        static using(Object: System.IDisposable, action: Function) {
 
             try {
             action();
             }
             finally {
-            object.dispose();
+            Object.dispose();
             }
 
         }
 
-        static lock<T>(object: any, action: Function) : T {
+        static lock<T>(Object: any, action: Function) : T {
             //for now : just execute the action.
             return action();
 
@@ -55,15 +55,15 @@ module System {
         //Example in C# : if ( obj is Guid) { }
         //Example in TS : if (Statements.is(obj, Guid)
 
-        static is(object: any, interfaceName: string): boolean;
-        static is(object: any, Class: any): boolean;
+        static is(Object: any, interfaceName: string): boolean;
+        static is(Object: any, Class: any): boolean;
 
-        static is(object: any, ClassInterface: any): boolean {
+        static is(Object: any, ClassInterface: any): boolean {
 
-            if (!object) {
+            if (!Object) {
                 return false;
             }
-            if (!object.GetType) {
+            if (!Object.GetType) {
                 return false;
             }
 

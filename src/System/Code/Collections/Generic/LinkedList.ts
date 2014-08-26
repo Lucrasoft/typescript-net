@@ -231,7 +231,7 @@
 //        info.AddValue(VersionKey, version);
 //		}
 
-//		public virtual void OnDeserialization(object sender)
+//		public virtual void OnDeserialization(Object sender)
 //		{
 //        if (si != null) {
 //				T []data = (T []) si.GetValue(DataArrayKey, typeof (T []));
@@ -325,7 +325,7 @@
 //			get { return false; }
 //    }
 		
-//		object ICollection.SyncRoot {
+//		Object ICollection.SyncRoot {
 //			get { return this; }
 //    }
 
@@ -377,7 +377,7 @@
 //            }
 //        }
 			
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get { return Current; }
 //			}
 
@@ -435,7 +435,7 @@
 //            info.AddValue(IndexKey, index);
 //        }
 
-//        void IDeserializationCallback.OnDeserialization(object sender)
+//        void IDeserializationCallback.OnDeserialization(Object sender)
 //			{
 //            if (si == null)
 //                return;

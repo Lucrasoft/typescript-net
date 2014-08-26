@@ -1,4 +1,5 @@
-﻿//todo ref that
+﻿/// <reference path="../../../corlib/code/attributes/attribute.ts" />
+
 
 module System.Configuration
 {
@@ -8,11 +9,11 @@ module System.Configuration
 
 		public SettingsGroupNameAttribute(groupName: string)
 		{
-            group_name = groupName;
+            this.group_name = groupName;
 		}
 
-		public GroupName: string {
-			get { return group_name; }
+        public get GroupName(): string {
+			  return this.group_name;
         }
 	}
 }

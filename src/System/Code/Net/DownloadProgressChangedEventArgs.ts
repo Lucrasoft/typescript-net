@@ -1,4 +1,5 @@
-﻿/// <reference path="ProgressChangedEventArgs.ts"/>
+﻿/// <reference path="../componentmodel/progresschangedeventargs.ts" />
+
 
 module System.Net
 {
@@ -6,22 +7,25 @@ module System.Net
 	{
         
 
-		constructor (bytesReceived: number, totalBytesToReceive: number,  userState: object)
-		{
-            super(totalBytesToReceive != -1 ? ((int)(bytesReceived * 100 / totalBytesToReceive)) : 0, userState)
+		constructor (bytesReceived: number, totalBytesToReceive: number,  userState: Object)
+        {
+            //todo fix calculation
+            super(totalBytesToReceive != -1 ? (bytesReceived * 100 / totalBytesToReceive) : 0, userState)
             this.received = bytesReceived;
             this.total = totalBytesToReceive;
+            
         }
 
         received: number;
         total: number;
 
-		public BytesReceived: number {
-			get { return received; }
-		}
+        public get BytesReceived(): number {
+            return this.received;
+        }
 
-		public TotalBytesToReceive: number {
-			get { return total; }
-    }
+
+        public get TotalBytesToReceive(): number {
+            return this.total;
+        }
 	}
 }

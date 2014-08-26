@@ -1,4 +1,4 @@
-﻿//todo ref Porgresschanged
+﻿/// <reference path="../componentmodel/progresschangedeventargs.ts" />
 
 module System.Net
 {
@@ -6,10 +6,15 @@ module System.Net
     {
         static _type: Type = System.Type.registerClass(UploadProgressChangedEventArgs, "System.Net.UploadProgressChangedEventArgs", []);
 
+        received: number;
+        sent: number;
+        total_recv: number;
+        total_send: number;
+
 		constructor (
 			bytesReceived:number, totalBytesToReceive:number,
 			bytesSent:number, totalBytesToSend:number,
-			progressPercentage:number, userState: object)
+			progressPercentage:number, userState: Object)
 		
         {
             super(progressPercentage, userState)
@@ -19,22 +24,22 @@ module System.Net
             this.total_send = totalBytesToSend;
         }
 
-		long received, sent, total_recv, total_send;
 
-		public BytesReceived: number {
-			get { return received; }
+
+        public get BytesReceived(): number {
+			 return this.received; 
 		}
 
-		public TotalBytesToReceive: number {
-			get { return total_recv; }
+        public get TotalBytesToReceive(): number {
+			return this.total_recv;
 		}
 
-		public BytesSent: number {
-			get { return sent; }
+        public get BytesSent(): number {
+			return this.sent; 
 		}
 
-		public TotalBytesToSend: number {
-			get { return total_send; }
+        public get TotalBytesToSend(): number {
+			return this.total_send;
     }
 	}
 }

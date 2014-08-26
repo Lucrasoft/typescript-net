@@ -1,7 +1,7 @@
 ﻿module System.Net
 {
     export interface DownloadDataCompletedEventHandler{
-        (sender: object, e: DownloadDataCompletedEventArgs): void;
+        (sender: Object, e: DownloadDataCompletedEventArgs): void;
 
     }
 

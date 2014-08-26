@@ -1,7 +1,7 @@
 ﻿module System.Configuration
 {
     export interface SettingsSavingEventHandler{
-        (sender: object, e: CancelEventArgs): void;
+        (sender: Object, e: CancelEventArgs): void;
     }
 
     System.Type.registerInterface("System.Configuration.SettingsSavingEventHandler");

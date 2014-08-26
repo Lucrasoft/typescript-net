@@ -1,5 +1,4 @@
-﻿/// <reference path="AsyncCompletedEventArgs.ts"/>
-
+﻿/// <reference path="../componentmodel/asynccompletedeventargs.ts" />
 
 module System.Net
 {
@@ -7,7 +6,7 @@ module System.Net
     {
         static _type: Type = System.Type.registerClass(OpenWriteCompletedEventArgs, "System.Net.OpenWriteCompletedEventArgs", []);
 
-		constructor (result: Stream, error: Exception, cancelled: boolean, userState: object)
+		constructor (result: Stream, error: Exception, cancelled: boolean, userState: Object)
         {
             super(error, cancelled, userState)
             this.result = result;
@@ -15,11 +14,8 @@ module System.Net
 
 		result: Stream;
 
-		public Result: Stream {
-			get {
-
-				return result;
-			}
+        public get Result(): Stream {
+				return this.result;		
     }
 	}
 }

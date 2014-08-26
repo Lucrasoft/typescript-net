@@ -4,17 +4,17 @@ module System
 {
 	export class UnhandledExceptionEventArgs extends EventArgs
 	{
-        ////todo object ????
-		//private exception: object;
+        ////todo Object ????
+		//private exception: Object;
 		//private m_isTerminating: boolean;
 
-		//public UnhandledExceptionEventArgs(object exception, bool isTerminating)
+		//public UnhandledExceptionEventArgs(Object exception, bool isTerminating)
 		//{
         //this.exception = exception;
         //this.m_isTerminating = isTerminating;
 		//}
 
-		//public object ExceptionObject {
+		//public Object ExceptionObject {
         //[ReliabilityContractAttribute(Consistency.WillNotCorruptState, Cer.Success)]
 		//	get {
         //    return exception;

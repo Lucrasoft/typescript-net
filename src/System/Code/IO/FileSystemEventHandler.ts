@@ -2,5 +2,5 @@
 
 module System.IO {
 
-//	public delegate void FileSystemEventHandler(object sender, FileSystemEventArgs e);
+//	public delegate void FileSystemEventHandler(Object sender, FileSystemEventArgs e);
 }

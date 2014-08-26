@@ -63,7 +63,7 @@ module System {
             return res;
         }
 
-        // Idea was to register the JS internal types as well : string, number, function, object, etc.
+        // Idea was to register the JS internal types as well : string, number, function, Object, etc.
         private static registerInternal(_type: any, name: string): Type {
             var res = new Type();
             res.isRuntimeType = true;
@@ -81,7 +81,7 @@ module System {
         static getTypeName(obj: any): string {
             if (!obj) return "undefined";
             var str = typeof obj;
-            if (str === "object") {
+            if (str === "Object") {
                 if ((<Object>obj).hasOwnProperty("getType")) {
                     return (<Object>obj).getType().name;
                 }

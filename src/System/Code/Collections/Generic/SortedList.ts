@@ -130,7 +130,7 @@
 //			}
 //		}
 
-//		object IDictionary.this [object key] {
+//		Object IDictionary.this [Object key] {
 //			get {
 //				TValue obj;
 //				if (key is TKey && TryGetValue ((TKey)key, out obj))
@@ -343,12 +343,12 @@
 
 //		// IDictionary
 
-//		void IDictionary.Add (object key, object value)
+//		void IDictionary.Add (Object key, Object value)
 //		{
 //			PutImpl (ToKey (key), ToValue (value), false);
 //		}
 
-//		bool IDictionary.Contains (object key)
+//		bool IDictionary.Contains (Object key)
 //		{
 //			if (null == key)
 //				throw new ArgumentNullException();
@@ -363,7 +363,7 @@
 //			return new Enumerator (this, EnumeratorMode.ENTRY_MODE);
 //		}
 
-//		void IDictionary.Remove (object key)
+//		void IDictionary.Remove (Object key)
 //		{
 //			if (null == key)
 //				throw new ArgumentNullException ("key");
@@ -604,7 +604,7 @@
 //			return ~left;
 //		}
 
-//		private TKey ToKey (object key) {
+//		private TKey ToKey (Object key) {
 //			if (key == null)
 //				throw new ArgumentNullException ("key");
 //			if (!(key is TKey))
@@ -612,7 +612,7 @@
 //			return (TKey)key;
 //		}
 
-//		private TValue ToValue (object value) {
+//		private TValue ToValue (Object value) {
 //			if (!(value is TValue))
 //				throw new ArgumentException ("The value \"" + value + "\" isn't of type \"" + typeof (TValue) + "\" and can't be used in this generic collection.", "value");
 //			return (TValue)value;
@@ -645,8 +645,8 @@
 //			private int size;
 //			private EnumeratorMode mode;
 
-//			private object currentKey;
-//			private object currentValue;
+//			private Object currentKey;
+//			private Object currentValue;
 
 //			bool invalid = false;
 
@@ -744,7 +744,7 @@
 
 //			// ICloneable
 
-//			public object Clone ()
+//			public Object Clone ()
 //			{
 //				Enumerator e = new Enumerator (host, mode);
 //				e.stamp = stamp;
@@ -809,7 +809,7 @@
 //				idx = NOT_STARTED;
 //			}
 			
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get { return Current; }
 //			}
 //		}
@@ -866,7 +866,7 @@
 //				idx = NOT_STARTED;
 //			}
 			
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get { return Current; }
 //			}
 //		}

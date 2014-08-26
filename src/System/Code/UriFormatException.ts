@@ -13,7 +13,7 @@
     // Methods
 
     // This effectively kills the LinkDemand from Exception.GetObjectData (if someone
-    // use the ISerializable interface to serialize the object). See unit tests.
+    // use the ISerializable interface to serialize the Object). See unit tests.
 
     //todo not sure if too keep
     //void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

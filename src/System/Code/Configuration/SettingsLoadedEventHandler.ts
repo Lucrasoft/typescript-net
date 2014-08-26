@@ -2,7 +2,7 @@
 {
     export interface SettingsLoadedEventHandler
     {
-        (sender: object, e: SettingsLoadedEventArgs): void;
+        (sender: Object, e: SettingsLoadedEventArgs): void;
     }
 
     System.Type.registerInterface("System.Configuration.SettingsLoadedEventHandler");

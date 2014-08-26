@@ -7,11 +7,11 @@ module System
 
 //	/*
 //	 * This class represents an item of a list to be used for
-//	 * holding managed objects in the runtime.
+//	 * holding managed Objects in the runtime.
 //	 */
 //	internal sealed class MonoListItem {
 //		MonoListItem next;
-//		object data;
+//		Object data;
 
 //	}
 

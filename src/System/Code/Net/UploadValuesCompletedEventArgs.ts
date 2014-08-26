@@ -5,7 +5,7 @@ module System.Net
 	//export class UploadValuesCompletedEventArgs : AsyncCompletedEventArgs
 	//{
 	//	internal UploadValuesCompletedEventArgs (byte [] result,
-	//		Exception error, bool cancelled, object userState)
+	//		Exception error, bool cancelled, Object userState)
 	//		: base(error, cancelled, userState)
 	//	{
     //    this.result = result;

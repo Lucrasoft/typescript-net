@@ -1,4 +1,4 @@
-﻿/// <reference path="AsyncCompletedEventArgs.ts"/>
+﻿/// <reference path="../componentmodel/asynccompletedeventargs.ts" />
 
 module System.Net
 {
@@ -7,7 +7,7 @@ module System.Net
         static _type: Type = System.Type.registerClass(DownloadStringCompletedEventArgs, "System.Net.DownloadStringCompletedEventArgs", []);
 
 
-		internal DownloadStringCompletedEventArgs (result: string,
+		DownloadStringCompletedEventArgs (result: string,
 			error: Exception, cancelled: boolean, userState: boolean)
 			
 		{
@@ -17,11 +17,8 @@ module System.Net
 
 		result: string;
 
-		public string Result {
-			get {
-
-				return result;
-			}
-    }
+        public get Result(): string {
+				return result;	
+        }
 	}
 }

@@ -793,13 +793,13 @@ module System {
 //        return (((i >= 0x41) && (i <= 0x5A)) || ((i >= 0x61) && (i <= 0x7A)));
 //		}
 
-//		public override bool Equals(object comparand)
+//		public override bool Equals(Object comparand)
 //		{
 //        if (comparand == null)
 //            return false;
 
 //			Uri uri = comparand as Uri;
-//			if ((object) uri == null) {
+//			if ((Object) uri == null) {
 //				string s = comparand as String;
 //            if (s == null)
 //                return false;
@@ -829,7 +829,7 @@ module System {
 
 //		public static bool operator == (Uri uri1, Uri uri2)
 //		{
-//        return object.Equals(uri1, uri2);
+//        return Object.Equals(uri1, uri2);
 //		}
 
 //		public static bool operator != (Uri uri1, Uri uri2)

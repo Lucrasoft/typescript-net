@@ -53,7 +53,7 @@ var System;
             return res;
         };
 
-        // Idea was to register the JS internal types as well : string, number, function, object, etc.
+        // Idea was to register the JS internal types as well : string, number, function, Object, etc.
         Type.registerInternal = function (_type, name) {
             var res = new Type();
             res.isRuntimeType = true;
@@ -66,7 +66,7 @@ var System;
             if (!obj)
                 return "undefined";
             var str = typeof obj;
-            if (str === "object") {
+            if (str === "Object") {
                 if (obj.hasOwnProperty("GetType")) {
                     return obj.getType().name;
                 }
@@ -97,7 +97,7 @@ var System;
         };
 
         // <summary>
-        //   Compares two objects for equality
+        //   Compares two Objects for equality
         // </summary>
         Object.equals = function (objA, objB) {
             if (objA == objB)
@@ -307,18 +307,18 @@ var System;
             }
         };
 
-        Statements.typeOf = function (object) {
-            if (!object) {
+        Statements.typeOf = function (Object) {
+            if (!Object) {
                 throw new System.ArgumentNullException("Object");
             }
-            return object.getType();
+            return Object.getType();
         };
 
         //Simulates the "implements" method
         //Type checking is namebased.
-        Statements.Implements = function (object, Interface) {
-            //check if object has
-            if (!object) {
+        Statements.Implements = function (Object, Interface) {
+            //check if Object has
+            if (!Object) {
                 throw new System.ArgumentNullException("Object should not be null.");
             }
 
@@ -328,18 +328,18 @@ var System;
         //Simulates the "is" statement of C#
         //Example in C# : if ( obj is Guid) { }
         //Example in TS : if (Statements.is(obj,Guid)
-        Statements.is = function (object, type) {
-            if (!object) {
+        Statements.is = function (Object, type) {
+            if (!Object) {
                 return false;
             }
-            if (!object.GetType) {
+            if (!Object.GetType) {
                 return false;
             }
 
             //TODO : name check is way too simple!
             //  1. overervering class
             //  2. interfaces
-            return (object.getType().name == type.getType().name);
+            return (Object.getType().name == type.getType().name);
         };
         return Statements;
     })();
@@ -1597,7 +1597,7 @@ var System;
                     this._k = args[10];
                 }
 
-                //TODO check for object type.
+                //TODO check for Object type.
                 if (typeof args[0] == "Array") {
                     var b = args;
                     Guid.CheckArray(b, 16);
@@ -2480,7 +2480,7 @@ var System;
             var SerializationEntry = (function () {
                 function SerializationEntry(name, type, value) {
                     this.name = name;
-                    this.objectType = type;
+                    this.ObjectType = type;
                     this.value = value;
                 }
                 Object.defineProperty(SerializationEntry.prototype, "Name", {
@@ -2494,7 +2494,7 @@ var System;
 
                 Object.defineProperty(SerializationEntry.prototype, "ObjectType", {
                     get: function () {
-                        return this.objectType;
+                        return this.ObjectType;
                     },
                     enumerable: true,
                     configurable: true

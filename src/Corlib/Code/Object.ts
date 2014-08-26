@@ -15,7 +15,7 @@ module System {
         }
 
         // <summary>
-        //   Compares two objects for equality
+        //   Compares two Objects for equality
         // </summary>
         static equals(objA: any, objB: any): boolean {
             if (objA == objB)

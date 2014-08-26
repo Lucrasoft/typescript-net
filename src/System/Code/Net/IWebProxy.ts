@@ -1,16 +1,16 @@
-﻿//todo
+﻿
 
 module System.Net {
 
+    export interface IWebProxy {
 
-//	public interface IWebProxy {
-//    ICredentials Credentials {
-//    get;
-//    set;
-//}
+            
+        Credentials: ICredentials;
 
-//		Uri GetProxy(Uri destination);
+        GetProxy(destination: Uri): Uri;
 		
-//		bool IsBypassed(Uri host);
-//	}
+		 IsBypassed(host: Uri): boolean;
+	}
+
+    System.Type.registerInterface("System.Net.IWebProxy");
 }

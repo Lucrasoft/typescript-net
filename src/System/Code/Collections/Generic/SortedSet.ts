@@ -265,7 +265,7 @@
 //}
 
 //[MonoTODO]
-//		protected virtual void OnDeserialization(object sender)
+//		protected virtual void OnDeserialization(Object sender)
 //		{
 //    if (si == null)
 //        return;
@@ -273,7 +273,7 @@
 //    throw new NotImplementedException();
 //}
 
-//void IDeserializationCallback.OnDeserialization(object sender)
+//void IDeserializationCallback.OnDeserialization(Object sender)
 //		{
 //    OnDeserialization(sender);
 //}
@@ -504,7 +504,7 @@
 //				Add(item);
 //		}
 
-//		static void CheckArgumentNotNull(object arg, string name)
+//		static void CheckArgumentNotNull(Object arg, string name)
 //		{
 //    if (arg == null)
 //        throw new ArgumentNullException(name);
@@ -539,7 +539,7 @@
 //}
 
 //		// TODO:Is this correct? If this is wrong,please fix.
-//		object ICollection.SyncRoot {
+//		Object ICollection.SyncRoot {
 //			get { return this; }
 //}
 
@@ -571,7 +571,7 @@
 //				get { return current; }
 //    }
 
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get {
 //            host.check_current();
 //					return ((Node) host.Current).item;

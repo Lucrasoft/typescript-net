@@ -2,5 +2,5 @@
 
 module System.IO {
 
-//	public delegate void RenamedEventHandler(object sender, RenamedEventArgs e);
+//	public delegate void RenamedEventHandler(Object sender, RenamedEventArgs e);
 }

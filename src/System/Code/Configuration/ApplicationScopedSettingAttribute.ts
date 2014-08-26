@@ -1,4 +1,4 @@
-﻿///<reference path ="SettingAttribute.ts"/>
+﻿/// <reference path="settingattribute.ts" />
 
 module System.Configuration
 {

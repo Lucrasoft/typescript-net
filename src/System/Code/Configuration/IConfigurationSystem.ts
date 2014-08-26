@@ -2,7 +2,7 @@
 {
 	export interface IConfigurationSystem
 	{
-        GetConfig(configKey: string): object;
+        GetConfig(configKey: string): Object;
         Init(): void;
     }
 

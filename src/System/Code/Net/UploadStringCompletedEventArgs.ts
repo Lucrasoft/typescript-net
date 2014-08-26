@@ -7,7 +7,7 @@ module System.Net
         static _type: Type = System.Type.registerClass(UploadStringCompletedEventArgs, "System.Net.UploadStringCompletedEventArgs", []);
 
 		constructor (result: string,
-			error: Exception, cancelled: boolean, userState: object)
+			error: Exception, cancelled: boolean, userState: Object)
         {
             super(error, cancelled, userState);
             this.result = result;

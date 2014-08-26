@@ -9,11 +9,10 @@
             this.value = value;
 		}
 
-		public Value: string {
-			get {
-            return value;
-        }
-        }
+
+        get Value(): string {
+            return this.value;
+        }        
 
 	}
 

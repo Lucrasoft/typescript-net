@@ -76,7 +76,7 @@
 //		}
 
 //		Node root;
-//		object hlp;
+//		Object hlp;
 //		uint version;
 
 //#if ONE_MEMBER_CACHE
@@ -120,7 +120,7 @@
 //		}
 //#endif
 
-//		public RBTree(object hlp)
+//		public RBTree(Object hlp)
 //		{
 //    // hlp is INodeHelper<T> for some T
 //    this.hlp = hlp;
@@ -608,7 +608,7 @@
 //				get { return pennants.Peek(); }
 //}
 
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get {
 //        check_current();
 //        return Current;
@@ -741,7 +741,7 @@
 //				get { return ((Node) host.Current).value; }
 //}
 
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get { return Current; }
 //			}
 

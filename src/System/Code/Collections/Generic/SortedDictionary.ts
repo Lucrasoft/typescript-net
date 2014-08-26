@@ -217,7 +217,7 @@
 //		#endregion
 
 //		#region PrivateMethod
-//		TKey ToKey (object key)
+//		TKey ToKey (Object key)
 //		{
 //			if (key == null)
 //				throw new ArgumentNullException ("key");
@@ -226,7 +226,7 @@
 //			return (TKey) key;
 //		}
 
-//		TValue ToValue (object value)
+//		TValue ToValue (Object value)
 //		{
 //			if (!(value is TValue) && (value != null || typeof (TValue).IsValueType))
 //				throw new ArgumentException (String.Format ("Value \"{0}\" cannot be converted to the value type {1}.", value, typeof (TValue)));
@@ -276,12 +276,12 @@
 
 //		#region IDictionary Member
 
-//		void IDictionary.Add (object key, object value)
+//		void IDictionary.Add (Object key, Object value)
 //		{
 //			Add (ToKey (key), ToValue (value));
 //		}
 
-//		bool IDictionary.Contains (object key)
+//		bool IDictionary.Contains (Object key)
 //		{
 //			return ContainsKey (ToKey (key));
 //		}
@@ -303,7 +303,7 @@
 //			get { return new KeyCollection (this); }
 //		}
 
-//		void IDictionary.Remove (object key)
+//		void IDictionary.Remove (Object key)
 //		{
 //			Remove (ToKey (key));
 //		}
@@ -312,7 +312,7 @@
 //			get { return new ValueCollection (this); }
 //		}
 
-//		object IDictionary.this [object key] {
+//		Object IDictionary.this [Object key] {
 //			get { return this [ToKey (key)]; }
 //			set { this [ToKey (key)] = ToValue (value); }
 //		}
@@ -341,7 +341,7 @@
 //		}
 
 //		// TODO:Is this correct? If this is wrong,please fix.
-//		object ICollection.SyncRoot {
+//		Object ICollection.SyncRoot {
 //			get { return this; }
 //		}
 
@@ -451,7 +451,7 @@
 //				get { return false; }
 //			}
 
-//			object ICollection.SyncRoot {
+//			Object ICollection.SyncRoot {
 //				get { return _dic; }
 //			}
 
@@ -489,7 +489,7 @@
 //					host.Dispose ();
 //				}
 
-//				object IEnumerator.Current {
+//				Object IEnumerator.Current {
 //					get {
 //						host.check_current ();
 //						return current;
@@ -586,7 +586,7 @@
 //				get { return false; }
 //			}
 
-//			object ICollection.SyncRoot {
+//			Object ICollection.SyncRoot {
 //				get { return _dic; }
 //			}
 
@@ -624,7 +624,7 @@
 //					host.Dispose ();
 //				}
 
-//				object IEnumerator.Current {
+//				Object IEnumerator.Current {
 //					get {
 //						host.check_current ();
 //						return current;
@@ -678,15 +678,15 @@
 //				get { return CurrentNode.AsDE (); }
 //			}
 
-//			object IDictionaryEnumerator.Key {
+//			Object IDictionaryEnumerator.Key {
 //				get { return CurrentNode.key; }
 //			}
 
-//			object IDictionaryEnumerator.Value {
+//			Object IDictionaryEnumerator.Value {
 //				get { return CurrentNode.value; }
 //			}
 
-//			object IEnumerator.Current {
+//			Object IEnumerator.Current {
 //				get { return CurrentNode.AsDE (); }
 //			}
 
