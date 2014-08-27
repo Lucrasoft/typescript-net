@@ -33,7 +33,7 @@ module System.Security.Principal {
 
 		public get IsAuthenticated(): boolean {
 
-            return (this.m_name !== "");
+            return (this.m_name != "");
         }
 	}
 }

@@ -1,217 +1,232 @@
-﻿//todo
+﻿/// <reference path="../../../../corlib/code/interfaces/ienumerable.ts" />
+/// <reference path="../../../../corlib/code/collections/generic/icollection.ts" />
 
-//namespace System.Collections.Generic
-//{
-//    [ComVisible(false)]
-//    [Serializable]
-//    [DebuggerDisplay("Count={Count}")]
-//    [DebuggerTypeProxy(typeof (CollectionDebuggerView))]
-//	public class Stack <T> : IEnumerable < T>, ICollection, IEnumerable
-//	{
-//		T []_array;
-//		int _size;
-//		int _version;
+module System.Collections.Generic
+{
 
-//		private const int INITIAL_SIZE = 16;
+	public class Stack <T> implements IEnumerable < T>, ICollection, IEnumerable
+	{
+		_array: T[];
+		_size: number;
+		_version:number;
 
-//		public Stack()
-//		{
-//		}
+		private INITIAL_SIZE: number = 16;
 
-//		public Stack(int capacity)
-//		{
-//        if (capacity < 0)
-//            throw new ArgumentOutOfRangeException("capacity");
+        constructor(capacity?: number)
+        constructor(collection?: IEnumerable<T>)
+        {
 
-//        _array = new T[capacity];
-//		}
+            if (capacity != null) {
+                if (capacity < 0)
+                    throw new ArgumentOutOfRangeException("capacity");
+                _array = new T[capacity];
+            }
+            if (collection != null) {
 
-//		public Stack(IEnumerable < T > collection)
-//		{
-//        if (collection == null)
-//            throw new ArgumentNullException("collection");
+                if (collection == null)
+                    throw new ArgumentNullException("collection");
 
-//        ICollection < T > col = collection as ICollection < T>;
+                ICollection < T > col = collection as ICollection < T>;
 
-//        if (col != null) {
-//            _size = col.Count;
-//            _array = new T[_size];
-//            col.CopyTo(_array, 0);
-//        } else {
-//            foreach(T t in collection)
-//					Push(t);
-//        }
-//		}
+                if (col != null) {
+                    _size = col.Count;
+                    _array = new T[_size];
+                    col.CopyTo(_array, 0);
+                } else {
+                    foreach(t: T in collection)
+					Push(t);
+                }
+            }
 
-//		public void Clear()
-//		{
-//        if (_array != null)
-//            Array.Clear(_array, 0, _array.Length);
+            
 
-//        _size = 0;
-//        _version++;
-//		}
+        }
 
-//		public bool Contains(T item)
-//		{
-//        return _array != null && Array.IndexOf(_array, item, 0, _size) != -1;
-//		}
 
-//		public void CopyTo(T []array, int arrayIndex)
-//		{
-//        if (array == null)
-//            throw new ArgumentNullException("array");
-//        if (arrayIndex < 0)
-//            throw new ArgumentOutOfRangeException("idx");
 
-//        // this gets copied in the order that it is poped
-//        if (_array != null) {
-//            Array.Copy(_array, 0, array, arrayIndex, _size);
-//            Array.Reverse(array, arrayIndex, _size);
-//        }
-//		}
+		public Stack(IEnumerable < T > collection)
+		{
+        if (collection == null)
+            throw new ArgumentNullException("collection");
 
-//		public T Peek()
-//		{
-//        if (_size == 0)
-//            throw new InvalidOperationException();
+        ICollection < T > col = collection as ICollection < T>;
 
-//        return _array[_size - 1];
-//		}
+        if (col != null) {
+            _size = col.Count;
+            _array = new T[_size];
+            col.CopyTo(_array, 0);
+        } else {
+            foreach(t:T in collection)
+					Push(t);
+        }
+		}
 
-//		public T Pop()
-//		{
-//        if (_size == 0)
-//            throw new InvalidOperationException();
+		public Clear(): void
+		{
+        if (_array != null)
+            Array.Clear(_array, 0, _array.Length);
 
-//        _version++;
-//			T popped = _array[--_size];
-//        // clear stuff out to make the GC happy
-//        _array[_size] = default(T);
-//        return popped;
-//		}
+        _size = 0;
+        _version++;
+		}
 
-//		public void Push(T item)
-//		{
-//        if (_array == null || _size == _array.Length)
-//            Array.Resize<T>(ref _array, _size == 0 ? INITIAL_SIZE : 2 * _size);
+		public Contains(item: T): boolean
+		{
+            return _array != null && Array.IndexOf(_array, item, 0, _size) != -1;
+		}
 
-//        _version++;
+        public CopyTo(array: T[], arrayIndex: number): void
+		{
+        if (array == null)
+            throw new ArgumentNullException("array");
+        if (arrayIndex < 0)
+            throw new ArgumentOutOfRangeException("idx");
 
-//        _array[_size++] = item;
-//		}
+        // this gets copied in the order that it is poped
+        if (this._array != null) {
+            Array.Copy(_array, 0, array, arrayIndex, _size);
+            Array.Reverse(array, arrayIndex, _size);
+        }
+		}
 
-//		public T []ToArray()
-//		{
-//			T []copy = new T[_size];
-//        CopyTo(copy, 0);
-//        return copy;
-//		}
+		public Peek(): T
+		{
+        if (_size == 0)
+            throw new InvalidOperationException();
 
-//		public void TrimExcess()
-//		{
-//        if (_array != null && (_size < _array.Length * 0.9))
-//            Array.Resize<T>(ref _array, _size);
-//        _version++;
-//		}
+        return this._array[_size - 1];
+		}
 
-//		public int Count {
-//			get { return _size; }
-//    }
+		public Pop(): T
+		{
+        if (_size == 0)
+            throw new InvalidOperationException();
+
+        _version++;
+			popped: T = _array[--_size];
+        // clear stuff out to make the GC happy
+        _array[_size] = default(T);
+        return popped;
+		}
+
+        public Push(item: T): void
+		{
+        if (_array == null || _size == _array.Length)
+            Array.Resize<T>(ref this._array, _size == 0 ? INITIAL_SIZE : 2 * _size);
+
+        _version++;
+
+        this._array[_size++] = item;
+		}
+
+        public ToArray(): T[]
+		{
+            copy: T [] = new T[_size];
+        CopyTo(copy, 0);
+        return copy;
+		}
+
+		public TrimExcess(): void
+		{
+        if (_array != null && (_size < _array.Length * 0.9))
+            Array.Resize<T>(ref this._array, _size);
+        this._version++;
+		}
+
+		public get Count(): number {
+			  return _size; 
+        }
 		
-//		bool ICollection.IsSynchronized {
-//			get { return false; }
-//    }
+		get ICollection.IsSynchronized(): boolean {
+			return false; 
+        }
 		
-//		Object ICollection.SyncRoot {
-//			get { return this; }
-//    }
+		get ICollection.SyncRoot(): Object {
+			 return this; 
+        }
 
-//    void ICollection.CopyTo(Array dest, int idx)
-//		{
-//        try {
-//            if (_array != null) {
-//                Array.Copy(_array, 0, dest, idx, _size);
-//                Array.Reverse(dest, idx, _size);
-//            }
-//        } catch (ArrayTypeMismatchException) {
-//            throw new ArgumentException();
-//        }
-//		}
+        ICollection.CopyTo(dest: Array, idx: number): get
+		{
+        try {
+            if (_array != null) {
+                Array.Copy(_array, 0, dest, idx, _size);
+                Array.Reverse(dest, idx, _size);
+            }
+        } catch (ArrayTypeMismatchException) {
+            throw new ArgumentException();
+        }
+		}
 
-//		public Enumerator GetEnumerator()
-//		{
-//        return new Enumerator(this);
-//    }
+        public GetEnumerator(): Enumerator
+		{
+        return new Enumerator(this);
+        }
 
-//    IEnumerator < T > IEnumerable<T>.GetEnumerator()
-//		{
-//        return GetEnumerator();
-//    }
+        IEnumerable<T>.GetEnumerator(): IEnumerator<T>
+		{
+        return GetEnumerator();
+        }
 
-//		IEnumerator IEnumerable.GetEnumerator()
-//		{
-//        return GetEnumerator();
-//    }
+		IEnumerable.GetEnumerator(): IEnumerator
+		{
+        return GetEnumerator();
+        }
 		
-//		[Serializable]
-//		public struct Enumerator: IEnumerator < T>, IEnumerator, IDisposable {
-//			const int NOT_STARTED = -2;
+		public struct Enumerator: IEnumerator < T>, IEnumerator, IDisposable {
+			NOT_STARTED = -2: number;
 
-//			// this MUST be -1, because we depend on it in move next.
-//			// we just decr the _size, so, 0 - 1 == FINISHED
-//			const int FINISHED = -1;
+			// this MUST be -1, because we depend on it in move next.
+			// we just decr the _size, so, 0 - 1 == FINISHED
+			FINISHED = -1: number;
 
-//        Stack < T > parent;
-//			int idx;
-//			int _version;
+            parent: Stack < T > ;
+			idx: number;
+			_version: number;
 			
-//			internal Enumerator(Stack < T > t)
-//			{
-//            parent = t;
-//            idx = NOT_STARTED;
-//            _version = t._version;
-//			}
+			Enumerator(t: Stack < T > )
+			{
+            parent = t;
+            idx = NOT_STARTED;
+            _version = t._version;
+			}
 
-//			// for some reason, MSFT added a dispose to this class
-//			// It means that in foreach, we must still do a try/finally. broken?
-//			public void Dispose()
-//			{
-//            idx = FINISHED;
-//			}
+			// for some reason, MSFT added a dispose to this class
+			// It means that in foreach, we must still do a try/finally. broken?
+			Dispose():void
+			{
+                idx = FINISHED;
+			}
 
-//			public bool MoveNext()
-//			{
-//            if (_version != parent._version)
-//                throw new InvalidOperationException();
+			MoveNext(): boolean
+			{
+            if (_version != parent._version)
+                throw new InvalidOperationException();
 
-//            if (idx == -2)
-//                idx = parent._size;
+            if (idx == -2)
+                idx = parent._size;
 
-//            return idx != FINISHED && --idx != FINISHED;
-//			}
+            return idx != FINISHED && --idx != FINISHED;
+			}
 
-//			public T Current {
-//				get {
-//                if (idx < 0)
-//                    throw new InvalidOperationException();
+            public get Current: T { 
+                if (idx < 0)
+                    throw new InvalidOperationException();
 
-//                return parent._array[idx];
-//            }
-//        }
+                return parent._array[idx];
+            }
 
-//        void IEnumerator.Reset()
-//			{
-//            if (_version != parent._version)
-//                throw new InvalidOperationException();
+            IEnumerator.Reset(): void
+			{
+            if (_version != parent._version)
+                throw new InvalidOperationException();
 
-//            idx = NOT_STARTED;
-//        }
+            idx = NOT_STARTED;
+            }
 			
-//			Object IEnumerator.Current {
-//				get { return Current; }
-//        }
+			get IEnumerator.Current(): Object {
+				  return Current; 
+            }
 			
-//		}
-//	}
-//}
+		}
+	}
+}

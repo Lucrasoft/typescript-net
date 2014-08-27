@@ -4,6 +4,6 @@
     {
         static _type: Type = System.Type.registerClass(TransportContext, "System.Net.TransportContext");
 
-		export GetChannelBinding(kind: ChannelBindingKind): ChannelBinding;
+		public GetChannelBinding(kind: ChannelBindingKind): ChannelBinding;
 	}
 }

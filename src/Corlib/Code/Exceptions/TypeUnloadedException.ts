@@ -6,7 +6,6 @@ module System
 
         // Constructors
         constructor(message: string, innerException?: Exception);
-        constructor(info: SerializationInfo, context: StreamingContext);
         constructor(stringOrSerializationInfoParameter?: any, exceptionOrStreamingContextParameter?: any) {
             if (!stringOrSerializationInfoParameter) {
                 if(!exceptionOrStreamingContextParameter)

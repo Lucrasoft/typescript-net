@@ -2,7 +2,11 @@
 {
 	interface IConfigXmlNode
 	{
-        Filename: string //todo {get; } don't know what to do with it
+        Filename(): string
+        
+        
 		LineNumber: number
-	}
+    }
+
+    System.Type.registerInterface("System.Configuration.IConfigXmlNode");
 }

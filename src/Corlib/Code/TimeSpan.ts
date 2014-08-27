@@ -13,7 +13,7 @@ module System {
 
     export class TimeSpan extends Type implements IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable  {
 
-        private static _type: Type = System.Type.registerClass(TimeSpan, "System.TimeSpan", ["IComparable", "IEquatable", "IFormattable"]);
+        private static _type: Type = System.Type.registerClass(TimeSpan, "System.TimeSpan", ["System.IComparable", "System.IEquatable", "System.IFormattable"]);
         //var comparer = new System.Collections.Generic.GenericComparer<TimeSpan>();
         //var eqcomparer = new System.Collections.Generic.GenericEqualityComparer<TimeSpan>();
 

@@ -1,4 +1,5 @@
-﻿//todo ref Attribute
+﻿/// <reference path="../../../corlib/code/attributes/attribute.ts" />
+
 
 module System.Configuration
 {

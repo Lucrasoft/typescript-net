@@ -88,6 +88,7 @@
     <TypeScriptCompile Include="Code\IO\WindowsWatcher.ts" />
     <TypeScriptCompile Include="Code\IUriData.ts" />
     <TypeScriptCompile Include="Code\LdapStyleUriParser.ts" />
+    <TypeScriptCompile Include="Code\Net\BasicClient.ts" />
     <TypeScriptCompile Include="Code\Net\Cache\HttpCacheAgeControl.ts" />
     <TypeScriptCompile Include="Code\Net\Cache\HttpRequestCacheLevel.ts" />
     <TypeScriptCompile Include="Code\Net\Cache\HttpRequestCachePolicy.ts" />
@@ -103,6 +104,9 @@
     <TypeScriptCompile Include="Code\Net\CookieException.ts" />
     <TypeScriptCompile Include="Code\Net\DecompressionMethods.ts" />
     <TypeScriptCompile Include="Code\Net\DefaultCertificatePolicy.ts" />
+    <TypeScriptCompile Include="Code\Net\DnsAsyncResult.ts" />
+    <TypeScriptCompile Include="Code\Net\DnsEndPoint.ts" />
+    <TypeScriptCompile Include="Code\Net\DnsPermission.ts" />
     <TypeScriptCompile Include="Code\Net\DnsPermissionAttribute.ts" />
     <TypeScriptCompile Include="Code\Net\DownloadDataCompletedEventArgs.ts" />
     <TypeScriptCompile Include="Code\Net\DownloadDataCompletedEventHandler.ts" />
@@ -116,10 +120,13 @@
     <TypeScriptCompile Include="Code\Net\FtpRequestCreator.ts" />
     <TypeScriptCompile Include="Code\Net\FtpStatus.ts" />
     <TypeScriptCompile Include="Code\Net\FtpStatusCode.ts" />
+    <TypeScriptCompile Include="Code\Net\FtpWebResponse.ts" />
     <TypeScriptCompile Include="Code\Net\GlobalProxySelection.ts" />
     <TypeScriptCompile Include="Code\Net\HttpContinueDelegate.ts" />
     <TypeScriptCompile Include="Code\Net\HttpListenerBasicIdentity.ts" />
+    <TypeScriptCompile Include="Code\Net\HttpListenerContext.ts" />
     <TypeScriptCompile Include="Code\Net\HttpListenerException.ts" />
+    <TypeScriptCompile Include="Code\Net\HttpListenerPrefixCollection.ts" />
     <TypeScriptCompile Include="Code\Net\HttpRequestCreator.ts" />
     <TypeScriptCompile Include="Code\Net\HttpRequestHeader.ts" />
     <TypeScriptCompile Include="Code\Net\HttpResponseHeader.ts" />
@@ -127,11 +134,13 @@
     <TypeScriptCompile Include="Code\Net\HttpStatusCode.ts" />
     <TypeScriptCompile Include="Code\Net\HttpStreamAsyncResult.ts" />
     <TypeScriptCompile Include="Code\Net\HttpVersion.ts" />
+    <TypeScriptCompile Include="Code\Net\HttpWebRequest.ts" />
     <TypeScriptCompile Include="Code\Net\IAuthenticationModule.ts" />
     <TypeScriptCompile Include="Code\Net\ICertificatePolicy.ts" />
     <TypeScriptCompile Include="Code\Net\ICredentialLookup.ts" />
     <TypeScriptCompile Include="Code\Net\ICredentialPolicy.ts" />
     <TypeScriptCompile Include="Code\Net\ICredentialsByHost.ts" />
+    <TypeScriptCompile Include="Code\Net\IPHostEntry.ts" />
     <TypeScriptCompile Include="Code\Net\IWebConnectionState.ts" />
     <TypeScriptCompile Include="Code\Net\IWebProxy.ts" />
     <TypeScriptCompile Include="Code\Net\IWebProxyScript.ts" />
@@ -139,6 +148,7 @@
     <TypeScriptCompile Include="Code\Net\MonoHttpDate.ts" />
     <TypeScriptCompile Include="Code\Net\NetConfig.ts" />
     <TypeScriptCompile Include="Code\Net\NetworkAccess.ts" />
+    <TypeScriptCompile Include="Code\Net\NetworkCredential.ts" />
     <TypeScriptCompile Include="Code\Net\NtlmClient.ts" />
     <TypeScriptCompile Include="Code\Net\OpenReadCompletedEventArgs.ts" />
     <TypeScriptCompile Include="Code\Net\OpenReadCompletedEventHandler.ts" />
@@ -147,6 +157,7 @@
     <TypeScriptCompile Include="Code\Net\ProtocolViolationException.ts" />
     <TypeScriptCompile Include="Code\Net\SecurityProtocolType.ts" />
     <TypeScriptCompile Include="Code\Net\ServicePointManager.ts" />
+    <TypeScriptCompile Include="Code\Net\SocketAddress.ts" />
     <TypeScriptCompile Include="Code\Net\TransportContext.ts" />
     <TypeScriptCompile Include="Code\Net\TransportType.ts" />
     <TypeScriptCompile Include="Code\Net\UploadDataCompletedEventArgs.ts" />
@@ -159,9 +170,13 @@
     <TypeScriptCompile Include="Code\Net\UploadStringCompletedEventHandler.ts" />
     <TypeScriptCompile Include="Code\Net\UploadValuesCompletedEventArgs.ts" />
     <TypeScriptCompile Include="Code\Net\UploadValuesCompletedEventHandler.ts" />
+    <TypeScriptCompile Include="Code\Net\WebAsyncResult.ts" />
     <TypeScriptCompile Include="Code\Net\WebConnectionData.ts" />
+    <TypeScriptCompile Include="Code\Net\WebException.ts" />
     <TypeScriptCompile Include="Code\Net\WebExceptionStatus.ts" />
+    <TypeScriptCompile Include="Code\Net\WebRequest.ts" />
     <TypeScriptCompile Include="Code\Net\WebRequestMethods.ts" />
+    <TypeScriptCompile Include="Code\Net\WebResponse.ts" />
     <TypeScriptCompile Include="Code\Net\WebUtility.ts" />
     <TypeScriptCompile Include="Code\NewsStyleUriParser.ts" />
     <TypeScriptCompile Include="Code\Platform.ts" />

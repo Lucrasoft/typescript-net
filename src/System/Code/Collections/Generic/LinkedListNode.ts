@@ -1,76 +1,79 @@
-﻿//todo
+﻿module System.Collections.Generic
+{
+	export class LinkedListNode<T>
+    {
+        static _type: Type = System.Type.registerClass(LinkedListNode , "System.Collections.Generic.LinkedListNode", []);
 
-//namespace System.Collections.Generic
-//{
-//	[ComVisible(false)]
-//	public sealed class LinkedListNode<T>
-//	{
-//    T item;
-//		LinkedList<T> container;
+        item: T;
+        container: LinkedList<T> ;
 
-//    internal LinkedListNode < T> forward, back;
+        forward: LinkedListNode < T>;
+        back: LinkedListNode<T>;
 
-//    public LinkedListNode(T value) {
-//        item = value;
-//    }
+    public LinkedListNode(value: T) {
+        item = value;
+    }
 
-//    internal LinkedListNode(LinkedList < T > list, T value)
-//		{
-//    container = list;
-//    item = value;
-//    this.back = this.forward = this;
-//}
+    LinkedListNode(list: LinkedList<T>, value: T)
+	{
+        container = list;
+        item = value;
+        this.back = this.forward = this;
+    }
 
-//		internal LinkedListNode(LinkedList < T > list, T value, LinkedListNode < T > previousNode, LinkedListNode < T > nextNode)
-//		{
-//    container = list;
-//    item = value;
-//    this.back = previousNode;
-//    this.forward = nextNode;
-//    previousNode.forward = this;
-//    nextNode.back = this;
-//}
+        LinkedListNode(list: LinkedList<T>, value: T, previousNode: LinkedListNode<T>, nextNode: LinkedListNode<T> )
+		{
+        container = list;
+        item = value;
+        this.back = previousNode;
+        this.forward = nextNode;
+        previousNode.forward = this;
+        nextNode.back = this;
+        }
 		
-//		internal void Detach()
-//		{
-//    back.forward = forward;
-//    forward.back = back;
+		Detach(): void
+		{
+            back.forward = forward;
+            forward.back = back;
 
-//    forward = back = null;
-//    container = null;
-//}
+            forward = back = null;
+            container = null;
+}
 		
-//		internal void SelfReference(LinkedList < T > list)
-//		{
-//    forward = this;
-//    back = this;
-//    container = list;
-//}
+        SelfReference(list: LinkedList < T >): void 
+		{
+            forward = this;
+            back = this;
+            container = list;
+        }
 		
-//		internal void InsertBetween(LinkedListNode < T > previousNode, LinkedListNode < T > nextNode, LinkedList < T > list)
-//		{
-//    previousNode.forward = this;
-//    nextNode.back = this;
-//    this.forward = nextNode;
-//    this.back = previousNode;
-//    this.container = list;
-//		}
+        InsertBetween(previousNode: LinkedListNode<T> , nextNode: LinkedListNode<T>, list: LinkedList<T>): void
+		{
+            previousNode.forward = this;
+            nextNode.back = this;
+            this.forward = nextNode;
+            this.back = previousNode;
+            this.container = list;
+		}
 
-//		public LinkedList < T > List {
-//			get { return container; }
-//		}
+		public get List(): LinkedList<T>  {
+		 return this.container; 
+		}
 
-//		public LinkedListNode < T > Next {
-//			get { return (container != null && forward != container.first) ? forward : null; }
-//		}
+        public get Next(): LinkedListNode<T> {
+			 return (this.container != null && forward != this.container.first) ? forward : null; 
+		}
 
-//		public LinkedListNode < T > Previous {
-//			get { return (container != null && this != container.first) ? back : null; }
-//		}
+        public get Previous(): LinkedListNode<T> {
+			 return (this.container != null && this != this.container.first) ? back : null; 
+		}
 
-//		public T Value { 
-//			get { return item; }
-//			set { item = value; }
-//		}
-//	}
-//}
+        public get Value(): T{ 
+			 return this.item; 
+        }
+
+        public set Value(value: T){ 
+            this.item = value;
+        }
+	}
+}

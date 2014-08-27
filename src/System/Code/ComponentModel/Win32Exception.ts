@@ -1,67 +1,37 @@
-﻿module System.ComponentModel
-{
-	
-	export class Win32Exception extends ExternalException
-	{
-		private native_error_code: number;
+﻿module System.ComponentModel {
+    export class Win32Exception extends ExternalException {
+        static _type: Type = System.Type.registerClass(Win32Exception, "System.ComponentModel.Win32Exception", []);
 
-//		[SecurityPermission (SecurityAction.LinkDemand, UnmanagedCode = true)]
+        private native_error_code: number;
 
-		public Win32Exception ()
-		{
-            super(W32ErrorMessage(Marshal.GetLastWin32Error()))
-			native_error_code = Marshal.GetLastWin32Error ();
-		}
+        constructor()
+        constructor(error?: number, message?: string)
+        constructor(error?: number)
+        constructor(message?: string)
+        constructor(message?: string, innerException?: number)
+        constructor() {
+            if (error != null)
+                native_error_code = error;
+            else
+                native_error_code = Marshal.GetLastWin32Error();
 
-//		[SecurityPermission (SecurityAction.LinkDemand, UnmanagedCode = true)]
-		public Win32Exception (int error)
-			: base (W32ErrorMessage (error))
-		{
-			native_error_code = error;
-		}
+            if (message == null)
+                message = W32ErrorMessage(Marshal.GetLastWin32Error());
 
-//		[SecurityPermission (SecurityAction.LinkDemand, UnmanagedCode = true)]
-		public Win32Exception (int error, string message) 
-			: base (message)
-		{
-			native_error_code = error;
-		}
+            if (innerException != null)
+                super(message, innerException);
+            else
+                super(message)
 
-		public Win32Exception (string message)
-			: base (message)
-		{
-			native_error_code = Marshal.GetLastWin32Error ();
-		}
+        }
 
 
-		public Win32Exception (string message, Exception innerException)
-			: base (message, innerException)
-		{
-			native_error_code = Marshal.GetLastWin32Error ();
-		}
+        public get NativeErrorCode(): number {
+            return (this.native_error_code);
+        }
 
-		protected Win32Exception(SerializationInfo info,
-					 StreamingContext context)
-			: base (info, context) {
-
-			native_error_code = info.GetInt32 ("NativeErrorCode");
-		}
-
-		public get NativeErrorCode: number {
-				return(native_error_code);
-		}
-
-		[SecurityPermission (SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			if (info == null)
-				throw new ArgumentNullException ("info");
-
-			info.AddValue ("NativeErrorCode", native_error_code);
-			base.GetObjectData (info, context);
-		}
-
-
-		internal static extern string W32ErrorMessage (int error_code);
-	}
+        //todo dont know what to do with this: 		internal static extern string W32ErrorMessage (int error_code);
+		public W32ErrorMessage: string (error_code: number);
+	    }
+    }
 } 

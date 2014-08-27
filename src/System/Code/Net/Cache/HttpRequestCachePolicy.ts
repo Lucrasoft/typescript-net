@@ -42,7 +42,7 @@
         constructor(cacheAgeControl: HttpCacheAgeControl, maxAge: TimeSpan,
             freshOrStale: TimeSpan, cacheSyncDate?: DateTime)
         {
-            if (cacheSyncDate !== null)
+            if (cacheSyncDate != null)
             {
                 this.cacheSyncDate = cacheSyncDate;
             }

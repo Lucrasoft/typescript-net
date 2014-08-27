@@ -12,7 +12,11 @@ module System.Globalization {
 
     }
 
+    System.Type.registerInterface("System.Data");
+
     export class TextInfo implements ICloneable {
+
+        static _type: Type = System.Type.registerClass(TextInfo, "System.Globalization.TextInfo", ["System.ICloneable"]);
 
         private m_listSeperator: string;
         private m_isReadOnly: boolean;  

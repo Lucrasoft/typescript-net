@@ -1,6 +1,8 @@
-﻿//todo
+﻿module System.IO {
 
-module System.IO {
+    export interface FileSystemEventHandler{
+        (sender: Object , e: FileSystemEventArgs): void
+    }
 
-//	public delegate void FileSystemEventHandler(Object sender, FileSystemEventArgs e);
+    System.Type.registerInterface("System.IO.FileSystemEventHandler");
 }

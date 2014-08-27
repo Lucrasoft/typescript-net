@@ -1,19 +1,13 @@
 ﻿///<reference path="WatcherChangeTypes.ts"/>
-//todo
+
 
 module System.IO {
 	export class FileSystemEventArgs extends EventArgs {
         static _type: Type = System.Type.registerClass(FileSystemEventArgs, "System.Type.FileSystemEventArgs", []);
 
-//		#region Fields
-
         changeType: WatcherChangeTypes;
         directory: string;
         name: string;
-
-//		#endregion // Fields
-
-//		#region Constructors
 
         public FileSystemEventArgs(changeType: WatcherChangeTypes, directory: string, name: string)
 		{
@@ -26,21 +20,18 @@ module System.IO {
 		{
             this.name = name;
 		}
-//		#endregion // Constructors
 
-//		#region Properties
+		public get ChangeType(): WatcherChangeTypes {
+			  return this.changeType; 
+		}
 
-		//public ChangeType: WatcherChangeTypes {
-		//	get { return changeType; }
-		//}
+        public get FullPath(): string{
+		    return Path.Combine(this.directory, this.name); 
+		}
 
-		//public string FullPath {
-		//	get { return Path.Combine(directory, name); }
-		//}
-
-		//public string Name {
-		//	get { return name; }
-		//}
+        public get Name(): string{
+			 return name; 
+		}
 
 //		#endregion // Properties
 	}

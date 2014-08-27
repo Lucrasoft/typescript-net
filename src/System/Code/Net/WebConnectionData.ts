@@ -1,4 +1,5 @@
-﻿//todo
+﻿/// <reference path="httpwebrequest.ts" />
+//todo
 
 module System.Net
 {
@@ -18,7 +19,7 @@ module System.Net
 
 		public WebConnectionData()
 		{
-            _readState = ReadState.None;
+            this._readState = ReadState.None;
 		}
 
         constructor(request: HttpWebRequest)
@@ -26,26 +27,21 @@ module System.Net
             this._request = request;
 		}
 
-		public HttpWebRequest request {
-			get {
-                    return _request;
-                }
-			set {
-                    _request = value;
-                }
+        public get request(): HttpWebRequest {
+            return this._request;
+        }
+        public set request(value: HttpWebRequest){
+            this._request = value;
         }
 
-		public ReadState: ReadState {
-			get {
-                    return _readState;
-                }
-			set {
-                lock(this) {
-            if ((_readState == ReadState.Aborted) && (value != ReadState.Aborted))
-                throw new WebException("Aborted", WebExceptionStatus.RequestCanceled);
-            _readState = value;
+        public get ReadState(): ReadState {
+            return this._readState;
         }
-    }
-		}
+        public set ReadState(value: ReadState){
+            if ((this._readState == ReadState.Aborted) && (value != ReadState.Aborted))
+                throw new WebException("Aborted", WebExceptionStatus.RequestCanceled);
+            this._readState = value;
+        
+        }
 	}
 }

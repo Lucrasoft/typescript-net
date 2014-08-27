@@ -1,4 +1,4 @@
-﻿/// <reference path="AsyncCompletedEventArgs.ts"/>
+﻿/// <reference path="../componentmodel/asynccompletedeventargs.ts" />
 
 module System.Net
 {
@@ -16,10 +16,8 @@ module System.Net
 		result: string;
 
         
-		public Result: string {
-			get {
-				return result;
-			}
-    }
+        public get Result(): string {
+				return this.result;
+        }
 	}
 }

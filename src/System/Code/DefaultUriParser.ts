@@ -6,7 +6,7 @@
 
 		constructor(scheme?: string)
         {
-            if (scheme !== null) {
+            if (scheme != null) {
                 this.scheme_name = scheme;
 
             }

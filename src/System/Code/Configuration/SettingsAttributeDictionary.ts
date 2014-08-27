@@ -12,7 +12,7 @@ module System.Configuration
 		}
 
         constructor(attribute?: SettingsAttributeDictionary) {
-            if (attribute !== null) {
+            if (attribute != null) {
 
                 //todo dont know how to "hard" convert to IDictionary
                 super((IDictionary) attributes);

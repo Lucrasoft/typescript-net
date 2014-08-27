@@ -1,4 +1,3 @@
-
 /// <reference path="../Type.ts"/>
 /// <reference path="exception.ts" />
 

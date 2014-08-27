@@ -1,259 +1,253 @@
-﻿//todo
+﻿
+module System.Collections.Generic
+{	
+	export class Queue<T> implements IEnumerable < T>, ICollection, IEnumerable
+	{
+		_array: T [];
+		_head: number;
+		_tail: number;
+		_size: number;
+		_version: number;
 
-//namespace System.Collections.Generic
-//{
-//    [ComVisible(false)]
-//    [Serializable]
-//    [DebuggerDisplay("Count={Count}")]
-//    [DebuggerTypeProxy(typeof (CollectionDebuggerView))]	
-//	public class Queue<T> : IEnumerable < T>, ICollection, IEnumerable
-//	{
-//		T []_array;
-//		int _head;
-//		int _tail;
-//		int _size;
-//		int _version;
+		public Queue()
+		{
+        _array = new T[0];
+		}
 
-//		public Queue()
-//		{
-//        _array = new T[0];
-//		}
+		public Queue(capacity: number)
+		{
+        if (capacity < 0)
+            throw new ArgumentOutOfRangeException("capacity");
 
-//		public Queue(int capacity)
-//		{
-//        if (capacity < 0)
-//            throw new ArgumentOutOfRangeException("capacity");
+        _array = new T[capacity];
+		}
 
-//        _array = new T[capacity];
-//		}
+        public Queue(collection: IEnumerable<T>)
+		{
+        if (collection == null)
+            throw new ArgumentNullException("collection");
 
-//		public Queue(IEnumerable < T > collection)
-//		{
-//        if (collection == null)
-//            throw new ArgumentNullException("collection");
+        var icoll = collection as ICollection < T>;
+        var size = icoll != null ? icoll.Count : 0;
 
-//        var icoll = collection as ICollection < T>;
-//        var size = icoll != null ? icoll.Count : 0;
+        _array = new T[size];
 
-//        _array = new T[size];
+        foreach(t: T in collection)
+				Enqueue(t);
+		}
 
-//        foreach(T t in collection)
-//				Enqueue(t);
-//		}
+		Clear(): void
+		{
+        Array.Clear(_array, 0, _array.Length);
 
-//		public void Clear()
-//		{
-//        Array.Clear(_array, 0, _array.Length);
+        _head = _tail = _size = 0;
+        _version++;
+		}
 
-//        _head = _tail = _size = 0;
-//        _version++;
-//		}
+		Contains( item: T): boolean
+		{
+        if (item == null) {
+            foreach(t:T in this)
+					if (t == null)
+                return true;
+        } else {
+            foreach(T t in this)
+					if (item.Equals(t))
+                return true;
+        }
 
-//		public bool Contains(T item)
-//		{
-//        if (item == null) {
-//            foreach(T t in this)
-//					if (t == null)
-//                return true;
-//        } else {
-//            foreach(T t in this)
-//					if (item.Equals(t))
-//                return true;
-//        }
+        return false;
+		}
 
-//        return false;
-//		}
+		CopyTo(Array: T[],arrayIndex: number): void
+		{
+        if (array == null)
+            throw new ArgumentNullException();
 
-//		public void CopyTo(T []array, int arrayIndex)
-//		{
-//        if (array == null)
-//            throw new ArgumentNullException();
+			((ICollection) this).CopyTo(array, arrayIndex);
+    }
 
-//			((ICollection) this).CopyTo(array, arrayIndex);
-//    }
-
-//    void ICollection.CopyTo(Array array, int idx)
-//		{
-//        if (array == null)
-//            throw new ArgumentNullException();
+        ICollection.CopyTo(array: Array, idx: number): void
+		{
+        if (array == null)
+            throw new ArgumentNullException();
 			
-//			if ((uint) idx > (uint) array.Length)
-//				throw new ArgumentOutOfRangeException();
+			if ((uint) idx > (uint) array.Length)
+				throw new ArgumentOutOfRangeException();
 
-//        if (array.Length - idx < _size)
-//            throw new ArgumentOutOfRangeException();
+        if (array.Length - idx < _size)
+            throw new ArgumentOutOfRangeException();
 
-//        if (_size == 0)
-//            return;
+        if (_size == 0)
+            return;
 
-//        try {
-//				int contents_length = _array.Length;
-//				int length_from_head = contents_length - _head;
+        try {
+				contents_length: number = _array.Length;
+				length_from_head: number = contents_length - _head;
 
-//            Array.Copy(_array, _head, array, idx, Math.Min(_size, length_from_head));
-//            if (_size > length_from_head)
-//                Array.Copy(_array, 0, array,
-//                    idx + length_from_head,
-//                    _size - length_from_head);
-//        } catch (ArrayTypeMismatchException) {
-//            throw new ArgumentException();
-//        }
-//		}
+            Array.Copy(_array, _head, array, idx, Math.Min(_size, length_from_head));
+            if (_size > length_from_head)
+                Array.Copy(_array, 0, array,
+                    idx + length_from_head,
+                    _size - length_from_head);
+        } catch (ArrayTypeMismatchException) {
+            throw new ArgumentException();
+        }
+		}
 
-//		public T Dequeue()
-//		{
-//			T ret = Peek();
+		public Dequeue(): T
+		{
+			ret: T = Peek();
 
-//        // clear stuff out to make the GC happy
-//        _array[_head] = default (T);
+        // clear stuff out to make the GC happy
+        _array[_head] = default (T);
 
-//        if (++_head == _array.Length)
-//            _head = 0;
-//        _size--;
-//        _version++;
+        if (++_head == _array.Length)
+            _head = 0;
+        _size--;
+        _version++;
 
-//        return ret;
-//		}
+        return ret;
+		}
 
-//		public T Peek()
-//		{
-//        if (_size == 0)
-//            throw new InvalidOperationException();
+		public Peek(): T
+		{
+        if (_size == 0)
+            throw new InvalidOperationException();
 
-//        return _array[_head];
-//		}
+        return _array[_head];
+		}
 
-//		public void Enqueue(T item)
-//		{
-//        if (_size == _array.Length || _tail == _array.Length)
-//            SetCapacity(Math.Max(Math.Max(_size, _tail) * 2, 4));
+		public Enqueue(item: T): void
+		{
+        if (_size == _array.Length || _tail == _array.Length)
+            SetCapacity(Math.Max(Math.Max(_size, _tail) * 2, 4));
 
-//        _array[_tail] = item;
+        _array[_tail] = item;
 
-//        if (++_tail == _array.Length)
-//            _tail = 0;
+        if (++_tail == _array.Length)
+            this._tail = 0;
 
-//        _size++;
-//        _version++;
-//		}
+        this._size++;
+        this._version++;
+		}
 
-//		public T []ToArray()
-//		{
-//			T []t = new T[_size];
-//        CopyTo(t, 0);
-//        return t;
-//		}
+        public ToArray(): T[]
+		{
+            t: T [] = new T[_size];
+        CopyTo(t, 0);
+        return t;
+		}
 
-//		public void TrimExcess()
-//		{
-//        if (_size < _array.Length * 0.9)
-//            SetCapacity(_size);
-//    }
+		public TrimExcess(): void
+		{
+        if (_size < _array.Length * 0.9)
+            SetCapacity(_size);
+    }
 
-//    void SetCapacity(int new_size)
-//		{
-//        if (new_size == _array.Length)
-//            return;
+    SetCapacity(new_size: number): void
+		{
+        if (new_size == _array.Length)
+            return;
 
-//        if (new_size < _size)
-//            throw new InvalidOperationException("shouldnt happen");
+        if (new_size < _size)
+            throw new InvalidOperationException("shouldnt happen");
 			
-//			T []new_data = new T[new_size];
-//        if (_size > 0)
-//            CopyTo(new_data, 0);
+           new_data: T [] = new T[new_size];
+        if (_size > 0)
+            CopyTo(new_data, 0);
 
-//        _array = new_data;
-//        _tail = _size;
-//        _head = 0;
-//        _version++;
-//		}
+        _array = new_data;
+        _tail = _size;
+        _head = 0;
+        _version++;
+		}
 
-//		public int Count {
-//			get { return _size; }
-//    }
+		public get Count(): number {
+			 return this._size; 
+        }
 		
-//		bool ICollection.IsSynchronized {
-//			get { return false; }
-//    }
+		get ICollection.IsSynchronized(): boolean {
+			return false;
+        }
 		
-//		Object ICollection.SyncRoot {
-//			get { return this; }
-//		}
+		get ICollection.SyncRoot: Object {
+			return this;
+		}
 
-//		public Enumerator GetEnumerator()
-//		{
-//        return new Enumerator(this);
-//    }
+		public GetEnumerator(): 
+		{
+        return new Enumerator(this);
+        }
 
-//    IEnumerator < T > IEnumerable<T>.GetEnumerator()
-//		{
-//        return GetEnumerator();
-//    }
+        IEnumerable<T>.GetEnumerator(): IEnumerator < T >
+		{
+        return this.GetEnumerator();
+        }
 
-//		IEnumerator IEnumerable.GetEnumerator()
-//		{
-//        return GetEnumerator();
-//    }
+        IEnumerable.GetEnumerator(): IEnumerator
+		{
+        return this.GetEnumerator();
+        }
 		
-//		[Serializable]
-//		public struct Enumerator: IEnumerator < T>, IEnumerator, IDisposable {
-//			const int NOT_STARTED = -2;
+		public Enumerator: IEnumerator < T>, IEnumerator, IDisposable {
+			NOT_STARTED: number = -2;
 
-//			// this MUST be -1, because we depend on it in move next.
-//			// we just decr the _size, so, 0 - 1 == FINISHED
-//			const int FINISHED = -1;
+			// this MUST be -1, because we depend on it in move next.
+			// we just decr the _size, so, 0 - 1 == FINISHED
+			FINISHED: number = -1;
 
-//        Queue < T > q;
-//			int idx;
-//			int ver;
+            q: Queue < T > ;
+			idx: number;
+			ver: number;
 			
-//			internal Enumerator(Queue < T > q)
-//			{
-//            this.q = q;
-//            idx = NOT_STARTED;
-//            ver = q._version;
-//			}
+			Enumerator(q: this.Queue < T >)
+			{
+            this.q = q;
+            this.idx = NOT_STARTED;
+            ver = q._version;
+			}
 
-//			// for some reason, MSFT added a dispose to this class
-//			// It means that in foreach, we must still do a try/finally. Broken?
-//			public void Dispose()
-//			{
-//            idx = NOT_STARTED;
-//			}
+			// for some reason, MSFT added a dispose to this class
+			// It means that in foreach, we must still do a try/finally. Broken?
+			Dispose(): void
+			{
+                this.idx = NOT_STARTED;
+			}
 
-//			public bool MoveNext()
-//			{
-//            if (ver != q._version)
-//                throw new InvalidOperationException();
+			MoveNext(): boolean
+			{
+            if (ver != q._version)
+                throw new InvalidOperationException();
 
-//            if (idx == NOT_STARTED)
-//                idx = q._size;
+            if (idx == NOT_STARTED)
+                idx = q._size;
 
-//            return idx != FINISHED && --idx != FINISHED;
-//			}
+            return idx != FINISHED && --idx != FINISHED;
+			}
 
-//			public T Current {
-//				get {
-//                if (idx < 0)
-//                    throw new InvalidOperationException();
+			public get Current : T{
+				
+                if (idx < 0)
+                    throw new InvalidOperationException();
 
-//                return q._array[(q._size - 1 - idx + q._head) % q._array.Length];
-//            }
-//        }
+                return q._array[(q._size - 1 - idx + q._head) % q._array.Length];
+            
+            }
 
-//        void IEnumerator.Reset()
-//			{
-//            if (ver != q._version)
-//                throw new InvalidOperationException();
-
-//            idx = NOT_STARTED;
-//        }
+        IEnumerator.Reset(): void
+			{
+            if (ver != q._version)
+                throw new InvalidOperationException();
+            s
+            idx = NOT_STARTED;
+        }
 			
-//			Object IEnumerator.Current {
-//				get { return Current; }
-//        }
+		get	IEnumerator.Current(): Object {
+				  return Current; 
+        }
 			
-//		}
-//	}
-//}
+		}
+	}
+}
  
